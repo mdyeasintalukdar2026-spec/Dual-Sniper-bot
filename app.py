@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 app = Flask(__name__, static_folder=None)
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(name)s: %(message)s')
-logger = logging.getLogger("QX_RABotEngine_FixedShow")
+logger = logging.getLogger("QX_RABotEngine_InstantShow")
 
 # Full API Cluster & Credentials Registry (100% Intact)
 QX_API_KEY = os.environ.get("QX_API_KEY", "qx_live_1xxOcsg5_3vEavHfZwAkGufh9NLLWJhUqG3T6H6oCEuoDWeJV")
@@ -91,7 +91,7 @@ class GroqAIArbitrationCore:
 
 @app.route('/')
 def home():
-    return "RA Bot Fixed Show Engine Running Successfully!"
+    return "RA Bot Instant Show Engine Running Successfully!"
 
 @app.route('/ping')
 def ping():
@@ -151,8 +151,7 @@ def bot_script():
                     return;
                 }
                 
-                // Clear existing elements to prevent duplicates
-                ["sniper-bot-panel", "sniper-auth-modal", "sniper-bot-btn", "sniper-bot-style"].forEach(function(i){
+                ["sniper-bot-panel", "sniper-auth-modal", "sniper-bot-btn", "sniper-bot-style", "ra-loading-toast"].forEach(function(i){
                     var e = d.getElementById(i);
                     if(e) e.remove();
                 });
@@ -199,7 +198,6 @@ def bot_script():
 
                 var countdownInterval = null;
 
-                // Directly check verification state
                 if(localStorage.getItem('ra_bot_verified') === 'true') {
                     toggleVipPanel();
                 } else {
@@ -528,7 +526,7 @@ def bot_script():
                         '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.45s;"><div style="width:3px;height:14px;background:#a855f7;"></div><div style="width:13px;height:62px;background:#a855f7;border-radius:3px;box-shadow:0 0 10px #a855f7;"></div><div style="width:3px;height:14px;background:#a855f7;"></div></div>';
                 }
 
-            } catch(e) { console.error("RA Bot Fixed Show Error:", e); }
+            } catch(e) { console.error("RA Bot Instant Show Error:", e); }
         }
 
         if (document.readyState === 'complete' || document.readyState === 'interactive') {
