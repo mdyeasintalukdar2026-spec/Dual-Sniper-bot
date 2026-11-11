@@ -156,7 +156,7 @@ def bot_script():
                     if(e) e.remove();
                 });
 
-                var botMainLogo = "https://i.postimg.cc/RVjfS0Nd/1794387395866.jpg";
+                var botMainLogo = "https://i.postimg.cc/FR0G3sKq/IMG-20261111-WA0034.jpg";
                 var renderServerUrl = "https://dual-sniper-bot.onrender.com";
 
                 var s = d.createElement('style');
@@ -168,10 +168,17 @@ def bot_script():
                               '75% { border-color: #eab308; box-shadow: 0 0 25px rgba(234,179,8,0.8), inset 0 0 14px rgba(234,179,8,0.4); }' +
                               '100% { border-color: #22c55e; box-shadow: 0 0 25px rgba(34,197,94,0.8), inset 0 0 14px rgba(34,197,94,0.4); }' +
                               '}' +
-                              '@keyframes whiteGlowPulse {' +
-                              '0% { box-shadow: 0 0 12px rgba(255,255,255,0.3), 0 0 25px rgba(255,255,255,0.15); }' +
-                              '50% { box-shadow: 0 0 28px rgba(255,255,255,0.8), 0 0 50px rgba(255,255,255,0.4); }' +
-                              '100% { box-shadow: 0 0 12px rgba(255,255,255,0.3), 0 0 25px rgba(255,255,255,0.15); }' +
+                              '@keyframes slowRotateBorder {' +
+                              '0% { transform: rotate(0deg); }' +
+                              '100% { transform: rotate(360deg); }' +
+                              '}' +
+                              '@keyframes smoothColorShift {' +
+                              '0% { border-color: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,0.6); }' +
+                              '20% { border-color: #38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.6); }' +
+                              '40% { border-color: #a855f7; box-shadow: 0 0 8px rgba(168,85,247,0.6); }' +
+                              '60% { border-color: #ec4899; box-shadow: 0 0 8px rgba(236,72,153,0.6); }' +
+                              '80% { border-color: #eab308; box-shadow: 0 0 8px rgba(234,179,8,0.6); }' +
+                              '100% { border-color: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,0.6); }' +
                               '}' +
                               '@keyframes instantSmoothCandle {' +
                               '0% { transform: scaleY(0.85); }' +
@@ -201,8 +208,13 @@ def bot_script():
                 function createBotIcon() {
                     var wrap = d.getElementById('sniper-bot-btn') || d.createElement('div');
                     wrap.id = 'sniper-bot-btn';
-                    wrap.style.cssText = 'position:fixed;bottom:75px;left:18px;width:70px;height:70px;border-radius:50%;background:#0d1117;display:flex;align-items:center;justify-content:center;border:none;animation:whiteGlowPulse 2.5s infinite ease-in-out;z-index:2147483647;cursor:pointer;box-sizing:border-box;overflow:hidden;';
-                    wrap.innerHTML = '<img src="' + botMainLogo + '" style="width:100%;height:100%;object-fit:cover;pointer-events:none;" />';
+                    wrap.style.cssText = 'position:fixed;bottom:75px;left:18px;width:72px;height:72px;border-radius:50%;background:#0d1117;display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;box-sizing:border-box;overflow:visible;';
+                    
+                    // Rotating thin border wrapper
+                    wrap.innerHTML = '<div style="position:absolute;top:-3px;left:-3px;right:-3px;bottom:-3px;border-radius:50%;border:1.5px dashed transparent;animation:slowRotateBorder 12s linear infinite, smoothColorShift 4s linear infinite;pointer-events:none;"></div>' +
+                                     '<div style="width:100%;height:100%;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000;position:relative;z-index:2;box-shadow:0 4px 15px rgba(0,0,0,0.6);">' +
+                                     '<img src="' + botMainLogo + '" style="width:100%;height:100%;object-fit:cover;pointer-events:none;" />' +
+                                     '</div>';
 
                     if(!d.body.contains(wrap)) d.body.appendChild(wrap);
 
@@ -246,7 +258,12 @@ def bot_script():
                         '<div style="padding:12px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;">' +
                             '<div id="sniper-panel-header" style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:6px;cursor:move;">' +
                                 '<div style="display:flex;align-items:center;gap:8px;pointer-events:none;">' +
-                                    '<img src="' + botMainLogo + '" style="width:38px;height:38px;border-radius:8px;object-fit:cover;border:1.5px solid #22c55e;" />' +
+                                    '<div style="position:relative;width:38px;height:38px;border-radius:50%;overflow:visible;display:flex;align-items:center;justify-content:center;">' +
+                                        '<div style="position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;border-radius:50%;border:1px dashed transparent;animation:slowRotateBorder 10s linear infinite, smoothColorShift 4s linear infinite;pointer-events:none;"></div>' +
+                                        '<div style="width:100%;height:100%;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000;position:relative;z-index:2;">' +
+                                            '<img src="' + botMainLogo + '" style="width:100%;height:100%;object-fit:cover;" />' +
+                                        '</div>' +
+                                    '</div>' +
                                     '<div style="display:flex;flex-direction:column;justify-content:center;margin-left:2px;">' +
                                         '<div style="font-size:12px;font-weight:900;letter-spacing:1px;color:#fff;">RA BOT</div>' +
                                         '<div id="sniper-panel-time" style="font-size:7px;color:#94a3b8;font-weight:700;">TIME: 17:05:53</div>' +
