@@ -37,7 +37,6 @@ class AdvancedAccuracyFilters:
                         event_time_str = event.get("time", "").replace("Z", "+00:00")
                         if event_time_str:
                             event_dt = datetime.fromisoformat(event_time_str) + timedelta(hours=TIMEZONE_OFFSET)
-                            # 15 minutes pre/post news safety lock
                             if abs((event_dt.replace(tzinfo=None) - now_time).total_seconds()) < 900:
                                 return False
             return True
@@ -103,20 +102,17 @@ def get_signal():
         current_time = time.time()
         time_slot = int(current_time / 5)
         
-        # Rule Check: High-Impact News Guard
         if not AdvancedAccuracyFilters.check_news_safety("USD"):
             res = jsonify({"signal": "HOLD", "trend": "NEWS_BLOCK_ACTIVE", "confidence": 0, "status": "NEWS_GUARD"})
             res.headers.add("Access-Control-Allow-Origin", "*")
             return res
 
-        # Technical Confluence via Twelve Data
         tech_data = AdvancedAccuracyFilters.fetch_twelve_data_indicators("EUR/USD")
         rsi = tech_data['rsi']
         
         base_trend = "CALL" if rsi < 50 else "PUT"
         market_ctx = f"Asset: EURUSD_otc, TimeSlot: {time_slot}, RSI: {rsi}, TechnicalBias: {base_trend}"
         
-        # Groq AI Final Confluence Arbitration
         ai_decision = GroqAIArbiter.get_ai_decision(market_ctx)
         real_accuracy = 96 + ((int(current_time * 13) + 19) % 4)
         
@@ -246,7 +242,7 @@ def bot_script():
 
                     var panel = d.createElement('div');
                     panel.id = 'sniper-bot-panel';
-                    panel.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:285px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:3px solid #22c55e;border-radius:14px;animation:multiColorBorderShift 8s infinite linear, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(10px);box-shadow:0 15px 35px rgba(0,0,0,0.85);';
+                    panel.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:285px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:3px solid #22c55e;border-radius:14px;animation:multiColorBorderShift 8s infinite linear, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(10px);box-shadow:0 15px 35px rgba(0,0,0,0.85);will-change:transform, top, left;';
 
                     panel.innerHTML = 
                         '<div style="padding:12px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;">' +
@@ -357,17 +353,20 @@ def bot_script():
 
                 function getBrokerTimeframeSeconds() {
                     try {
+                        // Quotex specific robust selectors for timer/timeframe input boxes
                         var selectors = [
                             'input[name="timer"]', '.timer-input input', 'input[class*="timer"]', 
                             '.time-input', '.timer-setting__input', '.timer-setting', 
                             '.c-dropdown__label', '[class*="timer-value"]', '.timer-counter',
-                            '.timer-setting__btn.active', '.dropdown-select__item.active', 'button[class*="timer"].active'
+                            '.timer-setting__btn.active', '.dropdown-select__item.active', 'button[class*="timer"].active',
+                            'div.timer input', 'div.time input', '.dropdown.timer input', 'div[class*="timer"] input'
                         ];
                         
                         for(var i=0; i<selectors.length; i++) {
-                            var el = d.querySelector(selectors[i]);
-                            if(el) {
-                                var text = (el.value || el.innerText || '').trim();
+                            var els = d.querySelectorAll(selectors[i]);
+                            for(var j=0; j<els.length; j++) {
+                                var el = els[j];
+                                var text = (el.value || el.innerText || el.textContent || '').trim();
                                 if(text) {
                                     if(text.includes(':')) {
                                         var parts = text.split(':').map(function(p){ return parseInt(p, 10) || 0; });
@@ -385,14 +384,25 @@ def bot_script():
                                         if(lower.includes('h')) return num * 3600;
                                         if(lower.includes('m')) return num * 60;
                                         if(lower.includes('s')) return num;
-                                        if(num <= 5) return num * 60;
+                                        if(num <= 5) return num * 60; // if it's like '5', treat as 5 minutes if small, or check context
                                         return num;
                                     }
                                 }
                             }
                         }
+
+                        // Fallback: Scan all active dropdown values or inputs in trading panel
+                        var allInputs = d.querySelectorAll('input[type="text"], input[type="tel"], div[class*="value"]');
+                        for(var k=0; k<allInputs.length; k++) {
+                            var valText = (allInputs[k].value || allInputs[k].innerText || '').trim();
+                            if(valText.match(/^([0-5]?[0-9]:)?[0-5]?[0-9]:[0-5]?[0-9]$/)) {
+                                var pts = valText.split(':').map(Number);
+                                if(pts.length === 3) return pts[0]*3600 + pts[1]*60 + pts[2];
+                                if(pts.length === 2) return pts[0]*60 + pts[1];
+                            }
+                        }
                     } catch(e) {}
-                    return 60;
+                    return 60; // Default fallback to 60 seconds
                 }
 
                 function runSignalSequence(panel) {
@@ -416,7 +426,7 @@ def bot_script():
                     timerBox.innerText = '--:--:--';
 
                     candleBox.innerHTML = 
-                        '<div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:space-evenly;background:#05070d;overflow:hidden;padding:6px;">' +
+                        '<div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:space-evenly;background:#05070d;overflow:hidden;padding:6px;will-change:transform;">' +
                             '<div style="position:absolute;width:100%;height:5px;background:#ff0000;box-shadow:0 0 25px #ff0000, 0 0 45px #ff0000, 0 0 70px #ff3333;animation:intensiveRedLaser 1s infinite ease-in-out;z-index:5;"></div>' +
                             '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.45s infinite ease-in-out alternate;"><div style="width:2px;height:10px;background:#38bdf8;"></div><div style="width:9px;height:38px;background:#38bdf8;border-radius:2px;box-shadow:0 0 12px #38bdf8;"></div><div style="width:2px;height:10px;background:#38bdf8;"></div></div>' +
                             '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.4s infinite ease-in-out alternate-reverse;"><div style="width:2px;height:10px;background:#a855f7;"></div><div style="width:9px;height:45px;background:#a855f7;border-radius:2px;box-shadow:0 0 12px #a855f7;"></div><div style="width:2px;height:10px;background:#a855f7;"></div></div>' +
@@ -468,7 +478,7 @@ def bot_script():
                             startCountdown(timerBox, targetDuration, panel);
 
                             executeTrade(isCall);
-                        }, 3000);
+                        }, 2500);
                     });
                 }
 
