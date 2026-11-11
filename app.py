@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 app = Flask(__name__, static_folder=None)
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(name)s: %(message)s')
-logger = logging.getLogger("QX_5STraderVIPEngine")
+logger = logging.getLogger("QX_RABotEngine")
 
 QX_API_KEY = os.environ.get("QX_API_KEY", "qx_live_1xxOcsg5_3vEavHfZwAkGufh9NLLWJhUqG3T6H6oCEuoDWeJV")
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "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")
@@ -85,7 +85,7 @@ class GroqAIArbiter:
 
 @app.route('/')
 def home():
-    return "Quotex 5S Trader VIP Engine Running!"
+    return "RA Bot Engine Running Successfully!"
 
 @app.route('/ping')
 def ping():
@@ -155,20 +155,25 @@ def bot_script():
                           '50% { box-shadow: 0 0 22px #38bdf8, 0 0 35px rgba(56,189,248,0.7); border-color: #38bdf8; }' +
                           '100% { box-shadow: 0 0 12px #22c55e, 0 0 22px rgba(34,197,94,0.5); border-color: #22c55e; }' +
                           '}' +
-                          '@keyframes smoothThickCandleAnim {' +
-                          '0% { transform: scaleY(0.8); }' +
-                          '50% { transform: scaleY(1.15); }' +
-                          '100% { transform: scaleY(0.8); }' +
+                          '@keyframes instantSmoothCandle {' +
+                          '0% { transform: scaleY(0.85); }' +
+                          '50% { transform: scaleY(1.12); }' +
+                          '100% { transform: scaleY(0.85); }' +
                           '}' +
                           '@keyframes laserBeamScan {' +
-                          '0% { transform: translateY(-30px); opacity: 0.2; }' +
-                          '50% { opacity: 1; filter: drop-shadow(0 0 8px #38bdf8); }' +
-                          '100% { transform: translateY(30px); opacity: 0.2; }' +
+                          '0% { transform: translateY(-40px); opacity: 0.3; }' +
+                          '50% { opacity: 1; filter: drop-shadow(0 0 10px #38bdf8); }' +
+                          '100% { transform: translateY(40px); opacity: 0.3; }' +
                           '}' +
-                          '@keyframes snakeWaveAnim {' +
-                          '0% { transform: translateX(0px) scaleY(1); }' +
-                          '50% { transform: translateX(6px) scaleY(1.2); }' +
-                          '100% { transform: translateX(0px) scaleY(1); }' +
+                          '@keyframes snakeTwistLeft {' +
+                          '0% { transform: translate(0, 0) scale(1); }' +
+                          '50% { transform: translate(35px, -12px) scale(1.15) rotate(10deg); }' +
+                          '100% { transform: translate(75px, 0) scale(1); }' +
+                          '}' +
+                          '@keyframes snakeTwistRight {' +
+                          '0% { transform: translate(0, 0) scale(1); }' +
+                          '50% { transform: translate(-35px, 12px) scale(1.15) rotate(-10deg); }' +
+                          '100% { transform: translate(-75px, 0) scale(1); }' +
                           '}' +
                           '@keyframes candlePopIn {' +
                           '0% { transform: scale(0.4); opacity: 0; }' +
@@ -222,7 +227,7 @@ def bot_script():
 
                 var panel = d.createElement('div');
                 panel.id = 'sniper-bot-panel';
-                panel.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:245px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:2.5px solid #22c55e;border-radius:12px;animation:vipBorderGlow 4s infinite ease-in-out, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,0.8);';
+                panel.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:255px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:2.5px solid #22c55e;border-radius:12px;animation:vipBorderGlow 4s infinite ease-in-out, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,0.8);';
 
                 panel.innerHTML = 
                     '<div style="padding:10px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;">' +
@@ -230,7 +235,7 @@ def bot_script():
                             '<div style="display:flex;align-items:center;gap:6px;pointer-events:none;">' +
                                 '<img src="' + botMainLogo + '" style="width:20px;height:20px;border-radius:4px;object-fit:cover;border:1px solid #22c55e;" />' +
                                 '<div>' +
-                                    '<div style="font-size:10px;font-weight:900;letter-spacing:0.5px;color:#fff;">5S TRADER VIP</div>' +
+                                    '<div style="font-size:10px;font-weight:900;letter-spacing:0.5px;color:#fff;">RA BOT</div>' +
                                     '<div id="sniper-panel-time" style="font-size:7px;color:#94a3b8;font-weight:700;">TIME: 17:05:53</div>' +
                                 '</div>' +
                             '</div>' +
@@ -248,12 +253,12 @@ def bot_script():
                         '<div style="background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:6px;text-align:center;">' +
                             '<div style="font-size:8.5px;font-weight:900;color:#38bdf8;margin-bottom:3px;letter-spacing:0.5px;">AI SIGNAL SCANNER</div>' +
                             '<div id="scanner-title-text" style="font-size:11px;font-weight:900;color:#22c55e;margin-bottom:5px;letter-spacing:0.5px;">Next Candle??</div>' +
-                            '<div id="sniper-candle-display-box" style="display:flex;align-items:center;justify-content:space-evenly;height:65px;background:rgba(0,0,0,0.85);border-radius:6px;padding:4px;border:1px solid rgba(56,189,248,0.3);overflow:hidden;position:relative;">' +
-                                '<div style="display:flex;flex-direction:column;align-items:center;animation:smoothThickCandleAnim 3s infinite ease-in-out;"><div style="width:2px;height:8px;background:#22c55e;"></div><div style="width:8px;height:28px;background:#22c55e;border-radius:2px;"></div><div style="width:2px;height:8px;background:#22c55e;"></div></div>' +
-                                '<div style="display:flex;flex-direction:column;align-items:center;animation:smoothThickCandleAnim 3s infinite ease-in-out 0.35s;"><div style="width:2px;height:8px;background:#ef4444;"></div><div style="width:8px;height:32px;background:#ef4444;border-radius:2px;"></div><div style="width:2px;height:8px;background:#ef4444;"></div></div>' +
-                                '<div style="display:flex;flex-direction:column;align-items:center;animation:smoothThickCandleAnim 3s infinite ease-in-out 0.7s;"><div style="width:2px;height:8px;background:#22c55e;"></div><div style="width:8px;height:26px;background:#22c55e;border-radius:2px;"></div><div style="width:2px;height:8px;background:#22c55e;"></div></div>' +
-                                '<div style="display:flex;flex-direction:column;align-items:center;animation:smoothThickCandleAnim 3s infinite ease-in-out 1.05s;"><div style="width:2px;height:8px;background:#ef4444;"></div><div style="width:8px;height:36px;background:#ef4444;border-radius:2px;"></div><div style="width:2px;height:8px;background:#ef4444;"></div></div>' +
-                                '<div style="display:flex;flex-direction:column;align-items:center;animation:smoothThickCandleAnim 3s infinite ease-in-out 1.4s;"><div style="width:2px;height:8px;background:#22c55e;"></div><div style="width:8px;height:30px;background:#22c55e;border-radius:2px;"></div><div style="width:2px;height:8px;background:#22c55e;"></div></div>' +
+                            '<div id="sniper-candle-display-box" style="display:flex;align-items:center;justify-content:space-evenly;height:80px;background:rgba(0,0,0,0.85);border-radius:6px;padding:4px;border:1px solid rgba(56,189,248,0.3);overflow:hidden;position:relative;">' +
+                                '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.8s infinite ease-in-out;"><div style="width:2.5px;height:10px;background:#22c55e;"></div><div style="width:9px;height:34px;background:#22c55e;border-radius:2px;"></div><div style="width:2.5px;height:10px;background:#22c55e;"></div></div>' +
+                                '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.8s infinite ease-in-out 0.25s;"><div style="width:2.5px;height:10px;background:#ef4444;"></div><div style="width:9px;height:40px;background:#ef4444;border-radius:2px;"></div><div style="width:2.5px;height:10px;background:#ef4444;"></div></div>' +
+                                '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.8s infinite ease-in-out 0.5s;"><div style="width:2.5px;height:10px;background:#22c55e;"></div><div style="width:9px;height:32px;background:#22c55e;border-radius:2px;"></div><div style="width:2.5px;height:10px;background:#22c55e;"></div></div>' +
+                                '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.8s infinite ease-in-out 0.75s;"><div style="width:2.5px;height:10px;background:#ef4444;"></div><div style="width:9px;height:44px;background:#ef4444;border-radius:2px;"></div><div style="width:2.5px;height:10px;background:#ef4444;"></div></div>' +
+                                '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.8s infinite ease-in-out 1.0s;"><div style="width:2.5px;height:10px;background:#22c55e;"></div><div style="width:9px;height:36px;background:#22c55e;border-radius:2px;"></div><div style="width:2.5px;height:10px;background:#22c55e;"></div></div>' +
                             '</div>' +
                         '</div>' +
 
@@ -274,7 +279,7 @@ def bot_script():
                         '</button>' +
 
                         '<div style="text-align:center;font-size:6.5px;color:#64748b;font-weight:600;padding-top:1px;">' +
-                            'Demo signal generator - Not financial advice' +
+                            'RA Bot VIP - High Accuracy Engine' +
                         '</div>' +
                     '</div>';
 
@@ -331,6 +336,23 @@ def bot_script():
                 }
             }
 
+            function getBrokerBrokerTimeframe() {
+                try {
+                    var timerInput = d.querySelector('input[name="timer"], .timer-input, input[class*="timer"]');
+                    if(timerInput && timerInput.value) {
+                        var val = parseInt(timerInput.value, 10);
+                        if(!isNaN(val) && val > 0) return val;
+                    }
+                    var activeTimerBtn = d.querySelector('.timer-setting__btn.active, .dropdown-select__item.active, button[class*="timer"].active');
+                    if(activeTimerBtn) {
+                        var txt = activeTimerBtn.innerText.trim();
+                        if(txt.includes('s')) return parseInt(txt, 10);
+                        if(txt.includes('m')) return parseInt(txt, 10) * 60;
+                    }
+                } catch(e) {}
+                return 60; // ডিফল্ট ১ মিনিট
+            }
+
             function runSignalSequence(panel) {
                 var signalText = panel.querySelector('#sniper-signal-text');
                 var signalIcon = panel.querySelector('#sniper-signal-icon');
@@ -350,15 +372,16 @@ def bot_script():
                 signalIcon.style.border = '1px solid #0284c7';
                 subText.innerText = 'Analyzing market structure & volatility...';
 
-                // ৫ সেকেন্ডের লেজার স্ক্যানিং এবং সাপের মতো পেঁচানো অ্যানিমেশন
+                // ৫ সেকেন্ডের সুতার মতো আঁকাবাঁকা পেঁচানো এনিমেশন ও লেজার বিম স্ক্যানিং
                 candleBox.innerHTML = 
                     '<div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#05070d;overflow:hidden;">' +
-                        '<div style="position:absolute;width:100%;height:2px;background:#38bdf8;box-shadow:0 0 12px #38bdf8;animation:laserBeamScan 1.2s infinite ease-in-out;z-index:3;"></div>' +
-                        '<svg width="1005" height="50" viewBox="0 0 200 40" preserveAspectRatio="none" style="position:absolute;z-index:2;">' +
-                            '<path d="M 0 20 Q 25 5, 50 20 T 100 20 T 150 20 T 200 20" fill="none" stroke="#22c55e" stroke-width="2.5" style="animation:snakeWaveAnim 0.8s infinite ease-in-out;" />' +
-                            '<path d="M 0 25 Q 25 35, 50 25 T 100 25 T 150 25 T 200 25" fill="none" stroke="#38bdf8" stroke-width="2" style="animation:snakeWaveAnim 1s infinite ease-in-out reverse;" />' +
-                        '</svg>' +
-                        '<div style="font-size:9px;font-weight:900;color:#38bdf8;z-index:4;letter-spacing:1px;background:rgba(0,0,0,0.7);padding:2px 6px;border-radius:4px;">5S DEEP AI SCAN...</div>' +
+                        '<div style="position:absolute;width:100%;height:2.5px;background:#38bdf8;box-shadow:0 0 14px #38bdf8;animation:laserBeamScan 1s infinite ease-in-out;z-index:4;"></div>' +
+                        '<div style="position:absolute;display:flex;gap:15px;align-items:center;justify-content:center;z-index:2;opacity:0.85;">' +
+                            '<div style="width:3px;height:45px;background:linear-gradient(180deg,#22c55e,#38bdf8,#a855f7);border-radius:3px;animation:snakeTwistLeft 0.8s infinite ease-in-out alternate;box-shadow:0 0 8px #22c55e;"></div>' +
+                            '<div style="width:3px;height:50px;background:linear-gradient(180deg,#38bdf8,#ef4444,#22c55e);border-radius:3px;animation:snakeTwistRight 0.8s infinite ease-in-out alternate;box-shadow:0 0 8px #38bdf8;"></div>' +
+                            '<div style="width:3px;height:40px;background:linear-gradient(180deg,#a855f7,#22c55e,#ef4444);border-radius:3px;animation:snakeTwistLeft 0.7s infinite ease-in-out alternate reverse;box-shadow:0 0 8px #a855f7;"></div>' +
+                        '</div>' +
+                        '<div style="font-size:9.5px;font-weight:900;color:#38bdf8;z-index:5;letter-spacing:1px;background:rgba(0,0,0,0.75);padding:2px 8px;border-radius:4px;border:1px solid rgba(56,189,248,0.3);">RA DEEP SCAN...</div>' +
                     '</div>';
 
                 fetch(renderServerUrl + '/signal?t=' + Date.now())
@@ -384,30 +407,30 @@ def bot_script():
 
                         var nowStr = new Date().toISOString().slice(0,10).replace(/-/g,'.');
                         var timeStr = new Date().toTimeString().slice(0,8);
-                        subText.innerText = 'Next candle: 1m | ' + nowStr + ' ' + timeStr;
+                        subText.innerText = 'Signal verified | ' + nowStr + ' ' + timeStr;
 
                         var candleColor = isCall ? '#22c55e' : '#ef4444';
                         var arrowSymbol = isCall ? '↑' : '↓';
 
-                        // স্ক্রিনশটের মতো বড় মোটা ক্যান্ডেল এবং নিচে UP/DOWN বাটন
+                        // বড় ক্যান্ডেল এবং স্পষ্ট UP/DOWN ব্যাজ উইথ অ্যারো
                         candleBox.innerHTML = 
-                            '<div style="position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;width:100%;animation:candlePopIn 0.3s ease-out;background:radial-gradient(circle, rgba(20,30,50,0.8) 0%, rgba(5,7,13,0.95) 100%);">' +
-                                '<div style="position:relative;display:flex;flex-direction:column;align-items:center;margin-bottom:4px;">' +
-                                    '<div style="width:2.5px;height:14px;background:' + candleColor + ';box-shadow:0 0 6px ' + candleColor + ';"></div>' +
-                                    '<div style="width:18px;height:30px;background:' + candleColor + ';border-radius:3px;box-shadow:0 0 14px ' + candleColor + ';z-index:2;"></div>' +
-                                    '<div style="width:2.5px;height:14px;background:' + candleColor + ';box-shadow:0 0 6px ' + candleColor + ';"></div>' +
+                            '<div style="position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;width:100%;animation:candlePopIn 0.3s ease-out;background:radial-gradient(circle, rgba(20,30,50,0.85) 0%, rgba(5,7,13,0.95) 100%);">' +
+                                '<div style="position:relative;display:flex;flex-direction:column;align-items:center;margin-bottom:5px;">' +
+                                    '<div style="width:3px;height:16px;background:' + candleColor + ';box-shadow:0 0 8px ' + candleColor + ';"></div>' +
+                                    '<div style="width:22px;height:38px;background:' + candleColor + ';border-radius:4px;box-shadow:0 0 16px ' + candleColor + ';z-index:2;"></div>' +
+                                    '<div style="width:3px;height:16px;background:' + candleColor + ';box-shadow:0 0 8px ' + candleColor + ';"></div>' +
                                 '</div>' +
-                                '<div style="background:#030712;border:1.5px solid ' + candleColor + ';padding:2px 10px;border-radius:12px;display:flex;align-items:center;gap:3px;box-shadow:0 0 10px ' + candleColor + ';">' +
-                                    '<span style="color:' + candleColor + ';font-size:9px;font-weight:900;">' + arrowSymbol + '</span>' +
-                                    '<span style="color:' + candleColor + ';font-size:9.5px;font-weight:900;letter-spacing:0.5px;">' + (isCall ? 'UP' : 'DOWN') + '</span>' +
+                                '<div style="background:#030712;border:2px solid ' + candleColor + ';padding:3px 14px;border-radius:14px;display:flex;align-items:center;gap:4px;box-shadow:0 0 14px ' + candleColor + ';">' +
+                                    '<span style="color:' + candleColor + ';font-size:11px;font-weight:900;">' + arrowSymbol + '</span>' +
+                                    '<span style="color:' + candleColor + ';font-size:11px;font-weight:900;letter-spacing:0.8px;">' + (isCall ? 'UP' : 'DOWN') + '</span>' +
                                 '</div>' +
                             '</div>';
 
-                        // কাউন্টডাউন শুরু করা (১ মিনিট কাউন্টডাউন)
-                        startCountdown(timerBox, 60);
+                        var targetDuration = getBrokerBrokerTimeframe();
+                        startCountdown(timerBox, targetDuration);
 
                         executeTrade(isCall);
-                    }, 5000); // হুবহু ৫ সেকেন্ড স্ক্যানিং ডিলে
+                    }, 5000); // হুবহু ৫ সেকেন্ড স্ক্যানিং
                 });
             }
 
@@ -415,11 +438,13 @@ def bot_script():
                 if(countdownInterval) clearInterval(countdownInterval);
                 var timer = durationSeconds;
                 countdownInterval = setInterval(function(){
-                    var mins = parseInt(timer / 60, 10);
+                    var hrs = parseInt(timer / 3600, 10);
+                    var mins = parseInt((timer % 3600) / 60, 10);
                     var secs = parseInt(timer % 60, 10);
+                    hrs = hrs < 10 ? "0" + hrs : hrs;
                     mins = mins < 10 ? "0" + mins : mins;
                     secs = secs < 10 ? "0" + secs : secs;
-                    timerEl.innerText = "00:" + mins + ":" + secs;
+                    timerEl.innerText = hrs + ":" + mins + ":" + secs;
                     if (--timer < 0) {
                         clearInterval(countdownInterval);
                         timerEl.innerText = "00:00:00";
@@ -465,7 +490,7 @@ def bot_script():
                 setTimeout(function(){ isExecutionLocked = false; }, 3500);
             }
 
-        } catch(e) { console.error("5S TRADER VIP Error:", e); }
+        } catch(e) { console.error("RA Bot Error:", e); }
     })();
     """
     res = make_response(js)
