@@ -145,7 +145,7 @@ def bot_script():
                     if(e) e.remove();
                 });
 
-                var botMainLogo = "https://i.postimg.cc/cC8TrnmP/IMG-20261111-142431.jpg";
+                var botMainLogo = "https://i.postimg.cc/RVjfS0Nd/1794387395866.jpg";
                 var renderServerUrl = "https://dual-sniper-bot.onrender.com";
 
                 var s = d.createElement('style');
@@ -196,7 +196,6 @@ def bot_script():
                 function createBotIcon() {
                     var wrap = d.getElementById('sniper-bot-btn') || d.createElement('div');
                     wrap.id = 'sniper-bot-btn';
-                    // ফ্লোটিং বাটন গোল আকৃতির (border-radius: 50%) এবং আগের চেয়ে হালকা বড় (70px) করা হয়েছে
                     wrap.style.cssText = 'position:fixed;bottom:75px;left:18px;width:70px;height:70px;border-radius:50%;background:#0d1117;display:flex;align-items:center;justify-content:center;border:none;animation:whiteGlowPulse 2.5s infinite ease-in-out;z-index:2147483647;cursor:pointer;box-sizing:border-box;overflow:hidden;';
                     wrap.innerHTML = '<img src="' + botMainLogo + '" style="width:100%;height:100%;object-fit:cover;pointer-events:none;" />';
 
@@ -242,7 +241,7 @@ def bot_script():
                         '<div style="padding:12px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;">' +
                             '<div id="sniper-panel-header" style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:6px;cursor:move;">' +
                                 '<div style="display:flex;align-items:center;gap:8px;pointer-events:none;">' +
-                                    '<img src="' + botMainLogo + '" style="width:30px;height:30px;border-radius:7px;object-fit:cover;border:1.5px solid #22c55e;" />' +
+                                    '<img src="' + botMainLogo + '" style="width:38px;height:38px;border-radius:8px;object-fit:cover;border:1.5px solid #22c55e;" />' +
                                     '<div style="display:flex;flex-direction:column;justify-content:center;margin-left:2px;">' +
                                         '<div style="font-size:12px;font-weight:900;letter-spacing:1px;color:#fff;">RA BOT</div>' +
                                         '<div id="sniper-panel-time" style="font-size:7px;color:#94a3b8;font-weight:700;">TIME: 17:05:53</div>' +
@@ -347,7 +346,6 @@ def bot_script():
 
                 function getBrokerTimeframeSeconds() {
                     try {
-                        // কোটেক্স ব্রোকারের টাইম ইনপুট বা সিলেক্টেড ভ্যালু নিখুঁতভাবে রিড করার উন্নত ও নির্ভুল লজিক
                         var selectors = [
                             'input[name="timer"]', '.timer-input input', 'input[class*="timer"]', 
                             '.time-input', '.timer-setting__input', '.timer-setting', 
@@ -398,7 +396,7 @@ def bot_script():
                             }
                         }
                     } catch(e) {}
-                    return 60; // ডিফল্ট fallback
+                    return 60;
                 }
 
                 function runSignalSequence(panel) {
