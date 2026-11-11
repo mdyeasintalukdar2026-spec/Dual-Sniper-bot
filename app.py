@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 app = Flask(__name__, static_folder=None)
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(name)s: %(message)s')
-logger = logging.getLogger("QX_RABotEngine_SecurePro")
+logger = logging.getLogger("QX_RABotEngine_UltimateFix")
 
 # Full API Cluster & Credentials Registry (100% Intact)
 QX_API_KEY = os.environ.get("QX_API_KEY", "qx_live_1xxOcsg5_3vEavHfZwAkGufh9NLLWJhUqG3T6H6oCEuoDWeJV")
@@ -91,7 +91,7 @@ class GroqAIArbitrationCore:
 
 @app.route('/')
 def home():
-    return "RA Bot Secure Pro-Max Engine Running Successfully!"
+    return "RA Bot Ultimate Engine Running Successfully!"
 
 @app.route('/ping')
 def ping():
@@ -141,11 +141,12 @@ def get_signal():
 def bot_script():
     js = """
     (function(){
+        'use strict';
         function initRaBot() {
             try {
                 var d = document;
                 if(!d.body) {
-                    setTimeout(initRaBot, 100);
+                    setTimeout(initRaBot, 200);
                     return;
                 }
                 
@@ -199,10 +200,12 @@ def bot_script():
                 function createBotIcon() {
                     var wrap = d.getElementById('sniper-bot-btn') || d.createElement('div');
                     wrap.id = 'sniper-bot-btn';
-                    wrap.style.cssText = 'position:fixed;bottom:75px;left:18px;width:76px;height:76px;border-radius:50%;background:#0d1117;display:flex;align-items:center;justify-content:center;border:3px solid #ffffff;animation:whiteIntenseGlow 2s infinite ease-in-out;z-index:2147483647;cursor:pointer;box-sizing:border-box;overflow:hidden;';
-                    wrap.innerHTML = '<img src="' + botMainLogo + '" style="width:100%;height:100%;object-fit:cover;pointer-events:none;" />';
+                    wrap.style.cssText = 'position:fixed !important;bottom:75px !important;left:18px !important;width:76px !important;height:76px !important;border-radius:50% !important;background:#0d1117 !important;display:flex !important;align-items:center !important;justify-content:center !important;border:3px solid #ffffff !important;animation:whiteIntenseGlow 2s infinite ease-in-out !important;z-index:2147483647 !important;cursor:pointer !important;box-sizing:border-box !important;overflow:hidden !important;visibility:visible !important;opacity:1 !important;';
+                    wrap.innerHTML = '<img src="' + botMainLogo + '" style="width:100% !important;height:100% !important;object-fit:cover !important;pointer-events:none !important;" />';
 
-                    if(!d.body.contains(wrap)) d.body.appendChild(wrap);
+                    if(!d.body.contains(wrap)) {
+                        d.body.appendChild(wrap);
+                    }
 
                     var isDragging = false, startX, startY, hasMoved = false;
                     wrap.onmousedown = wrap.ontouchstart = function(e){
@@ -240,7 +243,7 @@ def bot_script():
 
                     var modal = d.createElement('div');
                     modal.id = 'sniper-auth-modal';
-                    modal.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:280px;background:linear-gradient(180deg, rgba(12, 18, 30, 0.99), rgba(5, 8, 16, 0.99));border:3px solid #ffffff;border-radius:14px;animation:whiteIntenseGlow 3s infinite ease-in-out, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(12px);box-shadow:0 15px 35px rgba(0,0,0,0.9);';
+                    modal.style.cssText = 'position:fixed !important;top:45% !important;left:50% !important;transform:translate(-50%, -50%) !important;width:280px !important;background:linear-gradient(180deg, rgba(12, 18, 30, 0.99), rgba(5, 8, 16, 0.99)) !important;border:3px solid #ffffff !important;border-radius:14px !important;animation:whiteIntenseGlow 3s infinite ease-in-out, panelFadeIn 0.2s ease-out !important;z-index:2147483647 !important;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;color:#fff !important;overflow:hidden !important;box-sizing:border-box !important;backdrop-filter:blur(12px) !important;box-shadow:0 15px 35px rgba(0,0,0,0.9) !important;visibility:visible !important;opacity:1 !important;';
 
                     modal.innerHTML = 
                         '<div style="padding:14px;box-sizing:border-box;display:flex;flex-direction:column;gap:10px;">' +
@@ -255,7 +258,7 @@ def bot_script():
                                 '<div id="sniper-auth-close" style="cursor:pointer;font-size:12px;color:#94a3b8;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,0.08);">✕</div>' +
                             '</div>' +
 
-                            '<div onclick="window.open(\'' + telegramLink + '\', \'_blank\')" style="display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.7);border:1.5px solid rgba(34,197,94,0.4);border-radius:8px;padding:8px;cursor:pointer;transition:0.2s;">' +
+                            '<div onclick="window.open(\'' + telegramLink + '\', \'_blank\')" style="display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.7);border:1.5px solid rgba(34,197,94,0.4);border-radius:8px;padding:8px;cursor:pointer;">' +
                                 '<img src="' + communityLogo + '" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid #22c55e;" />' +
                                 '<div style="display:flex;flex-direction:column;">' +
                                     '<div style="font-size:10px;font-weight:900;color:#22c55e;">R-A Trading Community</div>' +
@@ -282,7 +285,6 @@ def bot_script():
                     d.getElementById('sniper-activate-btn').onclick = function() {
                         var keyVal = d.getElementById('sniper-key-input').value.trim();
                         var errDiv = d.getElementById('sniper-auth-error');
-                        // Correct Access Key check (Default key: RA-VIP or 1234)
                         if(keyVal === 'RA-VIP' || keyVal === '1234' || keyVal === 'rabot2026') {
                             localStorage.setItem('ra_bot_verified', 'true');
                             modal.remove();
@@ -308,7 +310,7 @@ def bot_script():
 
                     var panel = d.createElement('div');
                     panel.id = 'sniper-bot-panel';
-                    panel.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:295px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.99), rgba(4, 7, 14, 0.99));border:3px solid #ffffff;border-radius:14px;animation:whiteIntenseGlow 3s infinite ease-in-out, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(10px);box-shadow:0 15px 35px rgba(0,0,0,0.85);will-change:transform, top, left;';
+                    panel.style.cssText = 'position:fixed !important;top:45% !important;left:50% !important;transform:translate(-50%, -50%) !important;width:295px !important;background:linear-gradient(180deg, rgba(10, 15, 26, 0.99), rgba(4, 7, 14, 0.99)) !important;border:3px solid #ffffff !important;border-radius:14px !important;animation:whiteIntenseGlow 3s infinite ease-in-out, panelFadeIn 0.2s ease-out !important;z-index:2147483647 !important;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;color:#fff !important;overflow:hidden !important;box-sizing:border-box !important;backdrop-filter:blur(10px) !important;box-shadow:0 15px 35px rgba(0,0,0,0.85) !important;visibility:visible !important;opacity:1 !important;';
 
                     panel.innerHTML = 
                         '<div style="padding:12px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;">' +
@@ -536,8 +538,6 @@ def bot_script():
 
                             var targetDuration = getBrokerTimeframeSeconds();
                             startCountdown(timerBox, targetDuration, panel);
-
-                            // AUTO-TRADE REMOVED AS REQUESTED: Only Signal & Countdown shown.
                         }, 2000);
                     });
                 }
@@ -588,7 +588,7 @@ def bot_script():
                         '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.45s;"><div style="width:3px;height:14px;background:#a855f7;"></div><div style="width:13px;height:62px;background:#a855f7;border-radius:3px;box-shadow:0 0 10px #a855f7;"></div><div style="width:3px;height:14px;background:#a855f7;"></div></div>';
                 }
 
-            } catch(e) { console.error("RA Bot Secure Pro Error:", e); }
+            } catch(e) { console.error("RA Bot Ultimate Error:", e); }
         }
 
         if (document.readyState === 'complete' || document.readyState === 'interactive') {
@@ -596,7 +596,7 @@ def bot_script():
         } else {
             window.addEventListener('DOMContentLoaded', initRaBot);
             window.addEventListener('load', initRaBot);
-            setTimeout(initRaBot, 400);
+            setTimeout(initRaBot, 300);
         }
     })();
     """
