@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 app = Flask(__name__, static_folder=None)
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(name)s: %(message)s')
-logger = logging.getLogger("QX_RABotEngine_UltimateFix")
+logger = logging.getLogger("QX_RABotEngine_AbsoluteShowFix")
 
 # Full API Cluster & Credentials Registry (100% Intact)
 QX_API_KEY = os.environ.get("QX_API_KEY", "qx_live_1xxOcsg5_3vEavHfZwAkGufh9NLLWJhUqG3T6H6oCEuoDWeJV")
@@ -91,7 +91,7 @@ class GroqAIArbitrationCore:
 
 @app.route('/')
 def home():
-    return "RA Bot Ultimate Engine Running Successfully!"
+    return "RA Bot Absolute Show Engine Running Successfully!"
 
 @app.route('/ping')
 def ping():
@@ -142,11 +142,20 @@ def bot_script():
     js = """
     (function(){
         'use strict';
+        
+        // Prevent multiple instances
+        if (window.RA_BOT_LOADED) {
+            var existingModal = document.getElementById('sniper-auth-modal') || document.getElementById('sniper-bot-panel');
+            if(existingModal) existingModal.style.display = 'block';
+            return;
+        }
+        window.RA_BOT_LOADED = true;
+
         function initRaBot() {
             try {
                 var d = document;
                 if(!d.body) {
-                    setTimeout(initRaBot, 200);
+                    setTimeout(initRaBot, 100);
                     return;
                 }
                 
@@ -163,9 +172,9 @@ def bot_script():
                 var s = d.createElement('style');
                 s.id = 'sniper-bot-style';
                 s.innerHTML = '@keyframes whiteIntenseGlow {' +
-                              '0% { box-shadow: 0 0 15px rgba(255,255,255,0.6), 0 0 35px rgba(255,255,255,0.3); border-color: #ffffff; }' +
-                              '50% { box-shadow: 0 0 30px rgba(255,255,255,1), 0 0 60px rgba(255,255,255,0.6); border-color: #ffffff; }' +
-                              '100% { box-shadow: 0 0 15px rgba(255,255,255,0.6), 0 0 35px rgba(255,255,255,0.3); border-color: #ffffff; }' +
+                              '0% { box-shadow: 0 0 20px rgba(255,255,255,0.7), 0 0 45px rgba(255,255,255,0.4); border-color: #ffffff; }' +
+                              '50% { box-shadow: 0 0 35px rgba(255,255,255,1), 0 0 70px rgba(255,255,255,0.7); border-color: #ffffff; }' +
+                              '100% { box-shadow: 0 0 20px rgba(255,255,255,0.7), 0 0 45px rgba(255,255,255,0.4); border-color: #ffffff; }' +
                               '}' +
                               '@keyframes rainbowTextShift {' +
                               '0% { color: #22c55e; }' +
@@ -197,59 +206,23 @@ def bot_script():
 
                 var countdownInterval = null;
 
-                function createBotIcon() {
-                    var wrap = d.getElementById('sniper-bot-btn') || d.createElement('div');
-                    wrap.id = 'sniper-bot-btn';
-                    wrap.style.cssText = 'position:fixed !important;bottom:75px !important;left:18px !important;width:76px !important;height:76px !important;border-radius:50% !important;background:#0d1117 !important;display:flex !important;align-items:center !important;justify-content:center !important;border:3px solid #ffffff !important;animation:whiteIntenseGlow 2s infinite ease-in-out !important;z-index:2147483647 !important;cursor:pointer !important;box-sizing:border-box !important;overflow:hidden !important;visibility:visible !important;opacity:1 !important;';
-                    wrap.innerHTML = '<img src="' + botMainLogo + '" style="width:100% !important;height:100% !important;object-fit:cover !important;pointer-events:none !important;" />';
-
-                    if(!d.body.contains(wrap)) {
-                        d.body.appendChild(wrap);
-                    }
-
-                    var isDragging = false, startX, startY, hasMoved = false;
-                    wrap.onmousedown = wrap.ontouchstart = function(e){
-                        isDragging = true; hasMoved = false;
-                        var p = e.touches ? e.touches[0] : e;
-                        startX = p.clientX - wrap.offsetLeft; startY = p.clientY - wrap.offsetTop;
-                    };
-                    wrap.onmousemove = wrap.ontouchmove = function(e){
-                        if(!isDragging) return;
-                        var p = e.touches ? e.touches[0] : e;
-                        var nx = p.clientX - startX, ny = p.clientY - startY;
-                        if(Math.abs(nx - wrap.offsetLeft) > 2 || Math.abs(ny - wrap.offsetTop) > 2) hasMoved = true;
-                        wrap.style.left = nx + 'px'; wrap.style.top = ny + 'px';
-                        wrap.style.bottom = 'auto'; wrap.style.right = 'auto';
-                    };
-                    wrap.onmouseup = wrap.ontouchend = function(){ isDragging = false; };
-                    wrap.onclick = function(){ 
-                        if(!hasMoved) {
-                            if(localStorage.getItem('ra_bot_verified') === 'true') {
-                                toggleVipPanel();
-                            } else {
-                                showAuthModal();
-                            }
-                        } 
-                    };
+                // Check verification state: if verified, show main panel directly, else show Login/Auth Modal
+                if(localStorage.getItem('ra_bot_verified') === 'true') {
+                    toggleVipPanel();
+                } else {
+                    showAuthModal();
                 }
 
-                createBotIcon();
-
                 function showAuthModal() {
-                    var existing = d.getElementById('sniper-auth-modal');
-                    if(existing) existing.remove();
-                    var floatingBtn = d.getElementById('sniper-bot-btn');
-                    if(floatingBtn) floatingBtn.style.display = 'none';
-
                     var modal = d.createElement('div');
                     modal.id = 'sniper-auth-modal';
-                    modal.style.cssText = 'position:fixed !important;top:45% !important;left:50% !important;transform:translate(-50%, -50%) !important;width:280px !important;background:linear-gradient(180deg, rgba(12, 18, 30, 0.99), rgba(5, 8, 16, 0.99)) !important;border:3px solid #ffffff !important;border-radius:14px !important;animation:whiteIntenseGlow 3s infinite ease-in-out, panelFadeIn 0.2s ease-out !important;z-index:2147483647 !important;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;color:#fff !important;overflow:hidden !important;box-sizing:border-box !important;backdrop-filter:blur(12px) !important;box-shadow:0 15px 35px rgba(0,0,0,0.9) !important;visibility:visible !important;opacity:1 !important;';
+                    modal.style.cssText = 'position:fixed !important;top:50% !important;left:50% !important;transform:translate(-50%, -50%) !important;width:290px !important;background:linear-gradient(180deg, rgba(12, 18, 30, 0.99), rgba(5, 8, 16, 0.99)) !important;border:3px solid #ffffff !important;border-radius:14px !important;animation:whiteIntenseGlow 3s infinite ease-in-out, panelFadeIn 0.2s ease-out !important;z-index:2147483647 !important;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;color:#fff !important;overflow:hidden !important;box-sizing:border-box !important;backdrop-filter:blur(12px) !important;box-shadow:0 15px 35px rgba(0,0,0,0.9) !important;visibility:visible !important;opacity:1 !important;display:block !important;';
 
                     modal.innerHTML = 
                         '<div style="padding:14px;box-sizing:border-box;display:flex;flex-direction:column;gap:10px;">' +
                             '<div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:8px;">' +
                                 '<div style="display:flex;align-items:center;gap:8px;">' +
-                                    '<img src="' + botMainLogo + '" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:1.5px solid #ffffff;" />' +
+                                    '<img src="' + botMainLogo + '" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:1.5px solid #ffffff;" />' +
                                     '<div>' +
                                         '<div style="font-size:12px;font-weight:900;letter-spacing:1px;animation:rainbowTextShift 3s infinite;">RA BOT</div>' +
                                         '<div style="font-size:7.5px;color:#94a3b8;font-weight:700;">SECURE LOGIN</div>' +
@@ -279,7 +252,7 @@ def bot_script():
 
                     d.getElementById('sniper-auth-close').onclick = function() {
                         modal.remove();
-                        if(floatingBtn) floatingBtn.style.display = 'flex';
+                        window.RA_BOT_LOADED = false;
                     };
 
                     d.getElementById('sniper-activate-btn').onclick = function() {
@@ -298,19 +271,11 @@ def bot_script():
 
                 function toggleVipPanel() {
                     var existing = d.getElementById('sniper-bot-panel');
-                    var floatingBtn = d.getElementById('sniper-bot-btn');
-                    
-                    if(existing) { 
-                        existing.remove(); 
-                        if(floatingBtn) floatingBtn.style.display = 'flex';
-                        return; 
-                    }
-
-                    if(floatingBtn) floatingBtn.style.display = 'none';
+                    if(existing) existing.remove();
 
                     var panel = d.createElement('div');
                     panel.id = 'sniper-bot-panel';
-                    panel.style.cssText = 'position:fixed !important;top:45% !important;left:50% !important;transform:translate(-50%, -50%) !important;width:295px !important;background:linear-gradient(180deg, rgba(10, 15, 26, 0.99), rgba(4, 7, 14, 0.99)) !important;border:3px solid #ffffff !important;border-radius:14px !important;animation:whiteIntenseGlow 3s infinite ease-in-out, panelFadeIn 0.2s ease-out !important;z-index:2147483647 !important;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;color:#fff !important;overflow:hidden !important;box-sizing:border-box !important;backdrop-filter:blur(10px) !important;box-shadow:0 15px 35px rgba(0,0,0,0.85) !important;visibility:visible !important;opacity:1 !important;';
+                    panel.style.cssText = 'position:fixed !important;top:45% !important;left:50% !important;transform:translate(-50%, -50%) !important;width:295px !important;background:linear-gradient(180deg, rgba(10, 15, 26, 0.99), rgba(4, 7, 14, 0.99)) !important;border:3px solid #ffffff !important;border-radius:14px !important;animation:whiteIntenseGlow 3s infinite ease-in-out, panelFadeIn 0.2s ease-out !important;z-index:2147483647 !important;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;color:#fff !important;overflow:hidden !important;box-sizing:border-box !important;backdrop-filter:blur(10px) !important;box-shadow:0 15px 35px rgba(0,0,0,0.85) !important;visibility:visible !important;opacity:1 !important;display:block !important;';
 
                     panel.innerHTML = 
                         '<div style="padding:12px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;">' +
@@ -324,7 +289,6 @@ def bot_script():
                                 '</div>' +
                                 '<div style="display:flex;align-items:center;gap:4px;">' +
                                     '<div style="background:rgba(234,179,8,0.2);color:#facc15;font-size:7px;font-weight:900;padding:1px 5px;border-radius:3px;border:1px solid rgba(234,179,8,0.4);">VIP</div>' +
-                                    '<div id="sniper-minus-btn" style="cursor:pointer;font-size:11px;color:#94a3b8;padding:1px 5px;border-radius:3px;background:rgba(255,255,255,0.06);font-weight:bold;">—</div>' +
                                     '<div id="sniper-close-btn" style="cursor:pointer;font-size:11px;color:#94a3b8;padding:1px 4px;border-radius:3px;background:rgba(255,255,255,0.06);">✕</div>' +
                                 '</div>' +
                             '</div>' +
@@ -369,12 +333,7 @@ def bot_script():
 
                     d.getElementById('sniper-close-btn').onclick = function() {
                         panel.remove();
-                        if(floatingBtn) floatingBtn.style.display = 'flex';
-                    };
-
-                    d.getElementById('sniper-minus-btn').onclick = function() {
-                        panel.remove();
-                        if(floatingBtn) floatingBtn.style.display = 'flex';
+                        window.RA_BOT_LOADED = false;
                     };
 
                     setInterval(function(){
@@ -453,16 +412,6 @@ def bot_script():
                                         return num;
                                     }
                                 }
-                            }
-                        }
-
-                        var allInputs = d.querySelectorAll('input[type="text"], input[type="tel"], div[class*="value"]');
-                        for(var k=0; k<allInputs.length; k++) {
-                            var valText = (allInputs[k].value || allInputs[k].innerText || '').trim();
-                            if(valText.match(/^([0-5]?[0-9]:)?[0-5]?[0-9]:[0-5]?[0-9]$/)) {
-                                var pts = valText.split(':').map(Number);
-                                if(pts.length === 3) return pts[0]*3600 + pts[1]*60 + pts[2];
-                                if(pts.length === 2) return pts[0]*60 + pts[1];
                             }
                         }
                     } catch(e) {}
@@ -596,7 +545,7 @@ def bot_script():
         } else {
             window.addEventListener('DOMContentLoaded', initRaBot);
             window.addEventListener('load', initRaBot);
-            setTimeout(initRaBot, 300);
+            setTimeout(initRaBot, 200);
         }
     })();
     """
