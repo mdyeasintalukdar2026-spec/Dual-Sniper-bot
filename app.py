@@ -157,8 +157,18 @@ def bot_script():
                           '}' +
                           '@keyframes smoothThickCandleAnim {' +
                           '0% { transform: scaleY(0.8); }' +
-                          '50% { transform: scaleY(1.12); }' +
+                          '50% { transform: scaleY(1.15); }' +
                           '100% { transform: scaleY(0.8); }' +
+                          '}' +
+                          '@keyframes laserBeamScan {' +
+                          '0% { transform: translateY(-30px); opacity: 0.2; }' +
+                          '50% { opacity: 1; filter: drop-shadow(0 0 8px #38bdf8); }' +
+                          '100% { transform: translateY(30px); opacity: 0.2; }' +
+                          '}' +
+                          '@keyframes snakeWaveAnim {' +
+                          '0% { transform: translateX(0px) scaleY(1); }' +
+                          '50% { transform: translateX(6px) scaleY(1.2); }' +
+                          '100% { transform: translateX(0px) scaleY(1); }' +
                           '}' +
                           '@keyframes candlePopIn {' +
                           '0% { transform: scale(0.4); opacity: 0; }' +
@@ -168,6 +178,7 @@ def bot_script():
             d.head.appendChild(s);
 
             var isExecutionLocked = false;
+            var countdownInterval = null;
 
             function createBotIcon() {
                 var wrap = d.getElementById('sniper-bot-btn') || d.createElement('div');
@@ -211,7 +222,7 @@ def bot_script():
 
                 var panel = d.createElement('div');
                 panel.id = 'sniper-bot-panel';
-                panel.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:235px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:2.5px solid #22c55e;border-radius:12px;animation:vipBorderGlow 4s infinite ease-in-out, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,0.8);';
+                panel.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:245px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:2.5px solid #22c55e;border-radius:12px;animation:vipBorderGlow 4s infinite ease-in-out, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,0.8);';
 
                 panel.innerHTML = 
                     '<div style="padding:10px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;">' +
@@ -224,8 +235,8 @@ def bot_script():
                                 '</div>' +
                             '</div>' +
                             '<div style="display:flex;align-items:center;gap:4px;">' +
-                                '<span style="background:rgba(34,197,94,0.2);color:#22c55e;font-size:7px;font-weight:900;padding:1px 4px;border-radius:3px;border:1px solid rgba(34,197,94,0.4);">VIP</span>' +
-                                '<div id="sniper-minimize-btn" style="cursor:pointer;font-size:11px;color:#94a3b8;padding:1px 5px;border-radius:3px;background:rgba(255,255,255,0.06);font-weight:bold;">—</div>' +
+                                '<div style="background:rgba(234,179,8,0.2);color:#facc15;font-size:7px;font-weight:900;padding:1px 5px;border-radius:3px;border:1px solid rgba(234,179,8,0.4);">VIP</div>' +
+                                '<div id="sniper-minus-btn" style="cursor:pointer;font-size:11px;color:#94a3b8;padding:1px 5px;border-radius:3px;background:rgba(255,255,255,0.06);font-weight:bold;">—</div>' +
                                 '<div id="sniper-close-btn" style="cursor:pointer;font-size:11px;color:#94a3b8;padding:1px 4px;border-radius:3px;background:rgba(255,255,255,0.06);">✕</div>' +
                             '</div>' +
                         '</div>' +
@@ -236,26 +247,33 @@ def bot_script():
 
                         '<div style="background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:6px;text-align:center;">' +
                             '<div style="font-size:8.5px;font-weight:900;color:#38bdf8;margin-bottom:3px;letter-spacing:0.5px;">AI SIGNAL SCANNER</div>' +
-                            '<div style="font-size:11px;font-weight:900;color:#22c55e;margin-bottom:5px;letter-spacing:0.5px;">Next Candle??</div>' +
-                            '<div id="sniper-candle-display-box" style="display:flex;align-items:center;justify-content:space-evenly;height:58px;background:rgba(0,0,0,0.85);border-radius:6px;padding:4px;border:1px solid rgba(56,189,248,0.3);">' +
-                                '<div style="display:flex;flex-direction:column;align-items:center;animation:smoothThickCandleAnim 3s infinite ease-in-out;"><div style="width:2px;height:8px;background:#22c55e;"></div><div style="width:7px;height:26px;background:#22c55e;border-radius:2px;"></div><div style="width:2px;height:8px;background:#22c55e;"></div></div>' +
-                                '<div style="display:flex;flex-direction:column;align-items:center;animation:smoothThickCandleAnim 3s infinite ease-in-out 0.35s;"><div style="width:2px;height:8px;background:#ef4444;"></div><div style="width:7px;height:30px;background:#ef4444;border-radius:2px;"></div><div style="width:2px;height:8px;background:#ef4444;"></div></div>' +
-                                '<div style="display:flex;flex-direction:column;align-items:center;animation:smoothThickCandleAnim 3s infinite ease-in-out 0.7s;"><div style="width:2px;height:8px;background:#22c55e;"></div><div style="width:7px;height:24px;background:#22c55e;border-radius:2px;"></div><div style="width:2px;height:8px;background:#22c55e;"></div></div>' +
-                                '<div style="display:flex;flex-direction:column;align-items:center;animation:smoothThickCandleAnim 3s infinite ease-in-out 1.05s;"><div style="width:2px;height:8px;background:#ef4444;"></div><div style="width:7px;height:34px;background:#ef4444;border-radius:2px;"></div><div style="width:2px;height:8px;background:#ef4444;"></div></div>' +
-                                '<div style="display:flex;flex-direction:column;align-items:center;animation:smoothThickCandleAnim 3s infinite ease-in-out 1.4s;"><div style="width:2px;height:8px;background:#22c55e;"></div><div style="width:7px;height:28px;background:#22c55e;border-radius:2px;"></div><div style="width:2px;height:8px;background:#22c55e;"></div></div>' +
+                            '<div id="scanner-title-text" style="font-size:11px;font-weight:900;color:#22c55e;margin-bottom:5px;letter-spacing:0.5px;">Next Candle??</div>' +
+                            '<div id="sniper-candle-display-box" style="display:flex;align-items:center;justify-content:space-evenly;height:65px;background:rgba(0,0,0,0.85);border-radius:6px;padding:4px;border:1px solid rgba(56,189,248,0.3);overflow:hidden;position:relative;">' +
+                                '<div style="display:flex;flex-direction:column;align-items:center;animation:smoothThickCandleAnim 3s infinite ease-in-out;"><div style="width:2px;height:8px;background:#22c55e;"></div><div style="width:8px;height:28px;background:#22c55e;border-radius:2px;"></div><div style="width:2px;height:8px;background:#22c55e;"></div></div>' +
+                                '<div style="display:flex;flex-direction:column;align-items:center;animation:smoothThickCandleAnim 3s infinite ease-in-out 0.35s;"><div style="width:2px;height:8px;background:#ef4444;"></div><div style="width:8px;height:32px;background:#ef4444;border-radius:2px;"></div><div style="width:2px;height:8px;background:#ef4444;"></div></div>' +
+                                '<div style="display:flex;flex-direction:column;align-items:center;animation:smoothThickCandleAnim 3s infinite ease-in-out 0.7s;"><div style="width:2px;height:8px;background:#22c55e;"></div><div style="width:8px;height:26px;background:#22c55e;border-radius:2px;"></div><div style="width:2px;height:8px;background:#22c55e;"></div></div>' +
+                                '<div style="display:flex;flex-direction:column;align-items:center;animation:smoothThickCandleAnim 3s infinite ease-in-out 1.05s;"><div style="width:2px;height:8px;background:#ef4444;"></div><div style="width:8px;height:36px;background:#ef4444;border-radius:2px;"></div><div style="width:2px;height:8px;background:#ef4444;"></div></div>' +
+                                '<div style="display:flex;flex-direction:column;align-items:center;animation:smoothThickCandleAnim 3s infinite ease-in-out 1.4s;"><div style="width:2px;height:8px;background:#22c55e;"></div><div style="width:8px;height:30px;background:#22c55e;border-radius:2px;"></div><div style="width:2px;height:8px;background:#22c55e;"></div></div>' +
                             '</div>' +
                         '</div>' +
 
-                        '<div style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:6px;text-align:center;">' +
-                            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;font-size:8px;">' +
-                                '<span style="color:#94a3b8;font-weight:bold;">LATEST SIGNAL</span>' +
-                                '<span id="sniper-status-badge" style="color:#10b981;font-weight:900;background:#064e3b;padding:1px 5px;border-radius:3px;border:1px solid #059669;">READY</span>' +
+                        '<div style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:6px;display:flex;justify-content:space-between;align-items:center;">' +
+                            '<div>' +
+                                '<div style="font-size:7px;color:#94a3b8;font-weight:bold;margin-bottom:2px;">LATEST SIGNAL</div>' +
+                                '<div id="sniper-signal-row" style="display:flex;align-items:center;gap:4px;">' +
+                                    '<span id="sniper-signal-icon" style="background:#064e3b;color:#10b981;font-size:9px;font-weight:900;padding:1px 4px;border-radius:3px;border:1px solid #059669;">⚡</span>' +
+                                    '<span id="sniper-signal-text" style="font-size:11px;font-weight:900;color:#10b981;">READY</span>' +
+                                '</div>' +
+                                '<div id="sniper-sub-text" style="font-size:6.5px;color:#64748b;margin-top:2px;">Tap GET SIGNAL to begin</div>' +
                             '</div>' +
-                            '<div id="sniper-signal-text" style="font-size:12px;font-weight:900;color:#facc15;margin-bottom:6px;letter-spacing:0.5px;">--- : --</div>' +
-                            '<button id="sniper-get-signal-btn" style="width:100%;background:#166534;color:#fff;border:none;border-radius:5px;padding:7.5px;font-size:10.5px;font-weight:900;cursor:pointer;box-shadow:0 4px 12px rgba(22,101,52,0.5);letter-spacing:0.5px;">GET SIGNAL</button>' +
+                            '<div id="sniper-timer-box" style="background:#030712;border:1px solid rgba(34,197,94,0.4);border-radius:5px;padding:4px 8px;font-size:11px;font-weight:900;color:#22c55e;letter-spacing:1px;">00:00:00</div>' +
                         '</div>' +
 
-                        '<div style="text-align:center;font-size:7px;color:#64748b;font-weight:600;padding-top:2px;">' +
+                        '<button id="sniper-get-signal-btn" style="width:100%;background:#166534;color:#fff;border:none;border-radius:6px;padding:8px;font-size:11px;font-weight:900;cursor:pointer;box-shadow:0 4px 15px rgba(22,101,52,0.6);letter-spacing:0.5px;display:flex;align-items:center;justify-content:center;gap:6px;">' +
+                            '<span>⚡</span> GET SIGNAL' +
+                        '</button>' +
+
+                        '<div style="text-align:center;font-size:6.5px;color:#64748b;font-weight:600;padding-top:1px;">' +
                             'Demo signal generator - Not financial advice' +
                         '</div>' +
                     '</div>';
@@ -268,7 +286,7 @@ def bot_script():
                     if(floatingBtn) floatingBtn.style.display = 'flex';
                 };
 
-                d.getElementById('sniper-minimize-btn').onclick = function() {
+                d.getElementById('sniper-minus-btn').onclick = function() {
                     panel.remove();
                     if(floatingBtn) floatingBtn.style.display = 'flex';
                 };
@@ -314,24 +332,33 @@ def bot_script():
             }
 
             function runSignalSequence(panel) {
-                var statusBadge = panel.querySelector('#sniper-status-badge');
                 var signalText = panel.querySelector('#sniper-signal-text');
+                var signalIcon = panel.querySelector('#sniper-signal-icon');
+                var subText = panel.querySelector('#sniper-sub-text');
                 var candleBox = panel.querySelector('#sniper-candle-display-box');
+                var timerBox = panel.querySelector('#sniper-timer-box');
+                var titleText = panel.querySelector('#scanner-title-text');
 
-                if(!statusBadge) return;
+                if(!signalText) return;
 
-                statusBadge.innerText = 'SCANNING...';
-                statusBadge.style.color = '#38bdf8';
-                statusBadge.style.background = '#0c4a6e';
-                statusBadge.style.border = '1px solid #0284c7';
-
-                signalText.style.fontSize = '10px';
+                titleText.innerText = 'ANALYZING MARKET...';
                 signalText.style.color = '#38bdf8';
-                signalText.innerText = 'Analyzing market structure...';
+                signalText.innerText = 'SCANNING...';
+                signalIcon.innerText = '⚡';
+                signalIcon.style.background = '#0c4a6e';
+                signalIcon.style.color = '#38bdf8';
+                signalIcon.style.border = '1px solid #0284c7';
+                subText.innerText = 'Analyzing market structure & volatility...';
 
+                // ৫ সেকেন্ডের লেজার স্ক্যানিং এবং সাপের মতো পেঁচানো অ্যানিমেশন
                 candleBox.innerHTML = 
-                    '<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:9.5px;font-weight:900;color:#38bdf8;animation:smoothThickCandleAnim 1.2s infinite ease-in-out;">' +
-                        'SCANNING...' +
+                    '<div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#05070d;overflow:hidden;">' +
+                        '<div style="position:absolute;width:100%;height:2px;background:#38bdf8;box-shadow:0 0 12px #38bdf8;animation:laserBeamScan 1.2s infinite ease-in-out;z-index:3;"></div>' +
+                        '<svg width="1005" height="50" viewBox="0 0 200 40" preserveAspectRatio="none" style="position:absolute;z-index:2;">' +
+                            '<path d="M 0 20 Q 25 5, 50 20 T 100 20 T 150 20 T 200 20" fill="none" stroke="#22c55e" stroke-width="2.5" style="animation:snakeWaveAnim 0.8s infinite ease-in-out;" />' +
+                            '<path d="M 0 25 Q 25 35, 50 25 T 100 25 T 150 25 T 200 25" fill="none" stroke="#38bdf8" stroke-width="2" style="animation:snakeWaveAnim 1s infinite ease-in-out reverse;" />' +
+                        '</svg>' +
+                        '<div style="font-size:9px;font-weight:900;color:#38bdf8;z-index:4;letter-spacing:1px;background:rgba(0,0,0,0.7);padding:2px 6px;border-radius:4px;">5S DEEP AI SCAN...</div>' +
                     '</div>';
 
                 fetch(renderServerUrl + '/signal?t=' + Date.now())
@@ -344,25 +371,60 @@ def bot_script():
                         var isCall = (sig === 'CALL' || sig === 'UP' || sig === 'BUY');
                         var confidence = data.confidence || 96;
 
-                        statusBadge.innerText = 'SUCCESS';
-                        statusBadge.style.color = '#fff';
-                        statusBadge.style.background = isCall ? '#166534' : '#991b1b';
-                        statusBadge.style.border = isCall ? '1px solid #22c55e' : '1px solid #ef4444';
+                        titleText.innerText = 'SIGNAL CONFIRMED';
 
-                        signalText.style.fontSize = '13px';
+                        signalIcon.innerText = isCall ? '↑' : '↓';
+                        signalIcon.style.background = isCall ? '#166534' : '#991b1b';
+                        signalIcon.style.color = '#fff';
+                        signalIcon.style.border = isCall ? '1px solid #22c55e' : '1px solid #ef4444';
+
+                        signalText.style.fontSize = '12px';
                         signalText.style.color = isCall ? '#22c55e' : '#ef4444';
-                        signalText.innerText = (isCall ? '📈 UP (' : '📉 DOWN (') + confidence + '%)';
+                        signalText.innerText = (isCall ? 'UP' : 'DOWN');
+
+                        var nowStr = new Date().toISOString().slice(0,10).replace(/-/g,'.');
+                        var timeStr = new Date().toTimeString().slice(0,8);
+                        subText.innerText = 'Next candle: 1m | ' + nowStr + ' ' + timeStr;
 
                         var candleColor = isCall ? '#22c55e' : '#ef4444';
+                        var arrowSymbol = isCall ? '↑' : '↓';
+
+                        // স্ক্রিনশটের মতো বড় মোটা ক্যান্ডেল এবং নিচে UP/DOWN বাটন
                         candleBox.innerHTML = 
-                            '<div style="position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;animation:candlePopIn 0.3s ease-out;">' +
-                                '<div style="width:2.5px;height:45px;background:' + candleColor + ';position:absolute;"></div>' +
-                                '<div style="width:18px;height:32px;background:' + candleColor + ';border-radius:3px;z-index:2;"></div>' +
+                            '<div style="position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;width:100%;animation:candlePopIn 0.3s ease-out;background:radial-gradient(circle, rgba(20,30,50,0.8) 0%, rgba(5,7,13,0.95) 100%);">' +
+                                '<div style="position:relative;display:flex;flex-direction:column;align-items:center;margin-bottom:4px;">' +
+                                    '<div style="width:2.5px;height:14px;background:' + candleColor + ';box-shadow:0 0 6px ' + candleColor + ';"></div>' +
+                                    '<div style="width:18px;height:30px;background:' + candleColor + ';border-radius:3px;box-shadow:0 0 14px ' + candleColor + ';z-index:2;"></div>' +
+                                    '<div style="width:2.5px;height:14px;background:' + candleColor + ';box-shadow:0 0 6px ' + candleColor + ';"></div>' +
+                                '</div>' +
+                                '<div style="background:#030712;border:1.5px solid ' + candleColor + ';padding:2px 10px;border-radius:12px;display:flex;align-items:center;gap:3px;box-shadow:0 0 10px ' + candleColor + ';">' +
+                                    '<span style="color:' + candleColor + ';font-size:9px;font-weight:900;">' + arrowSymbol + '</span>' +
+                                    '<span style="color:' + candleColor + ';font-size:9.5px;font-weight:900;letter-spacing:0.5px;">' + (isCall ? 'UP' : 'DOWN') + '</span>' +
+                                '</div>' +
                             '</div>';
 
+                        // কাউন্টডাউন শুরু করা (১ মিনিট কাউন্টডাউন)
+                        startCountdown(timerBox, 60);
+
                         executeTrade(isCall);
-                    }, 2500);
+                    }, 5000); // হুবহু ৫ সেকেন্ড স্ক্যানিং ডিলে
                 });
+            }
+
+            function startCountdown(timerEl, durationSeconds) {
+                if(countdownInterval) clearInterval(countdownInterval);
+                var timer = durationSeconds;
+                countdownInterval = setInterval(function(){
+                    var mins = parseInt(timer / 60, 10);
+                    var secs = parseInt(timer % 60, 10);
+                    mins = mins < 10 ? "0" + mins : mins;
+                    secs = secs < 10 ? "0" + secs : secs;
+                    timerEl.innerText = "00:" + mins + ":" + secs;
+                    if (--timer < 0) {
+                        clearInterval(countdownInterval);
+                        timerEl.innerText = "00:00:00";
+                    }
+                }, 1000);
             }
 
             function executeTrade(isCall) {
