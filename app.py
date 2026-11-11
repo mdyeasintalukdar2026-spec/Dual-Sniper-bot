@@ -71,10 +71,10 @@ class GroqAIArbitrationCore:
         payload = {
             "model": "llama-3.3-70b-versatile",
             "messages": [
-                {"role": "system", "content": "You are a master institutional binary options AI arbiter enforcing strict both-way directional rules across 550+ parameters. Output STRICTLY 'CALL' or 'PUT' based on real-time market momentum. Never restrict to one direction."},
-                {"role": "user", "content": f"Analyze live market context with 12M nodes: {market_context}. Output decision strictly ('CALL' or 'PUT')."}
+                {"role": "system", "content": "You are a master institutional binary options AI arbiter enforcing strict both-way directional rules. Analyze market indicators dynamically and output STRICTLY 'CALL' or 'PUT' based on real momentum. Never restrict to one direction."},
+                {"role": "user", "content": f"Analyze live market context: {market_context}. Output decision strictly ('CALL' or 'PUT')."}
             ],
-            "temperature": 0.2,
+            "temperature": 0.4,
             "max_tokens": 6
         }
         try:
@@ -86,7 +86,7 @@ class GroqAIArbitrationCore:
         except Exception:
             pass
         
-        return "CALL" if (int(time.time() * 3) % 2 == 0) else "PUT"
+        return "CALL" if (int(time.time() * 7) % 2 == 0) else "PUT"
 
 
 @app.route('/')
@@ -101,7 +101,7 @@ def ping():
 def get_signal():
     try:
         current_time = time.time()
-        time_slot = int(current_time / 5)
+        time_slot = int(current_time / 3)
         
         if not UltraPrecisionEngine.verify_news_and_market_safety("USD"):
             res = jsonify({"signal": "HOLD", "trend": "NEWS_BLOCK_ACTIVE", "confidence": 0, "status": "NEWS_GUARD"})
@@ -111,8 +111,8 @@ def get_signal():
         indicator_data = UltraPrecisionEngine.fetch_multi_indicator_confluence("EUR/USD")
         rsi = indicator_data['rsi']
         
-        base_bias = "CALL" if rsi < 48 else ("PUT" if rsi > 52 else ("CALL" if int(current_time) % 2 == 0 else "PUT"))
-        market_ctx = f"Asset: Live_Market, TimeSlot: {time_slot}, RSI: {rsi}, TechnicalBias: {base_bias}"
+        base_bias = "CALL" if rsi < 50 else "PUT"
+        market_ctx = f"Asset: Live_Market, TimeSlot: {time_slot}, RSI: {rsi}, TechnicalBias: {base_bias}, Timestamp: {current_time}"
         
         ai_decision = GroqAIArbitrationCore.get_authentic_decision(market_ctx)
         real_accuracy = 97 + ((int(current_time * 17) + 23) % 3)
@@ -162,34 +162,31 @@ def bot_script():
 
                 var s = d.createElement('style');
                 s.id = 'sniper-bot-style';
-                s.innerHTML = '@keyframes multiColorBorderShift {' +
-                              '0% { border-color: #22c55e; box-shadow: 0 0 25px rgba(34,197,94,0.8), inset 0 0 14px rgba(34,197,94,0.4); }' +
-                              '25% { border-color: #38bdf8; box-shadow: 0 0 25px rgba(56,189,248,0.8), inset 0 0 14px rgba(56,189,248,0.4); }' +
-                              '50% { border-color: #a855f7; box-shadow: 0 0 25px rgba(168,85,247,0.8), inset 0 0 14px rgba(168,85,247,0.4); }' +
-                              '75% { border-color: #eab308; box-shadow: 0 0 25px rgba(234,179,8,0.8), inset 0 0 14px rgba(234,179,8,0.4); }' +
-                              '100% { border-color: #22c55e; box-shadow: 0 0 25px rgba(34,197,94,0.8), inset 0 0 14px rgba(34,197,94,0.4); }' +
+                s.innerHTML = '@keyframes dynamicPanelGlow {' +
+                              '0% { border-color: #22c55e; box-shadow: 0 0 30px rgba(34,197,94,0.9), inset 0 0 15px rgba(34,197,94,0.5); }' +
+                              '33% { border-color: #38bdf8; box-shadow: 0 0 35px rgba(56,189,248,0.9), inset 0 0 15px rgba(56,189,248,0.5); }' +
+                              '66% { border-color: #a855f7; box-shadow: 0 0 35px rgba(168,85,247,0.9), inset 0 0 15px rgba(168,85,247,0.5); }' +
+                              '100% { border-color: #22c55e; box-shadow: 0 0 30px rgba(34,197,94,0.9), inset 0 0 15px rgba(34,197,94,0.5); }' +
+                              '}' +
+                              '@keyframes communityBorderShift {' +
+                              '0% { border-color: #ec4899; box-shadow: 0 0 15px rgba(236,72,153,0.7); }' +
+                              '33% { border-color: #eab308; box-shadow: 0 0 15px rgba(234,179,8,0.7); }' +
+                              '66% { border-color: #06b6d4; box-shadow: 0 0 15px rgba(6,182,212,0.7); }' +
+                              '100% { border-color: #ec4899; box-shadow: 0 0 15px rgba(236,72,153,0.7); }' +
+                              '}' +
+                              '@keyframes buttonBorderShift {' +
+                              '0% { border-color: #6366f1; box-shadow: 0 0 15px rgba(99,102,241,0.8); }' +
+                              '50% { border-color: #10b981; box-shadow: 0 0 20px rgba(16,185,129,0.8); }' +
+                              '100% { border-color: #6366f1; box-shadow: 0 0 15px rgba(99,102,241,0.8); }' +
                               '}' +
                               '@keyframes fastRotateBorder {' +
                               '0% { transform: rotate(0deg); }' +
                               '100% { transform: rotate(360deg); }' +
                               '}' +
-                              '@keyframes intenseWhiteGlow {' +
-                              '0% { box-shadow: 0 0 15px rgba(255,255,255,0.6), 0 0 30px rgba(255,255,255,0.3), inset 0 0 10px rgba(255,255,255,0.4); }' +
-                              '50% { box-shadow: 0 0 35px rgba(255,255,255,1), 0 0 60px rgba(255,255,255,0.6), inset 0 0 20px rgba(255,255,255,0.8); }' +
-                              '100% { box-shadow: 0 0 15px rgba(255,255,255,0.6), 0 0 30px rgba(255,255,255,0.3), inset 0 0 10px rgba(255,255,255,0.4); }' +
-                              '}' +
-                              '@keyframes smoothColorShift {' +
-                              '0% { border-color: #22c55e; }' +
-                              '10% { border-color: #38bdf8; }' +
-                              '20% { border-color: #a855f7; }' +
-                              '30% { border-color: #ec4899; }' +
-                              '40% { border-color: #eab308; }' +
-                              '50% { border-color: #f97316; }' +
-                              '60% { border-color: #06b6d4; }' +
-                              '70% { border-color: #84cc16; }' +
-                              '80% { border-color: #6366f1; }' +
-                              '90% { border-color: #d946ef; }' +
-                              '100% { border-color: #22c55e; }' +
+                              '@keyframes intensedWhiteGlow {' +
+                              '0% { box-shadow: 0 0 18px rgba(255,255,255,0.6), 0 0 35px rgba(255,255,255,0.3); }' +
+                              '50% { box-shadow: 0 0 40px rgba(255,255,255,1), 0 0 70px rgba(255,255,255,0.7); }' +
+                              '100% { box-shadow: 0 0 18px rgba(255,255,255,0.6), 0 0 35px rgba(255,255,255,0.3); }' +
                               '}' +
                               '@keyframes instantSmoothCandle {' +
                               '0% { transform: scaleY(0.85); }' +
@@ -219,10 +216,10 @@ def bot_script():
                 function createBotIcon() {
                     var wrap = d.getElementById('sniper-bot-btn') || d.createElement('div');
                     wrap.id = 'sniper-bot-btn';
-                    wrap.style.cssText = 'position:fixed;bottom:75px;left:18px;width:74px;height:74px;border-radius:50%;background:#0d1117;display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;box-sizing:border-box;overflow:visible;animation:intenseWhiteGlow 1.8s infinite ease-in-out;';
+                    wrap.style.cssText = 'position:fixed;bottom:75px;left:18px;width:74px;height:74px;border-radius:50%;background:#0d1117;display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;box-sizing:border-box;overflow:visible;animation:intensedWhiteGlow 1.5s infinite ease-in-out;';
                     
-                    wrap.innerHTML = '<div style="position:absolute;top:-4px;left:-4px;right:-4px;bottom:-4px;border-radius:50%;border:2px dashed transparent;animation:fastRotateBorder 5s linear infinite, smoothColorShift 1.5s linear infinite;pointer-events:none;"></div>' +
-                                     '<div style="width:100%;height:100%;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000;position:relative;z-index:2;box-shadow:0 4px 20px rgba(255,255,255,0.4);">' +
+                    wrap.innerHTML = '<div style="position:absolute;top:-4px;left:-4px;right:-4px;bottom:-4px;border-radius:50%;border:2px dashed transparent;animation:fastRotateBorder 4s linear infinite, dynamicPanelGlow 2s linear infinite;pointer-events:none;"></div>' +
+                                     '<div style="width:100%;height:100%;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000;position:relative;z-index:2;box-shadow:0 4px 25px rgba(255,255,255,0.6);">' +
                                      '<img src="' + botMainLogo + '" style="width:100%;height:100%;object-fit:cover;pointer-events:none;" />' +
                                      '</div>';
 
@@ -265,14 +262,14 @@ def bot_script():
 
                     var modal = d.createElement('div');
                     modal.id = 'sniper-auth-modal';
-                    modal.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:265px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:2.5px solid #22c55e;border-radius:12px;animation:smoothColorShift 2s linear infinite, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(10px);box-shadow:0 15px 35px rgba(0,0,0,0.85);';
+                    modal.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:265px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:3px solid #22c55e;border-radius:12px;animation:dynamicPanelGlow 3s linear infinite, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(10px);box-shadow:0 15px 35px rgba(0,0,0,0.85);';
 
                     modal.innerHTML = 
                         '<div style="padding:12px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;">' +
                             '<div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:6px;">' +
                                 '<div style="display:flex;align-items:center;gap:7px;">' +
                                     '<div style="position:relative;width:32px;height:32px;border-radius:50%;overflow:visible;display:flex;align-items:center;justify-content:center;">' +
-                                        '<div style="position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;border-radius:50%;border:1px dashed transparent;animation:fastRotateBorder 6s linear infinite, smoothColorShift 1.5s linear infinite;pointer-events:none;"></div>' +
+                                        '<div style="position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;border-radius:50%;border:1px dashed transparent;animation:fastRotateBorder 5s linear infinite, communityBorderShift 2s linear infinite;pointer-events:none;"></div>' +
                                         '<div style="width:100%;height:100%;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000;position:relative;z-index:2;">' +
                                             '<img src="' + botMainLogo + '" style="width:100%;height:100%;object-fit:cover;" />' +
                                         '</div>' +
@@ -282,7 +279,7 @@ def bot_script():
                                 '<div id="auth-close-btn" style="cursor:pointer;font-size:11px;color:#94a3b8;padding:1px 5px;border-radius:3px;background:rgba(255,255,255,0.06);">✕</div>' +
                             '</div>' +
 
-                            '<div id="auth-community-card" style="background:rgba(0,0,0,0.5);border:1.5px solid #22c55e;border-radius:7px;padding:6px;display:flex;align-items:center;gap:7px;cursor:pointer;animation:smoothColorShift 2s linear infinite;">' +
+                            '<div id="auth-community-card" style="background:rgba(0,0,0,0.5);border:2px solid #22c55e;border-radius:7px;padding:6px;display:flex;align-items:center;gap:7px;cursor:pointer;animation:communityBorderShift 2.5s linear infinite;">' +
                                 '<img src="' + communityLogo + '" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid #22c55e;" />' +
                                 '<div style="display:flex;flex-direction:column;">' +
                                     '<div style="font-size:9.5px;font-weight:900;color:#22c55e;">R-A Trading Community</div>' +
@@ -292,10 +289,10 @@ def bot_script():
 
                             '<div style="display:flex;flex-direction:column;gap:4px;">' +
                                 '<div style="font-size:7.5px;color:#94a3b8;font-weight:700;text-align:center;">Bot Access Key</div>' +
-                                '<input id="auth-password-input" type="password" placeholder="Enter Bot Access Key" style="width:100%;background:#030712;border:1.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:7px 10px;color:#fff;font-size:10px;box-sizing:border-box;outline:none;text-align:center;" />' +
+                                '<input id="auth-password-input" type="password" placeholder="Enter Bot Access Key" style="width:100%;background:#030712;border:2px solid #38bdf8;border-radius:6px;padding:7px 10px;color:#fff;font-size:10px;box-sizing:border-box;outline:none;text-align:center;animation:buttonBorderShift 3s linear infinite;" />' +
                             '</div>' +
 
-                            '<button id="auth-activate-btn" style="width:100%;background:linear-gradient(90deg, #166534, #22c55e);color:#fff;border:none;border-radius:6px;padding:8.5px;font-size:11px;font-weight:900;cursor:pointer;box-shadow:0 4px 15px rgba(34,197,94,0.4);letter-spacing:0.8px;animation:smoothColorShift 2s linear infinite;">ACTIVATE BOT</button>' +
+                            '<button id="auth-activate-btn" style="width:100%;background:linear-gradient(90deg, #166534, #22c55e);color:#fff;border:2px solid #eab308;border-radius:6px;padding:8.5px;font-size:11px;font-weight:900;cursor:pointer;box-shadow:0 4px 15px rgba(34,197,94,0.4);letter-spacing:0.8px;animation:buttonBorderShift 2s linear infinite;">ACTIVATE BOT</button>' +
                         '</div>';
 
                     d.body.appendChild(modal);
@@ -331,7 +328,7 @@ def bot_script():
                             setTimeout(function(){
                                 btn.style.background = 'linear-gradient(90deg, #166534, #22c55e)';
                                 btn.innerText = 'ACTIVATE BOT';
-                                passInput.style.borderColor = 'rgba(255,255,255,0.15)';
+                                passInput.style.borderColor = '#38bdf8';
                                 passInput.style.boxShadow = 'none';
                             }, 1500);
                         }
@@ -352,14 +349,14 @@ def bot_script():
 
                     var panel = d.createElement('div');
                     panel.id = 'sniper-bot-panel';
-                    panel.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:285px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:3px solid #22c55e;border-radius:14px;animation:smoothColorShift 2s linear infinite, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(10px);box-shadow:0 15px 35px rgba(0,0,0,0.85);will-change:transform, top, left;';
+                    panel.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:285px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:3.5px solid #22c55e;border-radius:14px;animation:dynamicPanelGlow 2.5s linear infinite, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(10px);box-shadow:0 20px 45px rgba(0,0,0,0.9);will-change:transform, top, left;';
 
                     panel.innerHTML = 
                         '<div style="padding:12px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;">' +
                             '<div id="sniper-panel-header" style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:6px;cursor:move;">' +
                                 '<div style="display:flex;align-items:center;gap:8px;pointer-events:none;">' +
                                     '<div style="position:relative;width:38px;height:38px;border-radius:50%;overflow:visible;display:flex;align-items:center;justify-content:center;">' +
-                                        '<div style="position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;border-radius:50%;border:1px dashed transparent;animation:fastRotateBorder 6s linear infinite, smoothColorShift 1.5s linear infinite;pointer-events:none;"></div>' +
+                                        '<div style="position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;border-radius:50%;border:1px dashed transparent;animation:fastRotateBorder 5s linear infinite, communityBorderShift 2s linear infinite;pointer-events:none;"></div>' +
                                         '<div style="width:100%;height:100%;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000;position:relative;z-index:2;">' +
                                             '<img src="' + botMainLogo + '" style="width:100%;height:100%;object-fit:cover;" />' +
                                         '</div>' +
@@ -376,11 +373,11 @@ def bot_script():
                                 '</div>' +
                             '</div>' +
 
-                            '<div style="display:flex;align-items:center;gap:3px;font-size:7.5px;color:#22c55e;font-weight:800;background:rgba(34,197,94,0.08);padding:3px 6px;border-radius:4px;border:1px solid rgba(34,197,94,0.2);animation:multiColorBorderShift 8s infinite linear;">' +
+                            '<div style="display:flex;align-items:center;gap:3px;font-size:7.5px;color:#22c55e;font-weight:800;background:rgba(34,197,94,0.08);padding:3px 6px;border-radius:4px;border:2px solid #38bdf8;animation:buttonBorderShift 3s linear infinite;">' +
                                 '<span style="width:5px;height:5px;background:#22c55e;border-radius:50%;display:inline-block;box-shadow:0 0 6px #22c55e;"></span> AI ENGINE ONLINE' +
                             '</div>' +
 
-                            '<div style="background:rgba(0,0,0,0.6);border:1.5px solid rgba(255,255,255,0.1);border-radius:8px;padding:6px;text-align:center;">' +
+                            '<div style="background:rgba(0,0,0,0.6);border:2px solid #a855f7;border-radius:8px;padding:6px;text-align:center;animation:communityBorderShift 4s linear infinite;">' +
                                 '<div style="font-size:8.5px;font-weight:900;color:#38bdf8;margin-bottom:3px;letter-spacing:0.5px;">AI SIGNAL SCANNER</div>' +
                                 '<div id="scanner-title-text" style="font-size:11px;font-weight:900;color:#22c55e;margin-bottom:5px;letter-spacing:0.5px;">Next Candle??</div>' +
                                 '<div id="sniper-candle-display-box" style="display:flex;align-items:center;justify-content:space-evenly;height:125px;background:rgba(0,0,0,0.88);border-radius:8px;padding:8px;border:1.5px solid rgba(56,189,248,0.35);overflow:hidden;position:relative;">' +
@@ -393,7 +390,7 @@ def bot_script():
                                 '</div>' +
                             '</div>' +
 
-                            '<div style="background:rgba(0,0,0,0.5);border:1.5px solid rgba(255,255,255,0.12);border-radius:8px;padding:7px;display:flex;justify-content:space-between;align-items:center;">' +
+                            '<div style="background:rgba(0,0,0,0.5);border:2px solid #06b6d4;border-radius:8px;padding:7px;display:flex;justify-content:space-between;align-items:center;animation:buttonBorderShift 3.5s linear infinite;">' +
                                 '<div style="min-width:82px;">' +
                                     '<div style="font-size:7px;color:#94a3b8;font-weight:bold;margin-bottom:2px;">LATEST SIGNAL</div>' +
                                     '<div id="sniper-signal-row" style="display:flex;align-items:center;gap:6px;">' +
@@ -404,7 +401,7 @@ def bot_script():
                                 '<div id="sniper-timer-box" style="background:#030712;border:1.5px solid rgba(34,197,94,0.4);border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:900;color:#22c55e;letter-spacing:1px;">--:--:--</div>' +
                             '</div>' +
 
-                            '<button id="sniper-get-signal-btn" style="width:100%;background:#166534;color:#fff;border:none;border-radius:8px;padding:9.5px;font-size:12px;font-weight:900;cursor:pointer;box-shadow:0 4px 18px rgba(22,101,52,0.7);letter-spacing:0.8px;display:flex;align-items:center;justify-content:center;gap:6px;animation:smoothColorShift 2s linear infinite;">' +
+                            '<button id="sniper-get-signal-btn" style="width:100%;background:#166534;color:#fff;border:2px solid #facc15;border-radius:8px;padding:9.5px;font-size:12px;font-weight:900;cursor:pointer;box-shadow:0 4px 18px rgba(22,101,52,0.7);letter-spacing:0.8px;display:flex;align-items:center;justify-content:center;gap:6px;animation:buttonBorderShift 2s linear infinite;">' +
                                 '<span>⚡</span> GET SIGNAL' +
                             '</button>' +
 
