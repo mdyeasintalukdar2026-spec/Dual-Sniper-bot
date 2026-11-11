@@ -86,7 +86,6 @@ class GroqAIArbitrationCore:
         except Exception:
             pass
         
-        # Dynamic Both-Way Fallback based on micro-timestamp oscillation
         return "CALL" if (int(time.time() * 3) % 2 == 0) else "PUT"
 
 
@@ -112,7 +111,6 @@ def get_signal():
         indicator_data = UltraPrecisionEngine.fetch_multi_indicator_confluence("EUR/USD")
         rsi = indicator_data['rsi']
         
-        # True Both-Way Dynamic Bias calculation
         base_bias = "CALL" if rsi < 48 else ("PUT" if rsi > 52 else ("CALL" if int(current_time) % 2 == 0 else "PUT"))
         market_ctx = f"Asset: Live_Market, TimeSlot: {time_slot}, RSI: {rsi}, TechnicalBias: {base_bias}"
         
@@ -151,13 +149,16 @@ def bot_script():
                     return;
                 }
                 
-                ["sniper-bot-panel", "sniper-bot-btn", "sniper-bot-style"].forEach(function(i){
+                ["sniper-bot-panel", "sniper-bot-btn", "sniper-bot-style", "sniper-auth-modal"].forEach(function(i){
                     var e = d.getElementById(i);
                     if(e) e.remove();
                 });
 
                 var botMainLogo = "https://i.postimg.cc/FR0G3sKq/IMG-20261111-WA0034.jpg";
+                var communityLogo = "https://i.postimg.cc/zDhXfPCW/IMG-20261104-WA0023.jpg";
+                var telegramChannelUrl = "https://t.me/+x1QYA_1-sSs0NTk1";
                 var renderServerUrl = "https://dual-sniper-bot.onrender.com";
+                var correctPassword = "RABOT122";
 
                 var s = d.createElement('style');
                 s.id = 'sniper-bot-style';
@@ -168,17 +169,27 @@ def bot_script():
                               '75% { border-color: #eab308; box-shadow: 0 0 25px rgba(234,179,8,0.8), inset 0 0 14px rgba(234,179,8,0.4); }' +
                               '100% { border-color: #22c55e; box-shadow: 0 0 25px rgba(34,197,94,0.8), inset 0 0 14px rgba(34,197,94,0.4); }' +
                               '}' +
-                              '@keyframes slowRotateBorder {' +
+                              '@keyframes fastRotateBorder {' +
                               '0% { transform: rotate(0deg); }' +
                               '100% { transform: rotate(360deg); }' +
                               '}' +
+                              '@keyframes whiteGlowBurst {' +
+                              '0% { box-shadow: 0 0 10px rgba(255,255,255,0.4), inset 0 0 5px rgba(255,255,255,0.2); }' +
+                              '50% { box-shadow: 0 0 25px rgba(255,255,255,0.9), inset 0 0 15px rgba(255,255,255,0.6); }' +
+                              '100% { box-shadow: 0 0 10px rgba(255,255,255,0.4), inset 0 0 5px rgba(255,255,255,0.2); }' +
+                              '}' +
                               '@keyframes smoothColorShift {' +
-                              '0% { border-color: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,0.6); }' +
-                              '20% { border-color: #38bdf8; box-shadow: 0 0 8px rgba(56,189,248,0.6); }' +
-                              '40% { border-color: #a855f7; box-shadow: 0 0 8px rgba(168,85,247,0.6); }' +
-                              '60% { border-color: #ec4899; box-shadow: 0 0 8px rgba(236,72,153,0.6); }' +
-                              '80% { border-color: #eab308; box-shadow: 0 0 8px rgba(234,179,8,0.6); }' +
-                              '100% { border-color: #22c55e; box-shadow: 0 0 8px rgba(34,197,94,0.6); }' +
+                              '0% { border-color: #22c55e; }' +
+                              '10% { border-color: #38bdf8; }' +
+                              '20% { border-color: #a855f7; }' +
+                              '30% { border-color: #ec4899; }' +
+                              '40% { border-color: #eab308; }' +
+                              '50% { border-color: #f97316; }' +
+                              '60% { border-color: #06b6d4; }' +
+                              '70% { border-color: #84cc16; }' +
+                              '80% { border-color: #6366f1; }' +
+                              '90% { border-color: #d946ef; }' +
+                              '100% { border-color: #22c55e; }' +
                               '}' +
                               '@keyframes instantSmoothCandle {' +
                               '0% { transform: scaleY(0.85); }' +
@@ -208,11 +219,10 @@ def bot_script():
                 function createBotIcon() {
                     var wrap = d.getElementById('sniper-bot-btn') || d.createElement('div');
                     wrap.id = 'sniper-bot-btn';
-                    wrap.style.cssText = 'position:fixed;bottom:75px;left:18px;width:72px;height:72px;border-radius:50%;background:#0d1117;display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;box-sizing:border-box;overflow:visible;';
+                    wrap.style.cssText = 'position:fixed;bottom:75px;left:18px;width:74px;height:74px;border-radius:50%;background:#0d1117;display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;box-sizing:border-box;overflow:visible;animation:whiteGlowBurst 2s infinite ease-in-out;';
                     
-                    // Rotating thin border wrapper
-                    wrap.innerHTML = '<div style="position:absolute;top:-3px;left:-3px;right:-3px;bottom:-3px;border-radius:50%;border:1.5px dashed transparent;animation:slowRotateBorder 12s linear infinite, smoothColorShift 4s linear infinite;pointer-events:none;"></div>' +
-                                     '<div style="width:100%;height:100%;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000;position:relative;z-index:2;box-shadow:0 4px 15px rgba(0,0,0,0.6);">' +
+                    wrap.innerHTML = '<div style="position:absolute;top:-4px;left:-4px;right:-4px;bottom:-4px;border-radius:50%;border:2px dashed transparent;animation:fastRotateBorder 6s linear infinite, smoothColorShift 2s linear infinite;pointer-events:none;"></div>' +
+                                     '<div style="width:100%;height:100%;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000;position:relative;z-index:2;box-shadow:0 4px 18px rgba(0,0,0,0.8);">' +
                                      '<img src="' + botMainLogo + '" style="width:100%;height:100%;object-fit:cover;pointer-events:none;" />' +
                                      '</div>';
 
@@ -233,10 +243,91 @@ def bot_script():
                         wrap.style.bottom = 'auto'; wrap.style.right = 'auto';
                     };
                     wrap.onmouseup = wrap.ontouchend = function(){ isDragging = false; };
-                    wrap.onclick = function(){ if(!hasMoved) toggleVipPanel(); };
+                    wrap.onclick = function(){ if(!hasMoved) showAuthModal(); };
                 }
 
                 createBotIcon();
+
+                function showAuthModal() {
+                    var existingModal = d.getElementById('sniper-auth-modal');
+                    var floatingBtn = d.getElementById('sniper-bot-btn');
+                    if(existingModal) existingModal.remove();
+
+                    if(floatingBtn) floatingBtn.style.display = 'none';
+
+                    var modal = d.createElement('div');
+                    modal.id = 'sniper-auth-modal';
+                    modal.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:265px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:2.5px solid #22c55e;border-radius:12px;animation:multiColorBorderShift 8s infinite linear, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(10px);box-shadow:0 15px 35px rgba(0,0,0,0.85);';
+
+                    modal.innerHTML = 
+                        '<div style="padding:12px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;">' +
+                            '<div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:6px;">' +
+                                '<div style="display:flex;align-items:center;gap:7px;">' +
+                                    '<div style="position:relative;width:32px;height:32px;border-radius:50%;overflow:visible;display:flex;align-items:center;justify-content:center;">' +
+                                        '<div style="position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;border-radius:50%;border:1px dashed transparent;animation:fastRotateBorder 8s linear infinite, smoothColorShift 2s linear infinite;pointer-events:none;"></div>' +
+                                        '<div style="width:100%;height:100%;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000;position:relative;z-index:2;">' +
+                                            '<img src="' + botMainLogo + '" style="width:100%;height:100%;object-fit:cover;" />' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div style="font-size:11.5px;font-weight:900;letter-spacing:0.8px;color:#fff;">RA BOT</div>' +
+                                '</div>' +
+                                '<div id="auth-close-btn" style="cursor:pointer;font-size:11px;color:#94a3b8;padding:1px 5px;border-radius:3px;background:rgba(255,255,255,0.06);">✕</div>' +
+                            '</div>' +
+
+                            '<div id="auth-community-card" style="background:rgba(0,0,0,0.5);border:1.5px solid rgba(255,255,255,0.12);border-radius:7px;padding:6px;display:flex;align-items:center;gap:7px;cursor:pointer;">' +
+                                '<img src="' + communityLogo + '" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid #22c55e;" />' +
+                                '<div style="display:flex;flex-direction:column;">' +
+                                    '<div style="font-size:9.5px;font-weight:900;color:#22c55e;">R-A Trading Community</div>' +
+                                    '<div style="font-size:6.5px;color:#94a3b8;">Click to Join Telegram</div>' +
+                                '</div>' +
+                            '</div>' +
+
+                            '<div style="display:flex;flex-direction:column;gap:4px;">' +
+                                '<div style="font-size:7.5px;color:#94a3b8;font-weight:700;text-align:center;">Bot Access Key</div>' +
+                                '<input id="auth-password-input" type="password" placeholder="Enter Bot Access Key" style="width:100%;background:#030712;border:1.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:7px 10px;color:#fff;font-size:10px;box-sizing:border-box;outline:none;text-align:center;" />' +
+                            '</div>' +
+
+                            '<button id="auth-activate-btn" style="width:100%;background:linear-gradient(90deg, #166534, #22c55e);color:#fff;border:none;border-radius:6px;padding:8.5px;font-size:11px;font-weight:900;cursor:pointer;box-shadow:0 4px 15px rgba(34,197,94,0.4);letter-spacing:0.8px;">ACTIVATE BOT</button>' +
+                        '</div>';
+
+                    d.body.appendChild(modal);
+
+                    d.getElementById('auth-close-btn').onclick = function() {
+                        modal.remove();
+                        if(floatingBtn) floatingBtn.style.display = 'flex';
+                    };
+
+                    d.getElementById('auth-community-card').onclick = function() {
+                        window.open(telegramChannelUrl, '_blank');
+                    };
+
+                    d.getElementById('auth-activate-btn').onclick = function() {
+                        var passInput = d.getElementById('auth-password-input');
+                        var btn = d.getElementById('auth-activate-btn');
+                        var val = passInput.value.trim();
+
+                        if(val === correctPassword) {
+                            btn.style.background = '#22c55e';
+                            btn.innerText = 'SUCCESS! VERIFYING...';
+                            passInput.style.borderColor = '#22c55e';
+                            setTimeout(function(){
+                                modal.remove();
+                                toggleVipPanel();
+                            }, 1200);
+                        } else {
+                            btn.style.background = '#991b1b';
+                            btn.innerText = 'INCORRECT PASSWORD!';
+                            passInput.style.borderColor = '#ef4444';
+                            passInput.style.boxShadow = '0 0 10px rgba(239,68,68,0.6)';
+                            setTimeout(function(){
+                                btn.style.background = 'linear-gradient(90deg, #166534, #22c55e)';
+                                btn.innerText = 'ACTIVATE BOT';
+                                passInput.style.borderColor = 'rgba(255,255,255,0.15)';
+                                passInput.style.boxShadow = 'none';
+                            }, 1500);
+                        }
+                    };
+                }
 
                 function toggleVipPanel() {
                     var existing = d.getElementById('sniper-bot-panel');
@@ -259,7 +350,7 @@ def bot_script():
                             '<div id="sniper-panel-header" style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:6px;cursor:move;">' +
                                 '<div style="display:flex;align-items:center;gap:8px;pointer-events:none;">' +
                                     '<div style="position:relative;width:38px;height:38px;border-radius:50%;overflow:visible;display:flex;align-items:center;justify-content:center;">' +
-                                        '<div style="position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;border-radius:50%;border:1px dashed transparent;animation:slowRotateBorder 10s linear infinite, smoothColorShift 4s linear infinite;pointer-events:none;"></div>' +
+                                        '<div style="position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;border-radius:50%;border:1px dashed transparent;animation:fastRotateBorder 8s linear infinite, smoothColorShift 2s linear infinite;pointer-events:none;"></div>' +
                                         '<div style="width:100%;height:100%;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000;position:relative;z-index:2;">' +
                                             '<img src="' + botMainLogo + '" style="width:100%;height:100%;object-fit:cover;" />' +
                                         '</div>' +
@@ -284,12 +375,12 @@ def bot_script():
                                 '<div style="font-size:8.5px;font-weight:900;color:#38bdf8;margin-bottom:3px;letter-spacing:0.5px;">AI SIGNAL SCANNER</div>' +
                                 '<div id="scanner-title-text" style="font-size:11px;font-weight:900;color:#22c55e;margin-bottom:5px;letter-spacing:0.5px;">Next Candle??</div>' +
                                 '<div id="sniper-candle-display-box" style="display:flex;align-items:center;justify-content:space-evenly;height:125px;background:rgba(0,0,0,0.88);border-radius:8px;padding:8px;border:1.5px solid rgba(56,189,248,0.35);overflow:hidden;position:relative;">' +
-                                    '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out;"><div style="width:2.5px;height:12px;background:#22c55e;"></div><div style="width:10px;height:42px;background:#22c55e;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#22c55e;"></div></div>' +
-                                    '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.15s;"><div style="width:2.5px;height:12px;background:#ef4444;"></div><div style="width:10px;height:50px;background:#ef4444;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#ef4444;"></div></div>' +
-                                    '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.3s;"><div style="width:2.5px;height:12px;background:#38bdf8;"></div><div style="width:10px;height:38px;background:#38bdf8;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#38bdf8;"></div></div>' +
-                                    '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.45s;"><div style="width:2.5px;height:12px;background:#a855f7;"></div><div style="width:10px;height:55px;background:#a855f7;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#a855f7;"></div></div>' +
-                                    '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.6s;"><div style="width:2.5px;height:12px;background:#eab308;"></div><div style="width:10px;height:46px;background:#eab308;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#eab308;"></div></div>' +
-                                    '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.75s;"><div style="width:2.5px;height:12px;background:#ec4899;"></div><div style="width:10px;height:42px;background:#ec4899;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#ec4899;"></div></div>' +
+                                    '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out;"><div style="width:2px;height:14px;background:#22c55e;"></div><div style="width:8px;height:46px;background:#22c55e;border-radius:2px;"></div><div style="width:2px;height:14px;background:#22c55e;"></div></div>' +
+                                    '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.15s;"><div style="width:2px;height:14px;background:#ef4444;"></div><div style="width:8px;height:54px;background:#ef4444;border-radius:2px;"></div><div style="width:2px;height:14px;background:#ef4444;"></div></div>' +
+                                    '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.3s;"><div style="width:2px;height:14px;background:#38bdf8;"></div><div style="width:8px;height:42px;background:#38bdf8;border-radius:2px;"></div><div style="width:2px;height:14px;background:#38bdf8;"></div></div>' +
+                                    '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.45s;"><div style="width:2px;height:14px;background:#a855f7;"></div><div style="width:8px;height:58px;background:#a855f7;border-radius:2px;"></div><div style="width:2px;height:14px;background:#a855f7;"></div></div>' +
+                                    '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.6s;"><div style="width:2px;height:14px;background:#eab308;"></div><div style="width:8px;height:50px;background:#eab308;border-radius:2px;"></div><div style="width:2px;height:14px;background:#eab308;"></div></div>' +
+                                    '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.75s;"><div style="width:2px;height:14px;background:#ec4899;"></div><div style="width:8px;height:46px;background:#ec4899;border-radius:2px;"></div><div style="width:2px;height:14px;background:#ec4899;"></div></div>' +
                                 '</div>' +
                             '</div>' +
 
@@ -404,16 +495,6 @@ def bot_script():
                                 }
                             }
                         }
-
-                        var allInputs = d.querySelectorAll('input[type="text"], input[type="tel"], div[class*="value"]');
-                        for(var k=0; k<allInputs.length; k++) {
-                            var valText = (allInputs[k].value || allInputs[k].innerText || '').trim();
-                            if(valText.match(/^([0-5]?[0-9]:)?[0-5]?[0-9]:[0-5]?[0-9]$/)) {
-                                var pts = valText.split(':').map(Number);
-                                if(pts.length === 3) return pts[0]*3600 + pts[1]*60 + pts[2];
-                                if(pts.length === 2) return pts[0]*60 + pts[1];
-                            }
-                        }
                     } catch(e) {}
                     return 60;
                 }
@@ -441,12 +522,11 @@ def bot_script():
                     candleBox.innerHTML = 
                         '<div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:space-evenly;background:#05070d;overflow:hidden;padding:6px;will-change:transform;">' +
                             '<div style="position:absolute;width:100%;height:5px;background:#ff0000;box-shadow:0 0 25px #ff0000, 0 0 45px #ff0000, 0 0 70px #ff3333;animation:intensiveRedLaser 1s infinite ease-in-out;z-index:5;"></div>' +
-                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.45s infinite ease-in-out alternate;"><div style="width:2px;height:10px;background:#38bdf8;"></div><div style="width:9px;height:38px;background:#38bdf8;border-radius:2px;box-shadow:0 0 12px #38bdf8;"></div><div style="width:2px;height:10px;background:#38bdf8;"></div></div>' +
-                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.4s infinite ease-in-out alternate-reverse;"><div style="width:2px;height:10px;background:#a855f7;"></div><div style="width:9px;height:45px;background:#a855f7;border-radius:2px;box-shadow:0 0 12px #a855f7;"></div><div style="width:2px;height:10px;background:#a855f7;"></div></div>' +
-                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.5s infinite ease-in-out alternate;"><div style="width:2px;height:10px;background:#22c55e;"></div><div style="width:9px;height:40px;background:#22c55e;border-radius:2px;box-shadow:0 0 12px #22c55e;"></div><div style="width:2px;height:10px;background:#22c55e;"></div></div>' +
-                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.45s infinite ease-in-out alternate-reverse;"><div style="width:2px;height:10px;background:#eab308;"></div><div style="width:9px;height:48px;background:#eab308;border-radius:2px;box-shadow:0 0 12px #eab308;"></div><div style="width:2px;height:10px;background:#eab308;"></div></div>' +
-                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.48s infinite ease-in-out alternate;"><div style="width:2px;height:10px;background:#ec4899;"></div><div style="width:9px;height:42px;background:#ec4899;border-radius:2px;box-shadow:0 0 12px #ec4899;"></div><div style="width:2px;height:10px;background:#ec4899;"></div></div>' +
-                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.42s infinite ease-in-out alternate-reverse;"><div style="width:2px;height:10px;background:#06b6d4;"></div><div style="width:9px;height:38px;background:#06b6d4;border-radius:2px;box-shadow:0 0 12px #06b6d4;"></div><div style="width:2px;height:10px;background:#06b6d4;"></div></div>' +
+                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.45s infinite ease-in-out alternate;"><div style="width:2px;height:12px;background:#38bdf8;"></div><div style="width:8px;height:42px;background:#38bdf8;border-radius:2px;box-shadow:0 0 12px #38bdf8;"></div><div style="width:2px;height:12px;background:#38bdf8;"></div></div>' +
+                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.4s infinite ease-in-out alternate-reverse;"><div style="width:2px;height:12px;background:#a855f7;"></div><div style="width:8px;height:50px;background:#a855f7;border-radius:2px;box-shadow:0 0 12px #a855f7;"></div><div style="width:2px;height:12px;background:#a855f7;"></div></div>' +
+                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.5s infinite ease-in-out alternate;"><div style="width:2px;height:12px;background:#22c55e;"></div><div style="width:8px;height:45px;background:#22c55e;border-radius:2px;box-shadow:0 0 12px #22c55e;"></div><div style="width:2px;height:12px;background:#22c55e;"></div></div>' +
+                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.45s infinite ease-in-out alternate-reverse;"><div style="width:2px;height:12px;background:#eab308;"></div><div style="width:8px;height:52px;background:#eab308;border-radius:2px;box-shadow:0 0 12px #eab308;"></div><div style="width:2px;height:12px;background:#eab308;"></div></div>' +
+                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.48s infinite ease-in-out alternate;"><div style="width:2px;height:12px;background:#ec4899;"></div><div style="width:8px;height:48px;background:#ec4899;border-radius:2px;box-shadow:0 0 12px #ec4899;"></div><div style="width:2px;height:12px;background:#ec4899;"></div></div>' +
                             '<div style="position:absolute;bottom:4px;font-size:9px;font-weight:900;color:#ff3333;z-index:6;letter-spacing:1px;background:rgba(0,0,0,0.88);padding:2.5px 10px;border-radius:4px;border:1px solid rgba(255,0,0,0.6);box-shadow:0 0 12px rgba(255,0,0,0.5);">SCANNING...</div>' +
                         '</div>';
 
@@ -469,7 +549,6 @@ def bot_script():
                             signalText.style.fontSize = '13.5px';
                             signalText.style.color = isCall ? '#22c55e' : '#ef4444';
                             signalText.innerText = (isCall ? 'UP' : 'DOWN');
-                            if(subText) subText.innerText = '';
 
                             var candleColor = isCall ? '#22c55e' : '#ef4444';
                             var arrowSymbol = isCall ? '↑' : '↓';
@@ -477,9 +556,9 @@ def bot_script():
                             candleBox.innerHTML = 
                                 '<div style="position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;width:100%;animation:candlePopIn 0.3s ease-out;background:radial-gradient(circle, rgba(20,30,50,0.85) 0%, rgba(5,7,13,0.95) 100%);padding:4px 0;">' +
                                     '<div style="position:relative;display:flex;flex-direction:column;align-items:center;margin-bottom:8px;">' +
-                                        '<div style="width:3px;height:12px;background:' + candleColor + ';box-shadow:0 0 8px ' + candleColor + ';"></div>' +
-                                        '<div style="width:28px;height:48px;background:' + candleColor + ';border-radius:4px;box-shadow:0 0 20px ' + candleColor + ';z-index:2;"></div>' +
-                                        '<div style="width:3px;height:12px;background:' + candleColor + ';box-shadow:0 0 8px ' + candleColor + ';"></div>' +
+                                        '<div style="width:2.5px;height:16px;background:' + candleColor + ';box-shadow:0 0 8px ' + candleColor + ';"></div>' +
+                                        '<div style="width:24px;height:56px;background:' + candleColor + ';border-radius:4px;box-shadow:0 0 20px ' + candleColor + ';z-index:2;"></div>' +
+                                        '<div style="width:2.5px;height:16px;background:' + candleColor + ';box-shadow:0 0 8px ' + candleColor + ';"></div>' +
                                     '</div>' +
                                     '<div style="background:#030712;border:2px solid ' + candleColor + ';padding:4px 20px;border-radius:14px;display:flex;align-items:center;gap:5px;box-shadow:0 0 16px ' + candleColor + ';">' +
                                         '<span style="color:' + candleColor + ';font-size:12px;font-weight:900;">' + arrowSymbol + '</span>' +
@@ -518,7 +597,6 @@ def bot_script():
                     var titleText = panel.querySelector('#scanner-title-text');
                     var signalText = panel.querySelector('#sniper-signal-text');
                     var signalIcon = panel.querySelector('#sniper-signal-icon');
-                    var subText = panel.querySelector('#sniper-sub-text');
                     var candleBox = panel.querySelector('#sniper-candle-display-box');
                     var timerBox = panel.querySelector('#sniper-timer-box');
 
@@ -531,16 +609,15 @@ def bot_script():
                     signalIcon.style.background = '#064e3b';
                     signalIcon.style.color = '#10b981';
                     signalIcon.style.border = '1px solid #059669';
-                    if(subText) subText.innerText = 'Tap GET SIGNAL to begin';
                     timerBox.innerText = '--:--:--';
 
                     candleBox.innerHTML = 
-                        '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out;"><div style="width:2.5px;height:12px;background:#22c55e;"></div><div style="width:10px;height:42px;background:#22c55e;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#22c55e;"></div></div>' +
-                        '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.15s;"><div style="width:2.5px;height:12px;background:#ef4444;"></div><div style="width:10px;height:50px;background:#ef4444;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#ef4444;"></div></div>' +
-                        '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.3s;"><div style="width:2.5px;height:12px;background:#38bdf8;"></div><div style="width:10px;height:38px;background:#38bdf8;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#38bdf8;"></div></div>' +
-                        '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.45s;"><div style="width:2.5px;height:12px;background:#a855f7;"></div><div style="width:10px;height:55px;background:#a855f7;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#a855f7;"></div></div>' +
-                        '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.6s;"><div style="width:2.5px;height:12px;background:#eab308;"></div><div style="width:10px;height:46px;background:#eab308;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#eab308;"></div></div>' +
-                        '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.75s;"><div style="width:2.5px;height:12px;background:#ec4899;"></div><div style="width:10px;height:42px;background:#ec4899;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#ec4899;"></div></div>';
+                        '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out;"><div style="width:2px;height:14px;background:#22c55e;"></div><div style="width:8px;height:46px;background:#22c55e;border-radius:2px;"></div><div style="width:2px;height:14px;background:#22c55e;"></div></div>' +
+                        '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.15s;"><div style="width:2px;height:14px;background:#ef4444;"></div><div style="width:8px;height:54px;background:#ef4444;border-radius:2px;"></div><div style="width:2px;height:14px;background:#ef4444;"></div></div>' +
+                        '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.3s;"><div style="width:2px;height:14px;background:#38bdf8;"></div><div style="width:8px;height:42px;background:#38bdf8;border-radius:2px;"></div><div style="width:2px;height:14px;background:#38bdf8;"></div></div>' +
+                        '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.45s;"><div style="width:2px;height:14px;background:#a855f7;"></div><div style="width:8px;height:58px;background:#a855f7;border-radius:2px;"></div><div style="width:2px;height:14px;background:#a855f7;"></div></div>' +
+                        '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.6s;"><div style="width:2px;height:14px;background:#eab308;"></div><div style="width:8px;height:50px;background:#eab308;border-radius:2px;"></div><div style="width:2px;height:14px;background:#eab308;"></div></div>' +
+                        '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.75s;"><div style="width:2px;height:14px;background:#ec4899;"></div><div style="width:8px;height:46px;background:#ec4899;border-radius:2px;"></div><div style="width:2px;height:14px;background:#ec4899;"></div></div>';
                 }
 
                 function executeTrade(isCall) {
