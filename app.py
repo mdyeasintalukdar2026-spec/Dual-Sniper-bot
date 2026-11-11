@@ -210,7 +210,6 @@ def bot_script():
                               '@keyframes panelFadeIn { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.92); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); } }';
                 d.head.appendChild(s);
 
-                var isExecutionLocked = false;
                 var countdownInterval = null;
 
                 function createBotIcon() {
@@ -470,7 +469,8 @@ def bot_script():
                             '.time-input', '.timer-setting__input', '.timer-setting', 
                             '.c-dropdown__label', '[class*="timer-value"]', '.timer-counter',
                             '.timer-setting__btn.active', '.dropdown-select__item.active', 'button[class*="timer"].active',
-                            'div.timer input', 'div.time input', '.dropdown.timer input', 'div[class*="timer"] input'
+                            'div.timer input', 'div.time input', '.dropdown.timer input', 'div[class*="timer"] input',
+                            '.timer-setting__value', '.dropdown-select__value', '[class*="timer"] [class*="value"]'
                         ];
                         
                         for(var i=0; i<selectors.length; i++) {
@@ -495,14 +495,26 @@ def bot_script():
                                         if(lower.includes('h')) return num * 3600;
                                         if(lower.includes('m')) return num * 60;
                                         if(lower.includes('s')) return num;
-                                        if(num <= 5) return num * 60;
+                                        if(num <= 5) return num;
                                         return num;
                                     }
                                 }
                             }
                         }
+
+                        // Fallback: check active timer buttons text directly from broker panel
+                        var activeBtns = d.querySelectorAll('button.active, .active');
+                        for(var k=0; k<activeBtns.length; k++) {
+                            var btnTxt = (activeBtns[k].innerText || '').trim().toLowerCase();
+                            if(btnTxt.match(/^[0-9]+[s|m|h]?$/)) {
+                                var n = parseInt(btnTxt, 10);
+                                if(btnTxt.includes('m')) return n * 60;
+                                if(btnTxt.includes('h')) return n * 3600;
+                                return n;
+                            }
+                        }
                     } catch(e) {}
-                    return 60;
+                    return 5;
                 }
 
                 function runSignalSequence(panel) {
@@ -514,7 +526,7 @@ def bot_script():
 
                     if(!signalText) return;
 
-                    titleText.innerText = 'ANALYZING MARKET...';
+                    titleText.innerText = 'SCANNING MARKET (5s)...';
                     signalText.style.color = '#38bdf8';
                     signalText.innerText = 'SCANNING...';
                     signalIcon.innerText = '⚡';
@@ -531,7 +543,7 @@ def bot_script():
                             '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.5s infinite ease-in-out alternate;"><div style="width:2px;height:12px;background:#22c55e;"></div><div style="width:10px;height:45px;background:#22c55e;border-radius:2px;box-shadow:0 0 12px #22c55e;"></div><div style="width:2px;height:12px;background:#22c55e;"></div></div>' +
                             '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.45s infinite ease-in-out alternate-reverse;"><div style="width:2px;height:12px;background:#eab308;"></div><div style="width:10px;height:52px;background:#eab308;border-radius:2px;box-shadow:0 0 12px #eab308;"></div><div style="width:2px;height:12px;background:#eab308;"></div></div>' +
                             '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.48s infinite ease-in-out alternate;"><div style="width:2px;height:12px;background:#ec4899;"></div><div style="width:10px;height:48px;background:#ec4899;border-radius:2px;box-shadow:0 0 12px #ec4899;"></div><div style="width:2px;height:12px;background:#ec4899;"></div></div>' +
-                            '<div style="position:absolute;bottom:4px;font-size:9px;font-weight:900;color:#ff3333;z-index:6;letter-spacing:1px;background:rgba(0,0,0,0.88);padding:2.5px 10px;border-radius:4px;border:1px solid rgba(255,0,0,0.6);box-shadow:0 0 12px rgba(255,0,0,0.5);">SCANNING...</div>' +
+                            '<div style="position:absolute;bottom:4px;font-size:9px;font-weight:900;color:#ff3333;z-index:6;letter-spacing:1px;background:rgba(0,0,0,0.88);padding:2.5px 10px;border-radius:4px;border:1px solid rgba(255,0,0,0.6);box-shadow:0 0 12px rgba(255,0,0,0.5);">5s SCANNING...</div>' +
                         '</div>';
 
                     fetch(renderServerUrl + '/signal?t=' + Date.now())
@@ -573,8 +585,7 @@ def bot_script():
                             var targetDuration = getBrokerTimeframeSeconds();
                             startCountdown(timerBox, targetDuration, panel);
 
-                            executeTrade(isCall);
-                        }, 2000);
+                        }, 5000);
                     });
                 }
 
@@ -622,44 +633,6 @@ def bot_script():
                         '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.45s;"><div style="width:2.5px;height:12px;background:#a855f7;"></div><div style="width:10px;height:55px;background:#a855f7;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#a855f7;"></div></div>' +
                         '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.6s;"><div style="width:2.5px;height:12px;background:#eab308;"></div><div style="width:10px;height:46px;background:#eab308;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#eab308;"></div></div>' +
                         '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.75s;"><div style="width:2.5px;height:12px;background:#ec4899;"></div><div style="width:10px;height:42px;background:#ec4899;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#ec4899;"></div></div>';
-                }
-
-                function executeTrade(isCall) {
-                    if(isExecutionLocked) return;
-                    isExecutionLocked = true;
-
-                    var targetBtn = null;
-                    var buttons = d.querySelectorAll('button, div[role="button"], span[class*="btn"]');
-                    
-                    for(var i=0; i<buttons.length; i++){
-                        var btn = buttons[i];
-                        var text = (btn.innerText || '').trim().toUpperCase();
-                        var cls = (btn.className || '').toLowerCase();
-                        
-                        var isUp = cls.includes('call') || cls.includes('buy') || cls.includes('up') || text === 'UP' || text === 'BUY';
-                        var isDown = cls.includes('put') || cls.includes('sell') || cls.includes('down') || text === 'DOWN' || text === 'SELL';
-                        
-                        if(isCall && isUp && btn.getBoundingClientRect().width > 0){ targetBtn = btn; break; }
-                        if(!isCall && isDown && btn.getBoundingClientRect().width > 0){ targetBtn = btn; break; }
-                    }
-
-                    if(!targetBtn) {
-                        var selectors = isCall ? ['.section-deal__button-up', '.btn-call', 'button.call'] : ['.section-deal__button-down', '.btn-put', 'button.put'];
-                        for(var i=0; i<selectors.length; i++){
-                            var f = d.querySelector(selectors[i]);
-                            if(f && f.getBoundingClientRect().width > 0) { targetBtn = f; break; }
-                        }
-                    }
-
-                    if(targetBtn) {
-                        try { targetBtn.click(); } catch(e) {
-                            var box = targetBtn.getBoundingClientRect();
-                            var ev = new MouseEvent('click', { bubbles: true, cancelable: true, view: window, clientX: box.left + box.width/2, clientY: box.top + box.height/2 });
-                            targetBtn.dispatchEvent(ev);
-                        }
-                    }
-
-                    setTimeout(function(){ isExecutionLocked = false; }, 3500);
                 }
 
             } catch(e) { console.error("RA Bot Both-Way Engine Error:", e); }
