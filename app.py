@@ -145,7 +145,7 @@ def bot_script():
                     if(e) e.remove();
                 });
 
-                var botMainLogo = "https://i.postimg.cc/GhhJWvPd/IMG-20261111-122353.jpg";
+                var botMainLogo = "https://i.postimg.cc/cC8TrnmP/IMG-20261111-142431.jpg";
                 var renderServerUrl = "https://dual-sniper-bot.onrender.com";
 
                 var s = d.createElement('style');
@@ -175,7 +175,7 @@ def bot_script():
                               '}' +
                               '@keyframes intensiveRedLaser {' +
                               '0% { transform: translateY(-58px); opacity: 0.4; }' +
-                              '50% { opacity: 1; filter: drop-shadow(0 0 22px #ff0000) drop-shadow(0 0 35px #ff3333); }' +
+                              '50% { opacity: 1; filter: drop-shadow(0 0 25px #ff0000) drop-shadow(0 0 45px #ff3333); }' +
                               '100% { transform: translateY(58px); opacity: 0.4; }' +
                               '}' +
                               '@keyframes aggressiveBounce {' +
@@ -272,11 +272,11 @@ def bot_script():
                             '</div>' +
 
                             '<div style="background:rgba(0,0,0,0.5);border:1.5px solid rgba(255,255,255,0.12);border-radius:8px;padding:7px;display:flex;justify-content:space-between;align-items:center;">' +
-                                '<div style="min-width:75px;">' +
+                                '<div style="min-width:82px;">' +
                                     '<div style="font-size:7px;color:#94a3b8;font-weight:bold;margin-bottom:2px;">LATEST SIGNAL</div>' +
-                                    '<div id="sniper-signal-row" style="display:flex;align-items:center;gap:5px;">' +
-                                        '<span id="sniper-signal-icon" style="background:#064e3b;color:#10b981;font-size:10px;font-weight:900;padding:2px 5px;border-radius:4px;border:1px solid #059669;">⚡</span>' +
-                                        '<span id="sniper-signal-text" style="font-size:13px;font-weight:900;color:#10b981;letter-spacing:0.5px;">READY</span>' +
+                                    '<div id="sniper-signal-row" style="display:flex;align-items:center;gap:6px;">' +
+                                        '<span id="sniper-signal-icon" style="background:#064e3b;color:#10b981;font-size:11px;font-weight:900;padding:2px 6px;border-radius:4px;border:1px solid #059669;">⚡</span>' +
+                                        '<span id="sniper-signal-text" style="font-size:13.5px;font-weight:900;color:#10b981;letter-spacing:0.5px;">READY</span>' +
                                     '</div>' +
                                 '</div>' +
                                 '<div id="sniper-timer-box" style="background:#030712;border:1.5px solid rgba(34,197,94,0.4);border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:900;color:#22c55e;letter-spacing:1px;">--:--:--</div>' +
@@ -346,19 +346,16 @@ def bot_script():
 
                 function getBrokerTimeframeSeconds() {
                     try {
-                        // ১. ইনপুট ফিল্ড থেকে টাইম ভ্যালু রিড করা
                         var timerInput = d.querySelector('input[name="timer"], .timer-input input, input[class*="timer"], .time-input');
                         if(timerInput && timerInput.value) {
                             var val = parseInt(timerInput.value, 10);
                             if(!isNaN(val) && val > 0) {
-                                // যদি সেকেন্ড বা মিনিট ফরম্যাটে থাকে
                                 var fullText = timerInput.value.toLowerCase();
-                                if(fullText.includes('m') || val < 10) return val * 60; // যেমন ৫ সেট থাকলে ৫ মিনিট বা ৫ সেকেন্ড হতে পারে, কোটেক্সের ক্ষেত্রে ইনপুট ভ্যালু চেক
+                                if(fullText.includes('m') || val < 10) return val * 60;
                                 return val;
                             }
                         }
 
-                        // ২. কোটেক্সের অ্যাক্টিভ টাইম বাটন বা ড্রপডাউন থেকে রিড করা
                         var activeBtn = d.querySelector('.timer-setting__btn.active, .dropdown-select__item.active, button[class*="timer"].active, .time-select .active, [class*="timer-setting"] .active');
                         if(activeBtn) {
                             var txt = activeBtn.innerText.trim().toLowerCase();
@@ -367,12 +364,11 @@ def bot_script():
                                 if(txt.includes('h')) return num * 3600;
                                 if(txt.includes('m')) return num * 60;
                                 if(txt.includes('s')) return num;
-                                if(num <= 5) return num * 60; // যেমন '1', '2' থাকলে মিনিট ধরা হয়
+                                if(num <= 5) return num * 60;
                                 return num;
                             }
                         }
 
-                        // ৩. ব্রোকার স্ক্রিনের দৃশ্যমান টাইম ডিসপ্লে থেকে খোঁজা
                         var timerDisplay = d.querySelector('.timer-setting, .c-dropdown__label, [class*="timer-value"]');
                         if(timerDisplay) {
                             var dtTxt = timerDisplay.innerText.trim().toLowerCase();
@@ -384,7 +380,7 @@ def bot_script():
                             }
                         }
                     } catch(e) {}
-                    return 60; // ডিফল্ট ১ মিনিট
+                    return 60;
                 }
 
                 function runSignalSequence(panel) {
@@ -407,16 +403,17 @@ def bot_script():
                     if(subText) subText.innerText = '';
                     timerBox.innerText = '--:--:--';
 
+                    // স্ক্যানিং চলাকালীন ভিন্ন রঙের ক্যান্ডেল এবং তীব্র রেড লেজার বিম উইথ হাই ইনটেনসিটি রেড গ্লো ইফেক্ট
                     candleBox.innerHTML = 
                         '<div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:space-evenly;background:#05070d;overflow:hidden;padding:6px;">' +
-                            '<div style="position:absolute;width:100%;height:4px;background:#ff0000;box-shadow:0 0 22px #ff0000, 0 0 40px #ff0000, 0 0 60px #ff3333;animation:intensiveRedLaser 1s infinite ease-in-out;z-index:5;"></div>' +
-                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.45s infinite ease-in-out alternate;"><div style="width:2px;height:10px;background:#22c55e;"></div><div style="width:9px;height:38px;background:#22c55e;border-radius:2px;box-shadow:0 0 10px #22c55e;"></div><div style="width:2px;height:10px;background:#22c55e;"></div></div>' +
-                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.4s infinite ease-in-out alternate-reverse;"><div style="width:2px;height:10px;background:#ef4444;"></div><div style="width:9px;height:45px;background:#ef4444;border-radius:2px;box-shadow:0 0 10px #ef4444;"></div><div style="width:2px;height:10px;background:#ef4444;"></div></div>' +
-                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.5s infinite ease-in-out alternate;"><div style="width:2px;height:10px;background:#38bdf8;"></div><div style="width:9px;height:40px;background:#38bdf8;border-radius:2px;box-shadow:0 0 10px #38bdf8;"></div><div style="width:2px;height:10px;background:#38bdf8;"></div></div>' +
-                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.45s infinite ease-in-out alternate-reverse;"><div style="width:2px;height:10px;background:#a855f7;"></div><div style="width:9px;height:48px;background:#a855f7;border-radius:2px;box-shadow:0 0 10px #a855f7;"></div><div style="width:2px;height:10px;background:#a855f7;"></div></div>' +
-                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.48s infinite ease-in-out alternate;"><div style="width:2px;height:10px;background:#eab308;"></div><div style="width:9px;height:42px;background:#eab308;border-radius:2px;box-shadow:0 0 10px #eab308;"></div><div style="width:2px;height:10px;background:#eab308;"></div></div>' +
-                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.42s infinite ease-in-out alternate-reverse;"><div style="width:2px;height:10px;background:#ec4899;"></div><div style="width:9px;height:38px;background:#ec4899;border-radius:2px;box-shadow:0 0 10px #ec4899;"></div><div style="width:2px;height:10px;background:#ec4899;"></div></div>' +
-                            '<div style="position:absolute;bottom:4px;font-size:9px;font-weight:900;color:#ff3333;z-index:6;letter-spacing:1px;background:rgba(0,0,0,0.88);padding:2.5px 10px;border-radius:4px;border:1px solid rgba(255,0,0,0.6);box-shadow:0 0 10px rgba(255,0,0,0.5);">SCANNING...</div>' +
+                            '<div style="position:absolute;width:100%;height:5px;background:#ff0000;box-shadow:0 0 25px #ff0000, 0 0 45px #ff0000, 0 0 70px #ff3333;animation:intensiveRedLaser 1s infinite ease-in-out;z-index:5;"></div>' +
+                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.45s infinite ease-in-out alternate;"><div style="width:2px;height:10px;background:#38bdf8;"></div><div style="width:9px;height:38px;background:#38bdf8;border-radius:2px;box-shadow:0 0 12px #38bdf8;"></div><div style="width:2px;height:10px;background:#38bdf8;"></div></div>' +
+                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.4s infinite ease-in-out alternate-reverse;"><div style="width:2px;height:10px;background:#a855f7;"></div><div style="width:9px;height:45px;background:#a855f7;border-radius:2px;box-shadow:0 0 12px #a855f7;"></div><div style="width:2px;height:10px;background:#a855f7;"></div></div>' +
+                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.5s infinite ease-in-out alternate;"><div style="width:2px;height:10px;background:#22c55e;"></div><div style="width:9px;height:40px;background:#22c55e;border-radius:2px;box-shadow:0 0 12px #22c55e;"></div><div style="width:2px;height:10px;background:#22c55e;"></div></div>' +
+                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.45s infinite ease-in-out alternate-reverse;"><div style="width:2px;height:10px;background:#eab308;"></div><div style="width:9px;height:48px;background:#eab308;border-radius:2px;box-shadow:0 0 12px #eab308;"></div><div style="width:2px;height:10px;background:#eab308;"></div></div>' +
+                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.48s infinite ease-in-out alternate;"><div style="width:2px;height:10px;background:#ec4899;"></div><div style="width:9px;height:42px;background:#ec4899;border-radius:2px;box-shadow:0 0 12px #ec4899;"></div><div style="width:2px;height:10px;background:#ec4899;"></div></div>' +
+                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.42s infinite ease-in-out alternate-reverse;"><div style="width:2px;height:10px;background:#06b6d4;"></div><div style="width:9px;height:38px;background:#06b6d4;border-radius:2px;box-shadow:0 0 12px #06b6d4;"></div><div style="width:2px;height:10px;background:#06b6d4;"></div></div>' +
+                            '<div style="position:absolute;bottom:4px;font-size:9px;font-weight:900;color:#ff3333;z-index:6;letter-spacing:1px;background:rgba(0,0,0,0.88);padding:2.5px 10px;border-radius:4px;border:1px solid rgba(255,0,0,0.6);box-shadow:0 0 12px rgba(255,0,0,0.5);">SCANNING...</div>' +
                         '</div>';
 
                     fetch(renderServerUrl + '/signal?t=' + Date.now())
@@ -436,7 +433,7 @@ def bot_script():
                             signalIcon.style.color = '#fff';
                             signalIcon.style.border = isCall ? '1px solid #22c55e' : '1px solid #ef4444';
 
-                            signalText.style.fontSize = '13px';
+                            signalText.style.fontSize = '13.5px';
                             signalText.style.color = isCall ? '#22c55e' : '#ef4444';
                             signalText.innerText = (isCall ? 'UP' : 'DOWN');
                             if(subText) subText.innerText = '';
