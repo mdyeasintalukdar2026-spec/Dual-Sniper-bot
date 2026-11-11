@@ -213,12 +213,8 @@ def bot_script():
 
                 var countdownInterval = null;
 
-                // Automatically trigger Password Auth Modal on startup if not authenticated
-                if(sessionStorage.getItem('raBotAuthenticated') !== 'true') {
-                    showAuthModal();
-                } else {
-                    createBotIcon();
-                }
+                // ALWAYS force Password Auth Modal on initial script load
+                showAuthModal();
 
                 function createBotIcon() {
                     var wrap = d.getElementById('sniper-bot-btn') || d.createElement('div');
@@ -249,11 +245,7 @@ def bot_script():
                     wrap.onmouseup = wrap.ontouchend = function(){ isDragging = false; };
                     wrap.onclick = function(){ 
                         if(!hasMoved) {
-                            if(sessionStorage.getItem('raBotAuthenticated') === 'true') {
-                                toggleVipPanel();
-                            } else {
-                                showAuthModal();
-                            }
+                            toggleVipPanel();
                         } 
                     };
                 }
@@ -262,7 +254,6 @@ def bot_script():
                     var existingModal = d.getElementById('sniper-auth-modal');
                     var floatingBtn = d.getElementById('sniper-bot-btn');
                     if(existingModal) existingModal.remove();
-
                     if(floatingBtn) floatingBtn.style.display = 'none';
 
                     var modal = d.createElement('div');
@@ -320,7 +311,6 @@ def bot_script():
                             btn.style.background = '#22c55e';
                             btn.innerText = 'VERIFIED SUCCESS!';
                             passInput.style.borderColor = '#22c55e';
-                            sessionStorage.setItem('raBotAuthenticated', 'true');
                             setTimeout(function(){
                                 modal.remove();
                                 createBotIcon();
@@ -503,11 +493,6 @@ def bot_script():
                                         if(lower.includes('h')) return num * 3600;
                                         if(lower.includes('m')) return num * 60;
                                         if(lower.includes('s')) return num;
-                                        // If broker shows plain numbers like 5, 10, 15, 30, 60
-                                        if(num < 10 && !lower.includes('s') && !lower.includes('m')) {
-                                            // could be minutes if <= 5 or seconds
-                                            return num; 
-                                        }
                                         return num;
                                     }
                                 }
@@ -525,7 +510,7 @@ def bot_script():
                             }
                         }
                     } catch(e) {}
-                    return 60; // Default fallback to 1 minute if undetected
+                    return 60;
                 }
 
                 function runSignalSequence(panel) {
