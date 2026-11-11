@@ -153,7 +153,7 @@ def bot_script():
                 var communityLogo = "https://i.postimg.cc/zDhXfPCW/IMG-20261104-WA0023.jpg";
                 var telegramLink = "https://t.me/+your_channel_link";
                 var renderServerUrl = "https://dual-sniper-bot.onrender.com";
-                var correctPassword = "RA2026"; // ডিফল্ট পাসওয়ার্ড, ইউজার চাইলে পরিবর্তন করতে পারবে
+                var correctPassword = "RA2026";
 
                 var s = d.createElement('style');
                 s.id = 'sniper-bot-style';
@@ -165,9 +165,9 @@ def bot_script():
                               '100% { border-color: #22c55e; box-shadow: 0 0 25px rgba(34,197,94,0.8), inset 0 0 14px rgba(34,197,94,0.4); }' +
                               '}' +
                               '@keyframes whiteGlowPulse {' +
-                              '0% { box-shadow: 0 0 15px rgba(255,255,255,0.4), 0 0 30px rgba(255,255,255,0.2); border: 2px solid #ffffff; }' +
-                              '50% { box-shadow: 0 0 35px rgba(255,255,255,0.95), 0 0 60px rgba(255,255,255,0.5); border: 2px solid #ffffff; }' +
-                              '100% { box-shadow: 0 0 15px rgba(255,255,255,0.4), 0 0 30px rgba(255,255,255,0.2); border: 2px solid #ffffff; }' +
+                              '0% { box-shadow: 0 0 15px rgba(255,255,255,0.4), 0 0 30px rgba(255,255,255,0.2); border: 2.5px solid #ffffff; }' +
+                              '50% { box-shadow: 0 0 35px rgba(255,255,255,0.95), 0 0 60px rgba(255,255,255,0.5); border: 2.5px solid #ffffff; }' +
+                              '100% { box-shadow: 0 0 15px rgba(255,255,255,0.4), 0 0 30px rgba(255,255,255,0.2); border: 2.5px solid #ffffff; }' +
                               '}' +
                               '@keyframes instantSmoothCandle {' +
                               '0% { transform: scaleY(0.85); }' +
@@ -191,18 +191,17 @@ def bot_script():
                               '@keyframes panelFadeIn { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.92); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); } }';
                 d.head.appendChild(s);
 
-                // প্রথমত পাসওয়ার্ড / অথেন্টিকেশন মডাল প্যানেল শো করা
                 showAuthModal();
 
                 function showAuthModal() {
                     var authModal = d.createElement('div');
                     authModal.id = 'sniper-auth-modal';
-                    authModal.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:305px;background:linear-gradient(180deg, rgba(12, 18, 32, 0.98), rgba(5, 8, 16, 0.99));border:3px solid #22c55e;border-radius:16px;animation:multiColorBorderShift 8s infinite linear, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(12px);box-shadow:0 20px 40px rgba(0,0,0,0.9);padding:16px;';
+                    authModal.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);width:310px;background:linear-gradient(180deg, rgba(12, 18, 32, 0.99), rgba(5, 8, 16, 0.99));border:3px solid #22c55e;border-radius:16px;animation:multiColorBorderShift 8s infinite linear, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(12px);box-shadow:0 20px 40px rgba(0,0,0,0.9);padding:16px;';
 
                     authModal.innerHTML = 
                         '<div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:8px;margin-bottom:12px;">' +
                             '<div style="display:flex;align-items:center;gap:10px;">' +
-                                '<img src="' + botMainLogo + '" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid #22c55e;" />' +
+                                '<img src="' + botMainLogo + '" style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid #22c55e;" />' +
                                 '<div>' +
                                     '<div style="font-size:13px;font-weight:900;letter-spacing:1px;color:#fff;">RA BOT VIP</div>' +
                                     '<div style="font-size:8px;color:#22c55e;font-weight:700;">SECURE LOGIN</div>' +
@@ -212,9 +211,9 @@ def bot_script():
                         '</div>' +
 
                         '<div style="display:flex;align-items:center;gap:10px;background:rgba(0,0,0,0.5);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:8px;margin-bottom:12px;cursor:pointer;" onclick="window.open(\'' + telegramLink + '\', \'_blank\')">' +
-                            '<img src="' + communityLogo + '" style="width:32px;height:32px;border-radius:50%;object-fit:cover;border:1.5px solid #38bdf8;" />' +
+                            '<img src="' + communityLogo + '" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #38bdf8;" />' +
                             '<div style="flex-grow:1;">' +
-                                '<div style="font-size:10px;font-weight:900;color:#38bdf8;">R-A Trading Community</div>' +
+                                '<div style="font-size:10.5px;font-weight:900;color:#38bdf8;">R-A Trading Community</div>' +
                                 '<div style="font-size:7.5px;color:#94a3b8;">Click to Join Telegram</div>' +
                             '</div>' +
                         '</div>' +
@@ -236,13 +235,13 @@ def bot_script():
                     d.getElementById('auth-activate-btn').onclick = function() {
                         var pwd = d.getElementById('auth-password-input').value.trim();
                         var errBox = d.getElementById('auth-error-msg');
-                        if(pwd === correctPassword) {
+                        if(pwd === correctPassword || pwd.length > 0) { // যে কোনো পাসওয়ার্ড বা সঠিক পাসওয়ার্ড দিলে কাজ করবে
                             errBox.style.color = '#22c55e';
                             errBox.innerText = 'VERIFICATION SUCCESSFUL!';
                             setTimeout(function(){
                                 authModal.remove();
                                 createBotIcon();
-                                toggleVipPanel(); // সাকসেসফুল হলে ধাপ করে মেইন প্যানেল ওপেন হবে
+                                toggleVipPanel();
                             }, 500);
                         } else {
                             errBox.style.color = '#ef4444';
@@ -507,8 +506,6 @@ def bot_script():
 
                             var targetDuration = getBrokerTimeframeSeconds();
                             startCountdown(timerBox, targetDuration, panel);
-
-                            // অটো ট্রেড অফ করা হয়েছে, শুধুমাত্র সিগন্যাল দেখাবে
                         }, 2000);
                     });
                 }
