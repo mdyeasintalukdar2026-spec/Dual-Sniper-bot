@@ -163,10 +163,10 @@ def bot_script():
                               '90% { border-color: #14b8a6; box-shadow: 0 0 25px rgba(20,184,166,0.8), inset 0 0 14px rgba(20,184,166,0.4); }' +
                               '100% { border-color: #22c55e; box-shadow: 0 0 25px rgba(34,197,94,0.8), inset 0 0 14px rgba(34,197,94,0.4); }' +
                               '}' +
-                              '@keyframes floatingGreenGlow {' +
-                              '0% { box-shadow: 0 0 14px #22c55e, 0 0 25px rgba(34,197,94,0.6); border-color: #22c55e; }' +
-                              '50% { box-shadow: 0 0 25px #38bdf8, 0 0 40px rgba(56,189,248,0.8); border-color: #38bdf8; }' +
-                              '100% { box-shadow: 0 0 14px #22c55e, 0 0 25px rgba(34,197,94,0.6); border-color: #22c55e; }' +
+                              '@keyframes whiteGlowPulse {' +
+                              '0% { box-shadow: 0 0 12px rgba(255,255,255,0.3), 0 0 25px rgba(255,255,255,0.15); }' +
+                              '50% { box-shadow: 0 0 28px rgba(255,255,255,0.8), 0 0 50px rgba(255,255,255,0.4); }' +
+                              '100% { box-shadow: 0 0 12px rgba(255,255,255,0.3), 0 0 25px rgba(255,255,255,0.15); }' +
                               '}' +
                               '@keyframes instantSmoothCandle {' +
                               '0% { transform: scaleY(0.85); }' +
@@ -196,7 +196,7 @@ def bot_script():
                 function createBotIcon() {
                     var wrap = d.getElementById('sniper-bot-btn') || d.createElement('div');
                     wrap.id = 'sniper-bot-btn';
-                    wrap.style.cssText = 'position:fixed;bottom:75px;left:18px;width:56px;height:56px;border-radius:12px;background:#0d1117;display:flex;align-items:center;justify-content:center;border:2.5px solid #22c55e;animation:floatingGreenGlow 3s infinite ease-in-out;z-index:2147483647;cursor:pointer;box-sizing:border-box;overflow:hidden;';
+                    wrap.style.cssText = 'position:fixed;bottom:75px;left:18px;width:56px;height:56px;border-radius:12px;background:#0d1117;display:flex;align-items:center;justify-content:center;border:none;animation:whiteGlowPulse 2.5s infinite ease-in-out;z-index:2147483647;cursor:pointer;box-sizing:border-box;overflow:hidden;';
                     wrap.innerHTML = '<img src="' + botMainLogo + '" style="width:100%;height:100%;object-fit:cover;pointer-events:none;" />';
 
                     if(!d.body.contains(wrap)) d.body.appendChild(wrap);
@@ -346,17 +346,18 @@ def bot_script():
 
                 function getBrokerTimeframeSeconds() {
                     try {
-                        var timerInput = d.querySelector('input[name="timer"], .timer-input input, input[class*="timer"], .time-input');
+                        // কোটেক্স ব্রোকারের টাইম ইনপুট বা সিলেক্টেড ভ্যালু নিখুঁতভাবে রিড করার উন্নত লজিক
+                        var timerInput = d.querySelector('input[name="timer"], .timer-input input, input[class*="timer"], .time-input, .timer-setting__input');
                         if(timerInput && timerInput.value) {
                             var val = parseInt(timerInput.value, 10);
                             if(!isNaN(val) && val > 0) {
-                                var fullText = timerInput.value.toLowerCase();
-                                if(fullText.includes('m') || val < 10) return val * 60;
+                                var rawStr = String(timerInput.value).toLowerCase();
+                                if(rawStr.includes('m') || (val <= 5 && !rawStr.includes('s'))) return val * 60;
                                 return val;
                             }
                         }
 
-                        var activeBtn = d.querySelector('.timer-setting__btn.active, .dropdown-select__item.active, button[class*="timer"].active, .time-select .active, [class*="timer-setting"] .active');
+                        var activeBtn = d.querySelector('.timer-setting__btn.active, .dropdown-select__item.active, button[class*="timer"].active, .time-select .active, [class*="timer-setting"] .active, .c-dropdown__item.active');
                         if(activeBtn) {
                             var txt = activeBtn.innerText.trim().toLowerCase();
                             var num = parseInt(txt, 10);
@@ -369,18 +370,19 @@ def bot_script():
                             }
                         }
 
-                        var timerDisplay = d.querySelector('.timer-setting, .c-dropdown__label, [class*="timer-value"]');
+                        var timerDisplay = d.querySelector('.timer-setting, .c-dropdown__label, [class*="timer-value"], .timer-counter');
                         if(timerDisplay) {
                             var dtTxt = timerDisplay.innerText.trim().toLowerCase();
                             var dNum = parseInt(dtTxt, 10);
                             if(!isNaN(dNum)) {
                                 if(dtTxt.includes('m')) return dNum * 60;
                                 if(dtTxt.includes('s')) return dNum;
+                                if(dNum <= 5) return dNum * 60;
                                 return dNum;
                             }
                         }
                     } catch(e) {}
-                    return 60;
+                    return 60; // ডিফল্ট fallback
                 }
 
                 function runSignalSequence(panel) {
@@ -403,7 +405,6 @@ def bot_script():
                     if(subText) subText.innerText = '';
                     timerBox.innerText = '--:--:--';
 
-                    // স্ক্যানিং চলাকালীন ভিন্ন রঙের ক্যান্ডেল এবং তীব্র রেড লেজার বিম উইথ হাই ইনটেনসিটি রেড গ্লো ইফেক্ট
                     candleBox.innerHTML = 
                         '<div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:space-evenly;background:#05070d;overflow:hidden;padding:6px;">' +
                             '<div style="position:absolute;width:100%;height:5px;background:#ff0000;box-shadow:0 0 25px #ff0000, 0 0 45px #ff0000, 0 0 70px #ff3333;animation:intensiveRedLaser 1s infinite ease-in-out;z-index:5;"></div>' +
