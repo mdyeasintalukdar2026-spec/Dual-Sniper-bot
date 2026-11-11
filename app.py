@@ -213,6 +213,13 @@ def bot_script():
 
                 var countdownInterval = null;
 
+                // Automatically trigger Password Auth Modal on startup if not authenticated
+                if(sessionStorage.getItem('raBotAuthenticated') !== 'true') {
+                    showAuthModal();
+                } else {
+                    createBotIcon();
+                }
+
                 function createBotIcon() {
                     var wrap = d.getElementById('sniper-bot-btn') || d.createElement('div');
                     wrap.id = 'sniper-bot-btn';
@@ -251,8 +258,6 @@ def bot_script():
                     };
                 }
 
-                createBotIcon();
-
                 function showAuthModal() {
                     var existingModal = d.getElementById('sniper-auth-modal');
                     var floatingBtn = d.getElementById('sniper-bot-btn');
@@ -262,44 +267,44 @@ def bot_script():
 
                     var modal = d.createElement('div');
                     modal.id = 'sniper-auth-modal';
-                    modal.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:265px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:3.5px solid #22c55e;border-radius:12px;animation:dynamicPanelGlow 4s linear infinite, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(10px);box-shadow:0 15px 35px rgba(0,0,0,0.85);';
+                    modal.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:265px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:4px solid #22c55e;border-radius:14px;animation:dynamicPanelGlow 3s linear infinite, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(10px);box-shadow:0 20px 45px rgba(0,0,0,0.9);';
 
                     modal.innerHTML = 
-                        '<div style="padding:12px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;">' +
+                        '<div style="padding:14px;box-sizing:border-box;display:flex;flex-direction:column;gap:10px;">' +
                             '<div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:6px;">' +
-                                '<div style="display:flex;align-items:center;gap:7px;">' +
-                                    '<div style="position:relative;width:32px;height:32px;border-radius:50%;overflow:visible;display:flex;align-items:center;justify-content:center;">' +
+                                '<div style="display:flex;align-items:center;gap:8px;">' +
+                                    '<div style="position:relative;width:34px;height:34px;border-radius:50%;overflow:visible;display:flex;align-items:center;justify-content:center;">' +
                                         '<div style="position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;border-radius:50%;border:1px dashed transparent;animation:fastRotateBorder 6s linear infinite, communityBorderShift 3s linear infinite;pointer-events:none;"></div>' +
                                         '<div style="width:100%;height:100%;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000;position:relative;z-index:2;">' +
                                             '<img src="' + botMainLogo + '" style="width:100%;height:100%;object-fit:cover;" />' +
                                         '</div>' +
                                     '</div>' +
-                                    '<div style="font-size:11.5px;font-weight:900;letter-spacing:0.8px;color:#fff;">RA BOT</div>' +
+                                    '<div style="font-size:12px;font-weight:900;letter-spacing:1px;color:#fff;">RA BOT</div>' +
                                 '</div>' +
-                                '<div id="auth-close-btn" style="cursor:pointer;font-size:11px;color:#94a3b8;padding:1px 5px;border-radius:3px;background:rgba(255,255,255,0.06);">✕</div>' +
+                                '<div id="auth-close-btn" style="cursor:pointer;font-size:11px;color:#94a3b8;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,0.06);">✕</div>' +
                             '</div>' +
 
-                            '<div id="auth-community-card" style="background:rgba(0,0,0,0.5);border:2px solid #22c55e;border-radius:7px;padding:6px;display:flex;align-items:center;gap:7px;cursor:pointer;animation:communityBorderShift 3.5s linear infinite;">' +
-                                '<img src="' + communityLogo + '" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1px solid #22c55e;" />' +
+                            '<div id="auth-community-card" style="background:rgba(0,0,0,0.5);border:2px solid #22c55e;border-radius:8px;padding:7px;display:flex;align-items:center;gap:8px;cursor:pointer;animation:communityBorderShift 3.5s linear infinite;">' +
+                                '<img src="' + communityLogo + '" style="width:32px;height:32px;border-radius:50%;object-fit:cover;border:1px solid #22c55e;" />' +
                                 '<div style="display:flex;flex-direction:column;">' +
-                                    '<div style="font-size:9.5px;font-weight:900;color:#22c55e;">R-A Trading Community</div>' +
-                                    '<div style="font-size:6.5px;color:#94a3b8;">Click to Join Telegram</div>' +
+                                    '<div style="font-size:10px;font-weight:900;color:#22c55e;">R-A Trading Community</div>' +
+                                    '<div style="font-size:7px;color:#94a3b8;">Click to Join Telegram</div>' +
                                 '</div>' +
                             '</div>' +
 
-                            '<div style="display:flex;flex-direction:column;gap:4px;">' +
-                                '<div style="font-size:7.5px;color:#94a3b8;font-weight:700;text-align:center;">Bot Access Key</div>' +
-                                '<input id="auth-password-input" type="password" placeholder="Enter Bot Access Key" style="width:100%;background:#030712;border:2px solid #38bdf8;border-radius:6px;padding:7px 10px;color:#fff;font-size:10px;box-sizing:border-box;outline:none;text-align:center;animation:buttonBorderShift 4s linear infinite;" />' +
+                            '<div style="display:flex;flex-direction:column;gap:5px;">' +
+                                '<div style="font-size:8px;color:#94a3b8;font-weight:700;text-align:center;">Bot Access Key</div>' +
+                                '<input id="auth-password-input" type="password" placeholder="Enter Bot Access Key" style="width:100%;background:#030712;border:2px solid #38bdf8;border-radius:7px;padding:8px 10px;color:#fff;font-size:11px;box-sizing:border-box;outline:none;text-align:center;animation:buttonBorderShift 4s linear infinite;" />' +
                             '</div>' +
 
-                            '<button id="auth-activate-btn" style="width:100%;background:linear-gradient(90deg, #166534, #22c55e);color:#fff;border:2px solid #eab308;border-radius:6px;padding:8.5px;font-size:11px;font-weight:900;cursor:pointer;box-shadow:0 4px 15px rgba(34,197,94,0.4);letter-spacing:0.8px;animation:buttonBorderShift 3s linear infinite;">ACTIVATE BOT</button>' +
+                            '<button id="auth-activate-btn" style="width:100%;background:linear-gradient(90deg, #166534, #22c55e);color:#fff;border:2.5px solid #facc15;border-radius:7px;padding:9.5px;font-size:11.5px;font-weight:900;cursor:pointer;box-shadow:0 4px 18px rgba(34,197,94,0.5);letter-spacing:0.8px;animation:buttonBorderShift 3s linear infinite;">ACTIVATE BOT</button>' +
                         '</div>';
 
                     d.body.appendChild(modal);
 
                     d.getElementById('auth-close-btn').onclick = function() {
                         modal.remove();
-                        if(floatingBtn) floatingBtn.style.display = 'flex';
+                        createBotIcon();
                     };
 
                     d.getElementById('auth-community-card').onclick = function() {
@@ -318,13 +323,14 @@ def bot_script():
                             sessionStorage.setItem('raBotAuthenticated', 'true');
                             setTimeout(function(){
                                 modal.remove();
+                                createBotIcon();
                                 toggleVipPanel();
-                            }, 1200);
+                            }, 1000);
                         } else {
                             btn.style.background = '#991b1b';
                             btn.innerText = 'INCORRECT PASSWORD!';
                             passInput.style.borderColor = '#ef4444';
-                            passInput.style.boxShadow = '0 0 10px rgba(239,68,68,0.6)';
+                            passInput.style.boxShadow = '0 0 12px rgba(239,68,68,0.8)';
                             setTimeout(function(){
                                 btn.style.background = 'linear-gradient(90deg, #166534, #22c55e)';
                                 btn.innerText = 'ACTIVATE BOT';
@@ -471,7 +477,8 @@ def bot_script():
                             '.c-dropdown__label', '[class*="timer-value"]', '.timer-counter',
                             '.timer-setting__btn.active', '.dropdown-select__item.active', 'button[class*="timer"].active',
                             'div.timer input', 'div.time input', '.dropdown.timer input', 'div[class*="timer"] input',
-                            '.timer-setting__value', '.dropdown-select__value', '[class*="timer"] [class*="value"]'
+                            '.timer-setting__value', '.dropdown-select__value', '[class*="timer"] [class*="value"]',
+                            'div[class*="timer"]', 'div[class*="time-dropdown"]', '.c-dropdown__current'
                         ];
                         
                         for(var i=0; i<selectors.length; i++) {
@@ -496,14 +503,18 @@ def bot_script():
                                         if(lower.includes('h')) return num * 3600;
                                         if(lower.includes('m')) return num * 60;
                                         if(lower.includes('s')) return num;
-                                        if(num <= 5) return num;
+                                        // If broker shows plain numbers like 5, 10, 15, 30, 60
+                                        if(num < 10 && !lower.includes('s') && !lower.includes('m')) {
+                                            // could be minutes if <= 5 or seconds
+                                            return num; 
+                                        }
                                         return num;
                                     }
                                 }
                             }
                         }
 
-                        var activeBtns = d.querySelectorAll('button.active, .active');
+                        var activeBtns = d.querySelectorAll('button.active, .active, [class*="active"]');
                         for(var k=0; k<activeBtns.length; k++) {
                             var btnTxt = (activeBtns[k].innerText || '').trim().toLowerCase();
                             if(btnTxt.match(/^[0-9]+[s|m|h]?$/)) {
@@ -514,7 +525,7 @@ def bot_script():
                             }
                         }
                     } catch(e) {}
-                    return 5;
+                    return 60; // Default fallback to 1 minute if undetected
                 }
 
                 function runSignalSequence(panel) {
