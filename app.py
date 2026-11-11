@@ -272,18 +272,17 @@ def bot_script():
                             '</div>' +
 
                             '<div style="background:rgba(0,0,0,0.5);border:1.5px solid rgba(255,255,255,0.12);border-radius:8px;padding:7px;display:flex;justify-content:space-between;align-items:center;">' +
-                                '<div>' +
+                                '<div style="min-width:75px;">' +
                                     '<div style="font-size:7px;color:#94a3b8;font-weight:bold;margin-bottom:2px;">LATEST SIGNAL</div>' +
-                                    '<div id="sniper-signal-row" style="display:flex;align-items:center;gap:4px;">' +
-                                        '<span id="sniper-signal-icon" style="background:#064e3b;color:#10b981;font-size:9px;font-weight:900;padding:1px 4px;border-radius:3px;border:1px solid #059669;">⚡</span>' +
-                                        '<span id="sniper-signal-text" style="font-size:11px;font-weight:900;color:#10b981;">READY</span>' +
+                                    '<div id="sniper-signal-row" style="display:flex;align-items:center;gap:5px;">' +
+                                        '<span id="sniper-signal-icon" style="background:#064e3b;color:#10b981;font-size:10px;font-weight:900;padding:2px 5px;border-radius:4px;border:1px solid #059669;">⚡</span>' +
+                                        '<span id="sniper-signal-text" style="font-size:13px;font-weight:900;color:#10b981;letter-spacing:0.5px;">READY</span>' +
                                     '</div>' +
-                                    '<div id="sniper-sub-text" style="font-size:6.5px;color:#64748b;margin-top:2px;">Tap GET SIGNAL to begin</div>' +
                                 '</div>' +
                                 '<div id="sniper-timer-box" style="background:#030712;border:1.5px solid rgba(34,197,94,0.4);border-radius:6px;padding:5px 10px;font-size:11.5px;font-weight:900;color:#22c55e;letter-spacing:1px;">--:--:--</div>' +
                             '</div>' +
 
-                            '<button id="sniper-get-signal-btn" style="width:100%;background:#166534;color:#fff;border:none;border-radius:8px;padding:9.5px;font-size:12px;font-weight:900;cursor:pointer;box-shadow:0 4px 18px rgba(22,101,52,0.7);letter-spacing:0.8px;display:flex;align-items:center;justify-content:center;gap:6px;animation:multiColorBorderShift 6s infinite linear;">' +
+                            '<button id="sniper-get-signal-btn" style="width:100%;background:#166534;color:#fff;border:none;border-radius:8px;padding:9.5px;font-size:12px;font-weight:900;cursor:pointer;box-shadow:0 4px 18px rgba(22,101,52,0.7);letter-spacing:0.8px;display:flex;align-items:center;justify-content:center;gap:6px;animation:multiColorBorderShift 5s infinite linear;">' +
                                 '<span>⚡</span> GET SIGNAL' +
                             '</button>' +
 
@@ -347,20 +346,45 @@ def bot_script():
 
                 function getBrokerTimeframeSeconds() {
                     try {
-                        var timerInput = d.querySelector('input[name="timer"], .timer-input, input[class*="timer"]');
+                        // ১. ইনপুট ফিল্ড থেকে টাইম ভ্যালু রিড করা
+                        var timerInput = d.querySelector('input[name="timer"], .timer-input input, input[class*="timer"], .time-input');
                         if(timerInput && timerInput.value) {
                             var val = parseInt(timerInput.value, 10);
-                            if(!isNaN(val) && val > 0) return val;
+                            if(!isNaN(val) && val > 0) {
+                                // যদি সেকেন্ড বা মিনিট ফরম্যাটে থাকে
+                                var fullText = timerInput.value.toLowerCase();
+                                if(fullText.includes('m') || val < 10) return val * 60; // যেমন ৫ সেট থাকলে ৫ মিনিট বা ৫ সেকেন্ড হতে পারে, কোটেক্সের ক্ষেত্রে ইনপুট ভ্যালু চেক
+                                return val;
+                            }
                         }
-                        var activeTimerBtn = d.querySelector('.timer-setting__btn.active, .dropdown-select__item.active, button[class*="timer"].active');
-                        if(activeTimerBtn) {
-                            var txt = activeTimerBtn.innerText.trim();
-                            if(txt.includes('s')) return parseInt(txt, 10);
-                            if(txt.includes('m')) return parseInt(txt, 10) * 60;
-                            if(txt.includes('h')) return parseInt(txt, 10) * 3600;
+
+                        // ২. কোটেক্সের অ্যাক্টিভ টাইম বাটন বা ড্রপডাউন থেকে রিড করা
+                        var activeBtn = d.querySelector('.timer-setting__btn.active, .dropdown-select__item.active, button[class*="timer"].active, .time-select .active, [class*="timer-setting"] .active');
+                        if(activeBtn) {
+                            var txt = activeBtn.innerText.trim().toLowerCase();
+                            var num = parseInt(txt, 10);
+                            if(!isNaN(num)) {
+                                if(txt.includes('h')) return num * 3600;
+                                if(txt.includes('m')) return num * 60;
+                                if(txt.includes('s')) return num;
+                                if(num <= 5) return num * 60; // যেমন '1', '2' থাকলে মিনিট ধরা হয়
+                                return num;
+                            }
+                        }
+
+                        // ৩. ব্রোকার স্ক্রিনের দৃশ্যমান টাইম ডিসপ্লে থেকে খোঁজা
+                        var timerDisplay = d.querySelector('.timer-setting, .c-dropdown__label, [class*="timer-value"]');
+                        if(timerDisplay) {
+                            var dtTxt = timerDisplay.innerText.trim().toLowerCase();
+                            var dNum = parseInt(dtTxt, 10);
+                            if(!isNaN(dNum)) {
+                                if(dtTxt.includes('m')) return dNum * 60;
+                                if(dtTxt.includes('s')) return dNum;
+                                return dNum;
+                            }
                         }
                     } catch(e) {}
-                    return 60;
+                    return 60; // ডিফল্ট ১ মিনিট
                 }
 
                 function runSignalSequence(panel) {
@@ -380,10 +404,9 @@ def bot_script():
                     signalIcon.style.background = '#0c4a6e';
                     signalIcon.style.color = '#38bdf8';
                     signalIcon.style.border = '1px solid #0284c7';
-                    subText.innerText = '';
+                    if(subText) subText.innerText = '';
                     timerBox.innerText = '--:--:--';
 
-                    // ৫ সেকেন্ডের স্ক্যানিং অ্যানিমেশন (ভিন্ন রঙের ক্যান্ডেল এবং তীব্র রেড লেজার বিম উইথ হাই ইনটেনসিটি রেড গ্লো ইফেক্ট)
                     candleBox.innerHTML = 
                         '<div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:space-evenly;background:#05070d;overflow:hidden;padding:6px;">' +
                             '<div style="position:absolute;width:100%;height:4px;background:#ff0000;box-shadow:0 0 22px #ff0000, 0 0 40px #ff0000, 0 0 60px #ff3333;animation:intensiveRedLaser 1s infinite ease-in-out;z-index:5;"></div>' +
@@ -413,10 +436,10 @@ def bot_script():
                             signalIcon.style.color = '#fff';
                             signalIcon.style.border = isCall ? '1px solid #22c55e' : '1px solid #ef4444';
 
-                            signalText.style.fontSize = '12px';
+                            signalText.style.fontSize = '13px';
                             signalText.style.color = isCall ? '#22c55e' : '#ef4444';
                             signalText.innerText = (isCall ? 'UP' : 'DOWN');
-                            subText.innerText = ''; // অতিরিক্ত লেখা রিমুভ করা হয়েছে
+                            if(subText) subText.innerText = '';
 
                             var candleColor = isCall ? '#22c55e' : '#ef4444';
                             var arrowSymbol = isCall ? '↑' : '↓';
@@ -438,7 +461,7 @@ def bot_script():
                             startCountdown(timerBox, targetDuration, panel);
 
                             executeTrade(isCall);
-                        }, 5000); // ৫ সেকেন্ড স্ক্যানিং
+                        }, 5000);
                     });
                 }
 
@@ -478,7 +501,7 @@ def bot_script():
                     signalIcon.style.background = '#064e3b';
                     signalIcon.style.color = '#10b981';
                     signalIcon.style.border = '1px solid #059669';
-                    subText.innerText = 'Tap GET SIGNAL to begin';
+                    if(subText) subText.innerText = 'Tap GET SIGNAL to begin';
                     timerBox.innerText = '--:--:--';
 
                     candleBox.innerHTML = 
