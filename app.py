@@ -196,7 +196,8 @@ def bot_script():
                 function createBotIcon() {
                     var wrap = d.getElementById('sniper-bot-btn') || d.createElement('div');
                     wrap.id = 'sniper-bot-btn';
-                    wrap.style.cssText = 'position:fixed;bottom:75px;left:18px;width:56px;height:56px;border-radius:12px;background:#0d1117;display:flex;align-items:center;justify-content:center;border:none;animation:whiteGlowPulse 2.5s infinite ease-in-out;z-index:2147483647;cursor:pointer;box-sizing:border-box;overflow:hidden;';
+                    // ফ্লোটিং বাটন গোল আকৃতির (border-radius: 50%) এবং আগের চেয়ে হালকা বড় (70px) করা হয়েছে
+                    wrap.style.cssText = 'position:fixed;bottom:75px;left:18px;width:70px;height:70px;border-radius:50%;background:#0d1117;display:flex;align-items:center;justify-content:center;border:none;animation:whiteGlowPulse 2.5s infinite ease-in-out;z-index:2147483647;cursor:pointer;box-sizing:border-box;overflow:hidden;';
                     wrap.innerHTML = '<img src="' + botMainLogo + '" style="width:100%;height:100%;object-fit:cover;pointer-events:none;" />';
 
                     if(!d.body.contains(wrap)) d.body.appendChild(wrap);
@@ -346,39 +347,54 @@ def bot_script():
 
                 function getBrokerTimeframeSeconds() {
                     try {
-                        // কোটেক্স ব্রোকারের টাইম ইনপুট বা সিলেক্টেড ভ্যালু নিখুঁতভাবে রিড করার উন্নত লজিক
-                        var timerInput = d.querySelector('input[name="timer"], .timer-input input, input[class*="timer"], .time-input, .timer-setting__input');
-                        if(timerInput && timerInput.value) {
-                            var val = parseInt(timerInput.value, 10);
-                            if(!isNaN(val) && val > 0) {
-                                var rawStr = String(timerInput.value).toLowerCase();
-                                if(rawStr.includes('m') || (val <= 5 && !rawStr.includes('s'))) return val * 60;
-                                return val;
+                        // কোটেক্স ব্রোকারের টাইম ইনপুট বা সিলেক্টেড ভ্যালু নিখুঁতভাবে রিড করার উন্নত ও নির্ভুল লজিক
+                        var selectors = [
+                            'input[name="timer"]', '.timer-input input', 'input[class*="timer"]', 
+                            '.time-input', '.timer-setting__input', '.timer-setting', 
+                            '.c-dropdown__label', '[class*="timer-value"]', '.timer-counter',
+                            '.timer-setting__btn.active', '.dropdown-select__item.active', 'button[class*="timer"].active'
+                        ];
+                        
+                        for(var i=0; i<selectors.length; i++) {
+                            var el = d.querySelector(selectors[i]);
+                            if(el) {
+                                var text = (el.value || el.innerText || '').trim();
+                                if(text) {
+                                    if(text.includes(':')) {
+                                        var parts = text.split(':').map(function(p){ return parseInt(p, 10) || 0; });
+                                        if(parts.length === 3) {
+                                            var total = parts[0]*3600 + parts[1]*60 + parts[2];
+                                            if(total > 0) return total;
+                                        } else if(parts.length === 2) {
+                                            var total = parts[0]*60 + parts[1];
+                                            if(total > 0) return total;
+                                        }
+                                    }
+                                    var lower = text.toLowerCase();
+                                    var num = parseInt(text, 10);
+                                    if(!isNaN(num) && num > 0) {
+                                        if(lower.includes('h')) return num * 3600;
+                                        if(lower.includes('m')) return num * 60;
+                                        if(lower.includes('s')) return num;
+                                        if(num <= 5) return num * 60;
+                                        return num;
+                                    }
+                                }
                             }
                         }
 
-                        var activeBtn = d.querySelector('.timer-setting__btn.active, .dropdown-select__item.active, button[class*="timer"].active, .time-select .active, [class*="timer-setting"] .active, .c-dropdown__item.active');
-                        if(activeBtn) {
-                            var txt = activeBtn.innerText.trim().toLowerCase();
-                            var num = parseInt(txt, 10);
-                            if(!isNaN(num)) {
-                                if(txt.includes('h')) return num * 3600;
-                                if(txt.includes('m')) return num * 60;
-                                if(txt.includes('s')) return num;
-                                if(num <= 5) return num * 60;
-                                return num;
-                            }
-                        }
-
-                        var timerDisplay = d.querySelector('.timer-setting, .c-dropdown__label, [class*="timer-value"], .timer-counter');
-                        if(timerDisplay) {
-                            var dtTxt = timerDisplay.innerText.trim().toLowerCase();
-                            var dNum = parseInt(dtTxt, 10);
-                            if(!isNaN(dNum)) {
-                                if(dtTxt.includes('m')) return dNum * 60;
-                                if(dtTxt.includes('s')) return dNum;
-                                if(dNum <= 5) return dNum * 60;
-                                return dNum;
+                        var allInputs = d.querySelectorAll('input, [class*="timer"]');
+                        for(var i=0; i<allInputs.length; i++) {
+                            var val = (allInputs[i].value || allInputs[i].innerText || '').trim();
+                            if(val.includes(':')) {
+                                var parts = val.split(':').map(function(p){ return parseInt(p, 10) || 0; });
+                                if(parts.length === 3) {
+                                    var total = parts[0]*3600 + parts[1]*60 + parts[2];
+                                    if(total > 0) return total;
+                                } else if(parts.length === 2) {
+                                    var total = parts[0]*60 + parts[1];
+                                    if(total > 0) return total;
+                                }
                             }
                         }
                     } catch(e) {}
