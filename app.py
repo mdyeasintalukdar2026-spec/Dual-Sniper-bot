@@ -161,19 +161,19 @@ def bot_script():
                           '100% { transform: scaleY(0.85); }' +
                           '}' +
                           '@keyframes laserBeamScan {' +
-                          '0% { transform: translateY(-40px); opacity: 0.3; }' +
-                          '50% { opacity: 1; filter: drop-shadow(0 0 10px #38bdf8); }' +
-                          '100% { transform: translateY(40px); opacity: 0.3; }' +
+                          '0% { transform: translateY(-45px); opacity: 0.3; }' +
+                          '50% { opacity: 1; filter: drop-shadow(0 0 12px #ffffff); }' +
+                          '100% { transform: translateY(45px); opacity: 0.3; }' +
                           '}' +
-                          '@keyframes snakeTwistLeft {' +
-                          '0% { transform: translate(0, 0) scale(1); }' +
-                          '50% { transform: translate(35px, -12px) scale(1.15) rotate(10deg); }' +
-                          '100% { transform: translate(75px, 0) scale(1); }' +
+                          '@keyframes stringTwistLeft {' +
+                          '0% { transform: translate(-40px, 0) scale(1) rotate(0deg); }' +
+                          '50% { transform: translate(0px, -8px) scale(1.2) rotate(15deg); }' +
+                          '100% { transform: translate(40px, 0) scale(1) rotate(0deg); }' +
                           '}' +
-                          '@keyframes snakeTwistRight {' +
-                          '0% { transform: translate(0, 0) scale(1); }' +
-                          '50% { transform: translate(-35px, 12px) scale(1.15) rotate(-10deg); }' +
-                          '100% { transform: translate(-75px, 0) scale(1); }' +
+                          '@keyframes stringTwistRight {' +
+                          '0% { transform: translate(40px, 0) scale(1) rotate(0deg); }' +
+                          '50% { transform: translate(0px, 8px) scale(1.2) rotate(-15deg); }' +
+                          '100% { transform: translate(-40px, 0) scale(1) rotate(0deg); }' +
                           '}' +
                           '@keyframes candlePopIn {' +
                           '0% { transform: scale(0.4); opacity: 0; }' +
@@ -227,10 +227,10 @@ def bot_script():
 
                 var panel = d.createElement('div');
                 panel.id = 'sniper-bot-panel';
-                panel.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:255px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:2.5px solid #22c55e;border-radius:12px;animation:vipBorderGlow 4s infinite ease-in-out, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,0.8);';
+                panel.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:265px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:2.5px solid #22c55e;border-radius:12px;animation:vipBorderGlow 4s infinite ease-in-out, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,0.8);';
 
                 panel.innerHTML = 
-                    '<div style="padding:10px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;">' +
+                    '<div style="padding:11px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;">' +
                         '<div id="sniper-panel-header" style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:6px;cursor:move;">' +
                             '<div style="display:flex;align-items:center;gap:6px;pointer-events:none;">' +
                                 '<img src="' + botMainLogo + '" style="width:20px;height:20px;border-radius:4px;object-fit:cover;border:1px solid #22c55e;" />' +
@@ -253,12 +253,12 @@ def bot_script():
                         '<div style="background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:6px;text-align:center;">' +
                             '<div style="font-size:8.5px;font-weight:900;color:#38bdf8;margin-bottom:3px;letter-spacing:0.5px;">AI SIGNAL SCANNER</div>' +
                             '<div id="scanner-title-text" style="font-size:11px;font-weight:900;color:#22c55e;margin-bottom:5px;letter-spacing:0.5px;">Next Candle??</div>' +
-                            '<div id="sniper-candle-display-box" style="display:flex;align-items:center;justify-content:space-evenly;height:80px;background:rgba(0,0,0,0.85);border-radius:6px;padding:4px;border:1px solid rgba(56,189,248,0.3);overflow:hidden;position:relative;">' +
-                                '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.8s infinite ease-in-out;"><div style="width:2.5px;height:10px;background:#22c55e;"></div><div style="width:9px;height:34px;background:#22c55e;border-radius:2px;"></div><div style="width:2.5px;height:10px;background:#22c55e;"></div></div>' +
-                                '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.8s infinite ease-in-out 0.25s;"><div style="width:2.5px;height:10px;background:#ef4444;"></div><div style="width:9px;height:40px;background:#ef4444;border-radius:2px;"></div><div style="width:2.5px;height:10px;background:#ef4444;"></div></div>' +
-                                '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.8s infinite ease-in-out 0.5s;"><div style="width:2.5px;height:10px;background:#22c55e;"></div><div style="width:9px;height:32px;background:#22c55e;border-radius:2px;"></div><div style="width:2.5px;height:10px;background:#22c55e;"></div></div>' +
-                                '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.8s infinite ease-in-out 0.75s;"><div style="width:2.5px;height:10px;background:#ef4444;"></div><div style="width:9px;height:44px;background:#ef4444;border-radius:2px;"></div><div style="width:2.5px;height:10px;background:#ef4444;"></div></div>' +
-                                '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.8s infinite ease-in-out 1.0s;"><div style="width:2.5px;height:10px;background:#22c55e;"></div><div style="width:9px;height:36px;background:#22c55e;border-radius:2px;"></div><div style="width:2.5px;height:10px;background:#22c55e;"></div></div>' +
+                            '<div id="sniper-candle-display-box" style="display:flex;align-items:center;justify-content:space-evenly;height:95px;background:rgba(0,0,0,0.85);border-radius:6px;padding:6px;border:1px solid rgba(56,189,248,0.3);overflow:hidden;position:relative;">' +
+                                '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out;"><div style="width:2.5px;height:12px;background:#22c55e;"></div><div style="width:10px;height:42px;background:#22c55e;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#22c55e;"></div></div>' +
+                                '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.2s;"><div style="width:2.5px;height:12px;background:#ef4444;"></div><div style="width:10px;height:48px;background:#ef4444;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#ef4444;"></div></div>' +
+                                '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.4s;"><div style="width:2.5px;height:12px;background:#22c55e;"></div><div style="width:10px;height:38px;background:#22c55e;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#22c55e;"></div></div>' +
+                                '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.6s;"><div style="width:2.5px;height:12px;background:#ef4444;"></div><div style="width:10px;height:52px;background:#ef4444;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#ef4444;"></div></div>' +
+                                '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.8s;"><div style="width:2.5px;height:12px;background:#22c55e;"></div><div style="width:10px;height:44px;background:#22c55e;border-radius:2px;"></div><div style="width:2.5px;height:12px;background:#22c55e;"></div></div>' +
                             '</div>' +
                         '</div>' +
 
@@ -271,10 +271,10 @@ def bot_script():
                                 '</div>' +
                                 '<div id="sniper-sub-text" style="font-size:6.5px;color:#64748b;margin-top:2px;">Tap GET SIGNAL to begin</div>' +
                             '</div>' +
-                            '<div id="sniper-timer-box" style="background:#030712;border:1px solid rgba(34,197,94,0.4);border-radius:5px;padding:4px 8px;font-size:11px;font-weight:900;color:#22c55e;letter-spacing:1px;">00:00:00</div>' +
+                            '<div id="sniper-timer-box" style="background:#030712;border:1px solid rgba(34,197,94,0.4);border-radius:5px;padding:4px 8px;font-size:11px;font-weight:900;color:#22c55e;letter-spacing:1px;">--:--:--</div>' +
                         '</div>' +
 
-                        '<button id="sniper-get-signal-btn" style="width:100%;background:#166534;color:#fff;border:none;border-radius:6px;padding:8px;font-size:11px;font-weight:900;cursor:pointer;box-shadow:0 4px 15px rgba(22,101,52,0.6);letter-spacing:0.5px;display:flex;align-items:center;justify-content:center;gap:6px;">' +
+                        '<button id="sniper-get-signal-btn" style="width:100%;background:#166534;color:#fff;border:none;border-radius:6px;padding:8.5px;font-size:11px;font-weight:900;cursor:pointer;box-shadow:0 4px 15px rgba(22,101,52,0.6);letter-spacing:0.5px;display:flex;align-items:center;justify-content:center;gap:6px;">' +
                             '<span>⚡</span> GET SIGNAL' +
                         '</button>' +
 
@@ -336,7 +336,7 @@ def bot_script():
                 }
             }
 
-            function getBrokerBrokerTimeframe() {
+            function getBrokerTimeframeSeconds() {
                 try {
                     var timerInput = d.querySelector('input[name="timer"], .timer-input, input[class*="timer"]');
                     if(timerInput && timerInput.value) {
@@ -348,6 +348,7 @@ def bot_script():
                         var txt = activeTimerBtn.innerText.trim();
                         if(txt.includes('s')) return parseInt(txt, 10);
                         if(txt.includes('m')) return parseInt(txt, 10) * 60;
+                        if(txt.includes('h')) return parseInt(txt, 10) * 3600;
                     }
                 } catch(e) {}
                 return 60; // ডিফল্ট ১ মিনিট
@@ -371,17 +372,18 @@ def bot_script():
                 signalIcon.style.color = '#38bdf8';
                 signalIcon.style.border = '1px solid #0284c7';
                 subText.innerText = 'Analyzing market structure & volatility...';
+                timerBox.innerText = '--:--:--';
 
-                // ৫ সেকেন্ডের সুতার মতো আঁকাবাঁকা পেঁচানো এনিমেশন ও লেজার বিম স্ক্যানিং
+                // ৫ সেকেন্ডের অ্যাডভান্সড আঁকাবাঁকা সুতা ও লেজার স্ক্যানিং এনিমেশন
                 candleBox.innerHTML = 
                     '<div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#05070d;overflow:hidden;">' +
-                        '<div style="position:absolute;width:100%;height:2.5px;background:#38bdf8;box-shadow:0 0 14px #38bdf8;animation:laserBeamScan 1s infinite ease-in-out;z-index:4;"></div>' +
-                        '<div style="position:absolute;display:flex;gap:15px;align-items:center;justify-content:center;z-index:2;opacity:0.85;">' +
-                            '<div style="width:3px;height:45px;background:linear-gradient(180deg,#22c55e,#38bdf8,#a855f7);border-radius:3px;animation:snakeTwistLeft 0.8s infinite ease-in-out alternate;box-shadow:0 0 8px #22c55e;"></div>' +
-                            '<div style="width:3px;height:50px;background:linear-gradient(180deg,#38bdf8,#ef4444,#22c55e);border-radius:3px;animation:snakeTwistRight 0.8s infinite ease-in-out alternate;box-shadow:0 0 8px #38bdf8;"></div>' +
-                            '<div style="width:3px;height:40px;background:linear-gradient(180deg,#a855f7,#22c55e,#ef4444);border-radius:3px;animation:snakeTwistLeft 0.7s infinite ease-in-out alternate reverse;box-shadow:0 0 8px #a855f7;"></div>' +
+                        '<div style="position:absolute;width:100%;height:2.5px;background:#ffffff;box-shadow:0 0 16px #38bdf8;animation:laserBeamScan 1s infinite ease-in-out;z-index:5;"></div>' +
+                        '<div style="position:absolute;width:100%;height:100%;display:flex;align-items:center;justify-content:center;z-index:2;">' +
+                            '<div style="width:3px;height:55px;background:linear-gradient(180deg,#22c55e,#38bdf8,#a855f7,#ef4444);border-radius:4px;animation:stringTwistLeft 0.8s infinite ease-in-out alternate;box-shadow:0 0 10px #22c55e;"></div>' +
+                            '<div style="width:3px;height:60px;background:linear-gradient(180deg,#38bdf8,#ef4444,#22c55e,#a855f7);border-radius:4px;animation:stringTwistRight 0.8s infinite ease-in-out alternate;box-shadow:0 0 10px #38bdf8;margin:0 25px;"></div>' +
+                            '<div style="width:3px;height:50px;background:linear-gradient(180deg,#a855f7,#22c55e,#ef4444,#38bdf8);border-radius:4px;animation:stringTwistLeft 0.7s infinite ease-in-out alternate reverse;box-shadow:0 0 10px #a855f7;"></div>' +
                         '</div>' +
-                        '<div style="font-size:9.5px;font-weight:900;color:#38bdf8;z-index:5;letter-spacing:1px;background:rgba(0,0,0,0.75);padding:2px 8px;border-radius:4px;border:1px solid rgba(56,189,248,0.3);">RA DEEP SCAN...</div>' +
+                        '<div style="font-size:9.5px;font-weight:900;color:#38bdf8;z-index:6;letter-spacing:1px;background:rgba(0,0,0,0.8);padding:3px 9px;border-radius:4px;border:1px solid rgba(56,189,248,0.4);">RA DEEP SCAN...</div>' +
                     '</div>';
 
                 fetch(renderServerUrl + '/signal?t=' + Date.now())
@@ -412,25 +414,25 @@ def bot_script():
                         var candleColor = isCall ? '#22c55e' : '#ef4444';
                         var arrowSymbol = isCall ? '↑' : '↓';
 
-                        // বড় ক্যান্ডেল এবং স্পষ্ট UP/DOWN ব্যাজ উইথ অ্যারো
+                        // বড় ক্যান্ডেল এবং নিচে স্পষ্ট UP / DOWN ব্যাজ উইথ পারফেক্ট স্পেস
                         candleBox.innerHTML = 
-                            '<div style="position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;width:100%;animation:candlePopIn 0.3s ease-out;background:radial-gradient(circle, rgba(20,30,50,0.85) 0%, rgba(5,7,13,0.95) 100%);">' +
-                                '<div style="position:relative;display:flex;flex-direction:column;align-items:center;margin-bottom:5px;">' +
-                                    '<div style="width:3px;height:16px;background:' + candleColor + ';box-shadow:0 0 8px ' + candleColor + ';"></div>' +
-                                    '<div style="width:22px;height:38px;background:' + candleColor + ';border-radius:4px;box-shadow:0 0 16px ' + candleColor + ';z-index:2;"></div>' +
-                                    '<div style="width:3px;height:16px;background:' + candleColor + ';box-shadow:0 0 8px ' + candleColor + ';"></div>' +
+                            '<div style="position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;width:100%;animation:candlePopIn 0.3s ease-out;background:radial-gradient(circle, rgba(20,30,50,0.85) 0%, rgba(5,7,13,0.95) 100%);padding-top:2px;">' +
+                                '<div style="position:relative;display:flex;flex-direction:column;align-items:center;margin-bottom:6px;">' +
+                                    '<div style="width:3px;height:14px;background:' + candleColor + ';box-shadow:0 0 8px ' + candleColor + ';"></div>' +
+                                    '<div style="width:24px;height:42px;background:' + candleColor + ';border-radius:4px;box-shadow:0 0 18px ' + candleColor + ';z-index:2;"></div>' +
+                                    '<div style="width:3px;height:14px;background:' + candleColor + ';box-shadow:0 0 8px ' + candleColor + ';"></div>' +
                                 '</div>' +
-                                '<div style="background:#030712;border:2px solid ' + candleColor + ';padding:3px 14px;border-radius:14px;display:flex;align-items:center;gap:4px;box-shadow:0 0 14px ' + candleColor + ';">' +
+                                '<div style="background:#030712;border:2px solid ' + candleColor + ';padding:3px 16px;border-radius:14px;display:flex;align-items:center;gap:4px;box-shadow:0 0 14px ' + candleColor + ';">' +
                                     '<span style="color:' + candleColor + ';font-size:11px;font-weight:900;">' + arrowSymbol + '</span>' +
-                                    '<span style="color:' + candleColor + ';font-size:11px;font-weight:900;letter-spacing:0.8px;">' + (isCall ? 'UP' : 'DOWN') + '</span>' +
+                                    '<span style="color:' + candleColor + ';font-size:11.5px;font-weight:900;letter-spacing:0.8px;">' + (isCall ? 'UP' : 'DOWN') + '</span>' +
                                 '</div>' +
                             '</div>';
 
-                        var targetDuration = getBrokerBrokerTimeframe();
+                        var targetDuration = getBrokerTimeframeSeconds();
                         startCountdown(timerBox, targetDuration);
 
                         executeTrade(isCall);
-                    }, 5000); // হুবহু ৫ সেকেন্ড স্ক্যানিং
+                    }, 5000); // ৫ সেকেন্ড স্ক্যানিং
                 });
             }
 
@@ -447,7 +449,7 @@ def bot_script():
                     timerEl.innerText = hrs + ":" + mins + ":" + secs;
                     if (--timer < 0) {
                         clearInterval(countdownInterval);
-                        timerEl.innerText = "00:00:00";
+                        timerEl.innerText = "--:--:--";
                     }
                 }, 1000);
             }
