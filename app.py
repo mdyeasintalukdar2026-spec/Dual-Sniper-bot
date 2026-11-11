@@ -71,10 +71,10 @@ class GroqAIArbitrationCore:
         payload = {
             "model": "llama-3.3-70b-versatile",
             "messages": [
-                {"role": "system", "content": "You are a master institutional binary options AI arbiter enforcing strict both-way directional rules. Analyze market indicators dynamically and output STRICTLY 'CALL' or 'PUT' based on real momentum. Never restrict to one direction."},
-                {"role": "user", "content": f"Analyze live market context: {market_context}. Output decision strictly ('CALL' or 'PUT')."}
+                {"role": "system", "content": "You are a master institutional binary options AI arbiter enforcing strict both-way directional rules. Analyze live chart market momentum dynamically and output STRICTLY 'CALL' or 'PUT'. Never restrict to one direction."},
+                {"role": "user", "content": f"Analyze live market context with 12M nodes: {market_context}. Output decision strictly ('CALL' or 'PUT')."}
             ],
-            "temperature": 0.4,
+            "temperature": 0.3,
             "max_tokens": 6
         }
         try:
@@ -101,7 +101,7 @@ def ping():
 def get_signal():
     try:
         current_time = time.time()
-        time_slot = int(current_time / 3)
+        time_slot = int(current_time / 2)
         
         if not UltraPrecisionEngine.verify_news_and_market_safety("USD"):
             res = jsonify({"signal": "HOLD", "trend": "NEWS_BLOCK_ACTIVE", "confidence": 0, "status": "NEWS_GUARD"})
@@ -112,7 +112,7 @@ def get_signal():
         rsi = indicator_data['rsi']
         
         base_bias = "CALL" if rsi < 50 else "PUT"
-        market_ctx = f"Asset: Live_Market, TimeSlot: {time_slot}, RSI: {rsi}, TechnicalBias: {base_bias}, Timestamp: {current_time}"
+        market_ctx = f"Asset: Live_Active_Market, TimeSlot: {time_slot}, RSI: {rsi}, TechnicalBias: {base_bias}, Timestamp: {current_time}"
         
         ai_decision = GroqAIArbitrationCore.get_authentic_decision(market_ctx)
         real_accuracy = 97 + ((int(current_time * 17) + 23) % 3)
