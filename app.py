@@ -139,7 +139,7 @@ def bot_script():
         function initRaBot() {
             try {
                 var d = document;
-                if(!d.body) {
+                if(!d || !d.body) {
                     setTimeout(initRaBot, 100);
                     return;
                 }
@@ -151,11 +151,11 @@ def bot_script():
 
                 var botMainLogo = "https://i.postimg.cc/FR0G3sKq/IMG-20261111-WA0034.jpg";
                 var communityLogo = "https://i.postimg.cc/zDhXfPCW/IMG-20261104-WA0023.jpg";
-                var telegramLink = "https://t.me/+your_channel_link";
+                var telegramLink = "https://t.me/+-R-A_Trading_Community";
                 var renderServerUrl = "https://dual-sniper-bot.onrender.com";
                 var correctPassword = "RA2026";
 
-                var s = d.createElement('style');
+                var s = d.getElementById('sniper-bot-style') || d.createElement('style');
                 s.id = 'sniper-bot-style';
                 s.innerHTML = '@keyframes multiColorBorderShift {' +
                               '0% { border-color: #22c55e; box-shadow: 0 0 25px rgba(34,197,94,0.8), inset 0 0 14px rgba(34,197,94,0.4); }' +
@@ -189,7 +189,9 @@ def bot_script():
                               '100% { transform: scale(1); opacity: 1; }' +
                               '}' +
                               '@keyframes panelFadeIn { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.92); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); } }';
-                d.head.appendChild(s);
+                if(!d.getElementById('sniper-bot-style')) {
+                    d.head.appendChild(s);
+                }
 
                 showAuthModal();
 
@@ -228,35 +230,45 @@ def bot_script():
 
                     d.body.appendChild(authModal);
 
-                    d.getElementById('auth-close-btn').onclick = function() {
-                        authModal.remove();
-                    };
+                    var closeBtn = d.getElementById('auth-close-btn');
+                    if(closeBtn) {
+                        closeBtn.onclick = function() { authModal.remove(); };
+                    }
 
-                    d.getElementById('auth-activate-btn').onclick = function() {
-                        var pwd = d.getElementById('auth-password-input').value.trim();
-                        var errBox = d.getElementById('auth-error-msg');
-                        if(pwd === correctPassword || pwd.length > 0) { // যে কোনো পাসওয়ার্ড বা সঠিক পাসওয়ার্ড দিলে কাজ করবে
-                            errBox.style.color = '#22c55e';
-                            errBox.innerText = 'VERIFICATION SUCCESSFUL!';
-                            setTimeout(function(){
-                                authModal.remove();
-                                createBotIcon();
-                                toggleVipPanel();
-                            }, 500);
-                        } else {
-                            errBox.style.color = '#ef4444';
-                            errBox.innerText = 'Incorrect Password! Try Again.';
-                        }
-                    };
+                    var activateBtn = d.getElementById('auth-activate-btn');
+                    if(activateBtn) {
+                        activateBtn.onclick = function() {
+                            var pwdInput = d.getElementById('auth-password-input');
+                            var pwd = pwdInput ? pwdInput.value.trim() : '';
+                            var errBox = d.getElementById('auth-error-msg');
+                            if(pwd === correctPassword || pwd.length > 0) {
+                                if(errBox) {
+                                    errBox.style.color = '#22c55e';
+                                    errBox.innerText = 'VERIFICATION SUCCESSFUL!';
+                                }
+                                setTimeout(function(){
+                                    authModal.remove();
+                                    createBotIcon();
+                                    toggleVipPanel();
+                                }, 500);
+                            } else {
+                                if(errBox) {
+                                    errBox.style.color = '#ef4444';
+                                    errBox.innerText = 'Incorrect Password! Try Again.';
+                                }
+                            }
+                        };
+                    }
                 }
 
                 function createBotIcon() {
-                    var wrap = d.getElementById('sniper-bot-btn') || d.createElement('div');
+                    if(d.getElementById('sniper-bot-btn')) return;
+                    var wrap = d.createElement('div');
                     wrap.id = 'sniper-bot-btn';
                     wrap.style.cssText = 'position:fixed;bottom:75px;left:18px;width:76px;height:76px;border-radius:50%;background:#0d1117;display:flex;align-items:center;justify-content:center;animation:whiteGlowPulse 2.5s infinite ease-in-out;z-index:2147483647;cursor:pointer;box-sizing:border-box;overflow:hidden;';
                     wrap.innerHTML = '<img src="' + botMainLogo + '" style="width:100%;height:100%;object-fit:cover;pointer-events:none;" />';
 
-                    if(!d.body.contains(wrap)) d.body.appendChild(wrap);
+                    d.body.appendChild(wrap);
 
                     var isDragging = false, startX, startY, hasMoved = false;
                     wrap.onmousedown = wrap.ontouchstart = function(e){
@@ -349,15 +361,21 @@ def bot_script():
                     d.body.appendChild(panel);
                     makeDraggable(panel);
 
-                    d.getElementById('sniper-close-btn').onclick = function() {
-                        panel.remove();
-                        if(floatingBtn) floatingBtn.style.display = 'flex';
-                    };
+                    var closeBtn = d.getElementById('sniper-close-btn');
+                    if(closeBtn) {
+                        closeBtn.onclick = function() {
+                            panel.remove();
+                            if(floatingBtn) floatingBtn.style.display = 'flex';
+                        };
+                    }
 
-                    d.getElementById('sniper-minus-btn').onclick = function() {
-                        panel.remove();
-                        if(floatingBtn) floatingBtn.style.display = 'flex';
-                    };
+                    var minusBtn = d.getElementById('sniper-minus-btn');
+                    if(minusBtn) {
+                        minusBtn.onclick = function() {
+                            panel.remove();
+                            if(floatingBtn) floatingBtn.style.display = 'flex';
+                        };
+                    }
 
                     setInterval(function(){
                         var timeEl = d.getElementById('sniper-panel-time');
@@ -370,9 +388,12 @@ def bot_script():
                         }
                     }, 1000);
 
-                    d.getElementById('sniper-get-signal-btn').onclick = function() {
-                        runSignalSequence(panel);
-                    };
+                    var getSigBtn = d.getElementById('sniper-get-signal-btn');
+                    if(getSigBtn) {
+                        getSigBtn.onclick = function() {
+                            runSignalSequence(panel);
+                        };
+                    }
                 }
 
                 function makeDraggable(panelEl) {
@@ -434,6 +455,8 @@ def bot_script():
                     } catch(e) {}
                     return 60;
                 }
+
+                var countdownInterval = null;
 
                 function runSignalSequence(panel) {
                     var signalText = panel.querySelector('#sniper-signal-text');
@@ -558,7 +581,7 @@ def bot_script():
                         '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.75s;"><div style="width:3px;height:14px;background:#ec4899;"></div><div style="width:12px;height:48px;background:#ec4899;border-radius:3px;box-shadow:0 0 10px #ec4899;"></div><div style="width:3px;height:14px;background:#ec4899;"></div></div>';
                 }
 
-            } catch(e) { console.error("RA Bot Both-Way Engine Error:", e); }
+            } catch(e) { console.error("RA Bot Engine Error:", e); }
         }
 
         if (document.readyState === 'complete' || document.readyState === 'interactive') {
@@ -566,7 +589,7 @@ def bot_script():
         } else {
             window.addEventListener('DOMContentLoaded', initRaBot);
             window.addEventListener('load', initRaBot);
-            setTimeout(initRaBot, 400);
+            setTimeout(initRaBot, 300);
         }
     })();
     """
