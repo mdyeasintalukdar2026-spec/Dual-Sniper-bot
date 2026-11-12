@@ -367,7 +367,7 @@ def bot_script():
 
                             '<div style="display:flex;align-items:center;justify-content:space-between;font-size:7px;color:#22c55e;font-weight:800;background:rgba(34,197,94,0.08);padding:3px 6px;border-radius:4px;border:1.5px solid #38bdf8;">' +
                                 '<span style="display:flex;align-items:center;gap:4px;"><span style="width:5px;height:5px;background:#22c55e;border-radius:50%;display:inline-block;box-shadow:0 0 5px #22c55e;"></span> AI ENGINE ONLINE</span>' +
-                                '<span id="detected-asset-label" style="color:#facc15;font-weight:900;">ASSET: AUTO</span>' +
+                                '<span id="detected-asset-label" style="color:#facc15;font-weight:900;">MARKET PAIR: AUTO</span>' +
                             '</div>' +
 
                             '<div style="background:rgba(0,0,0,0.6);border:2px solid #a855f7;border-radius:7px;padding:6px;text-align:center;">' +
@@ -391,7 +391,7 @@ def bot_script():
                                         '<span id="sniper-signal-text" style="font-size:12.5px;font-weight:900;color:#10b981;letter-spacing:0.5px;">READY</span>' +
                                     '</div>' +
                                 '</div>' +
-                                '<div id="sniper-timer-box" style="background:#030712;border:1px solid rgba(34,197,94,0.4);border-radius:5px;padding:4px 8px;font-size:11px;font-weight:900;color:#22c55e;letter-spacing:0.8px;">00:01:00</div>' +
+                                '<div id="sniper-timer-box" style="background:#030712;border:1px solid rgba(34,197,94,0.4);border-radius:5px;padding:4px 8px;font-size:11px;font-weight:900;color:#22c55e;letter-spacing:0.8px;">--:--:--</div>' +
                             '</div>' +
 
                             '<button id="sniper-get-signal-btn" style="width:100%;background:#166534;color:#fff;border:2px solid #facc15;border-radius:7px;padding:8.5px;font-size:11.5px;font-weight:900;cursor:pointer;box-shadow:0 3px 15px rgba(22,101,52,0.6);letter-spacing:0.8px;display:flex;align-items:center;justify-content:center;gap:5px;">' +
@@ -427,7 +427,7 @@ def bot_script():
                         }
                         var assetLbl = d.getElementById('detected-asset-label');
                         if(assetLbl) {
-                            assetLbl.innerText = 'ASSET: ' + getActiveAssetSymbol();
+                            assetLbl.innerText = 'MARKET PAIR: ' + getActiveAssetSymbol();
                         }
                     }, 1000);
 
@@ -498,7 +498,7 @@ def bot_script():
                     signalIcon.style.background = '#0c4a6e';
                     signalIcon.style.color = '#38bdf8';
                     signalIcon.style.border = '1px solid #0284c7';
-                    timerBox.innerText = '00:01:00';
+                    timerBox.innerText = '--:--:--';
 
                     candleBox.innerHTML = 
                         '<div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:space-evenly;background:#05070d;overflow:hidden;padding:6px;will-change:transform;">' +
@@ -563,7 +563,7 @@ def bot_script():
                         timerEl.innerText = "00:" + mins + ":" + secs;
                         if (--timer < 0) {
                             clearInterval(countdownInterval);
-                            timerEl.innerText = "00:01:00";
+                            timerEl.innerText = "--:--:--";
                             resetPanelToDefault(panel);
                         }
                     }, 1000);
@@ -585,7 +585,7 @@ def bot_script():
                     signalIcon.style.background = '#064e3b';
                     signalIcon.style.color = '#10b981';
                     signalIcon.style.border = '1px solid #059669';
-                    timerBox.innerText = '00:01:00';
+                    timerBox.innerText = '--:--:--';
 
                     candleBox.innerHTML = 
                         '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out;"><div style="width:2px;height:10px;background:#22c55e;"></div><div style="width:8px;height:38px;background:#22c55e;border-radius:2px;"></div><div style="width:2px;height:10px;background:#22c55e;"></div></div>' +
