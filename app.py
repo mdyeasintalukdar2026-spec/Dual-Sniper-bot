@@ -165,28 +165,30 @@ def bot_script():
                 var s = d.createElement('style');
                 s.id = 'sniper-bot-style';
                 s.innerHTML = '@keyframes dynamicPanelGlow {' +
-                              '0% { border-color: #22c55e; box-shadow: 0 0 25px rgba(34,197,94,0.9); }' +
-                              '50% { border-color: #38bdf8; box-shadow: 0 0 30px rgba(56,189,248,0.9); }' +
-                              '100% { border-color: #22c55e; box-shadow: 0 0 25px rgba(34,197,94,0.9); }' +
+                              '0% { border-color: #22c55e; box-shadow: 0 0 35px rgba(34,197,94,1), inset 0 0 15px rgba(34,197,94,0.7); }' +
+                              '25% { border-color: #38bdf8; box-shadow: 0 0 45px rgba(56,189,248,1), inset 0 0 15px rgba(56,189,248,0.7); }' +
+                              '50% { border-color: #a855f7; box-shadow: 0 0 45px rgba(168,85,247,1), inset 0 0 15px rgba(168,85,247,0.7); }' +
+                              '75% { border-color: #eab308; box-shadow: 0 0 45px rgba(234,179,8,1), inset 0 0 15px rgba(234,179,8,0.7); }' +
+                              '100% { border-color: #22c55e; box-shadow: 0 0 35px rgba(34,197,94,1), inset 0 0 15px rgba(34,197,94,0.7); }' +
                               '}' +
                               '@keyframes communityBorderShift {' +
-                              '0% { border-color: #ec4899; }' +
-                              '50% { border-color: #06b6d4; }' +
-                              '100% { border-color: #ec4899; }' +
+                              '0% { border-color: #ec4899; box-shadow: 0 0 20px rgba(236,72,153,0.9); }' +
+                              '50% { border-color: #06b6d4; box-shadow: 0 0 25px rgba(6,182,212,0.9); }' +
+                              '100% { border-color: #ec4899; box-shadow: 0 0 20px rgba(236,72,153,0.9); }' +
                               '}' +
                               '@keyframes buttonBorderShift {' +
-                              '0% { border-color: #6366f1; }' +
-                              '50% { border-color: #10b981; }' +
-                              '100% { border-color: #6366f1; }' +
+                              '0% { border-color: #6366f1; box-shadow: 0 0 20px rgba(99,102,241,0.9); }' +
+                              '50% { border-color: #10b981; box-shadow: 0 0 30px rgba(16,185,129,0.9); }' +
+                              '100% { border-color: #6366f1; box-shadow: 0 0 20px rgba(99,102,241,0.9); }' +
                               '}' +
                               '@keyframes fastRotateBorder {' +
                               '0% { transform: rotate(0deg); }' +
                               '100% { transform: rotate(360deg); }' +
                               '}' +
                               '@keyframes intensedWhiteGlow {' +
-                              '0% { box-shadow: 0 0 15px rgba(255,255,255,0.5); }' +
-                              '50% { box-shadow: 0 0 35px rgba(255,255,255,0.9); }' +
-                              '100% { box-shadow: 0 0 15px rgba(255,255,255,0.5); }' +
+                              '0% { box-shadow: 0 0 20px rgba(255,255,255,0.7), 0 0 40px rgba(255,255,255,0.4); }' +
+                              '50% { box-shadow: 0 0 50px rgba(255,255,255,1), 0 0 80px rgba(255,255,255,0.9); }' +
+                              '100% { box-shadow: 0 0 20px rgba(255,255,255,0.7), 0 0 40px rgba(255,255,255,0.4); }' +
                               '}' +
                               '@keyframes instantSmoothCandle {' +
                               '0% { transform: scaleY(0.85); }' +
@@ -195,7 +197,7 @@ def bot_script():
                               '}' +
                               '@keyframes intensiveRedLaser {' +
                               '0% { transform: translateY(-45px); opacity: 0.4; }' +
-                              '50% { opacity: 1; }' +
+                              '50% { opacity: 1; filter: drop-shadow(0 0 15px #ff0000); }' +
                               '100% { transform: translateY(45px); opacity: 0.4; }' +
                               '}' +
                               '@keyframes aggressiveBounce {' +
@@ -217,10 +219,10 @@ def bot_script():
                 function createBotIcon() {
                     var wrap = d.getElementById('sniper-bot-btn') || d.createElement('div');
                     wrap.id = 'sniper-bot-btn';
-                    wrap.style.cssText = 'position:fixed;bottom:75px;left:18px;width:70px;height:70px;border-radius:50%;background:#0d1117;display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;box-sizing:border-box;overflow:visible;animation:intensedWhiteGlow 2s infinite ease-in-out;will-change:transform;';
+                    wrap.style.cssText = 'position:fixed;bottom:75px;left:18px;width:70px;height:70px;border-radius:50%;background:#0d1117;display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;box-sizing:border-box;overflow:visible;animation:intensedWhiteGlow 1.5s infinite ease-in-out;will-change:transform;';
                     
-                    wrap.innerHTML = '<div style="position:absolute;top:-3px;left:-3px;right:-3px;bottom:-3px;border-radius:50%;border:2px dashed transparent;animation:fastRotateBorder 6s linear infinite, dynamicPanelGlow 3s linear infinite;pointer-events:none;"></div>' +
-                                     '<div style="width:100%;height:100%;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000;position:relative;z-index:2;box-shadow:0 4px 20px rgba(255,255,255,0.5);">' +
+                    wrap.innerHTML = '<div style="position:absolute;top:-3px;left:-3px;right:-3px;bottom:-3px;border-radius:50%;border:2px dashed transparent;animation:fastRotateBorder 5s linear infinite, dynamicPanelGlow 3s linear infinite;pointer-events:none;"></div>' +
+                                     '<div style="width:100%;height:100%;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000;position:relative;z-index:2;box-shadow:0 4px 20px rgba(255,255,255,0.6);">' +
                                      '<img src="' + botMainLogo + '" style="width:100%;height:100%;object-fit:cover;pointer-events:none;" />' +
                                      '</div>';
 
@@ -256,7 +258,7 @@ def bot_script():
 
                     var modal = d.createElement('div');
                     modal.id = 'sniper-auth-modal';
-                    modal.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:260px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:3px solid #22c55e;border-radius:12px;animation:dynamicPanelGlow 3s linear infinite, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(8px);box-shadow:0 15px 35px rgba(0,0,0,0.8);will-change:transform;';
+                    modal.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:260px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:4px solid #22c55e;border-radius:12px;animation:dynamicPanelGlow 3s linear infinite, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(8px);box-shadow:0 20px 45px rgba(0,0,0,0.9);will-change:transform;';
 
                     modal.innerHTML = 
                         '<div style="padding:12px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px;">' +
@@ -273,7 +275,7 @@ def bot_script():
                                 '<div id="auth-close-btn" style="cursor:pointer;font-size:10px;color:#94a3b8;padding:2px 5px;border-radius:3px;background:rgba(255,255,255,0.06);">✕</div>' +
                             '</div>' +
 
-                            '<div id="auth-community-card" style="background:rgba(0,0,0,0.5);border:1.5px solid #22c55e;border-radius:6px;padding:6px;display:flex;align-items:center;gap:6px;cursor:pointer;">' +
+                            '<div id="auth-community-card" style="background:rgba(0,0,0,0.5);border:2px solid #22c55e;border-radius:6px;padding:6px;display:flex;align-items:center;gap:6px;cursor:pointer;animation:communityBorderShift 3.5s linear infinite;">' +
                                 '<img src="' + communityLogo + '" style="width:28px;height:28px;border-radius:50%;object-fit:cover;border:1px solid #22c55e;" />' +
                                 '<div style="display:flex;flex-direction:column;">' +
                                     '<div style="font-size:9.5px;font-weight:900;color:#22c55e;">R-A Trading Community</div>' +
@@ -283,10 +285,10 @@ def bot_script():
 
                             '<div style="display:flex;flex-direction:column;gap:4px;">' +
                                 '<div style="font-size:7.5px;color:#94a3b8;font-weight:700;text-align:center;">Bot Access Key</div>' +
-                                '<input id="auth-password-input" type="password" placeholder="Enter Bot Access Key" style="width:100%;background:#030712;border:1.5px solid #38bdf8;border-radius:6px;padding:7px 8px;color:#fff;font-size:10.5px;box-sizing:border-box;outline:none;text-align:center;" />' +
+                                '<input id="auth-password-input" type="password" placeholder="Enter Bot Access Key" style="width:100%;background:#030712;border:2px solid #38bdf8;border-radius:6px;padding:7px 8px;color:#fff;font-size:10.5px;box-sizing:border-box;outline:none;text-align:center;animation:buttonBorderShift 4s linear infinite;" />' +
                             '</div>' +
 
-                            '<button id="auth-activate-btn" style="width:100%;background:linear-gradient(90deg, #166534, #22c55e);color:#fff;border:2px solid #facc15;border-radius:6px;padding:8px;font-size:11px;font-weight:900;cursor:pointer;box-shadow:0 3px 12px rgba(34,197,94,0.4);letter-spacing:0.5px;">ACTIVATE BOT</button>' +
+                            '<button id="auth-activate-btn" style="width:100%;background:linear-gradient(90deg, #166534, #22c55e);color:#fff;border:2.5px solid #facc15;border-radius:6px;padding:8px;font-size:11px;font-weight:900;cursor:pointer;box-shadow:0 3px 15px rgba(34,197,94,0.5);letter-spacing:0.5px;animation:buttonBorderShift 3s linear infinite;">ACTIVATE BOT</button>' +
                         '</div>';
 
                     d.body.appendChild(modal);
@@ -341,7 +343,7 @@ def bot_script():
 
                     var panel = d.createElement('div');
                     panel.id = 'sniper-bot-panel';
-                    panel.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:280px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:3px solid #22c55e;border-radius:12px;animation:dynamicPanelGlow 3s linear infinite, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(8px);box-shadow:0 15px 35px rgba(0,0,0,0.8);will-change:transform, top, left;';
+                    panel.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:280px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:4px solid #22c55e;border-radius:12px;animation:dynamicPanelGlow 3s linear infinite, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(8px);box-shadow:0 20px 45px rgba(0,0,0,0.9);will-change:transform, top, left;';
 
                     panel.innerHTML = 
                         '<div style="padding:10px;box-sizing:border-box;display:flex;flex-direction:column;gap:7px;">' +
@@ -365,15 +367,15 @@ def bot_script():
                                 '</div>' +
                             '</div>' +
 
-                            '<div style="display:flex;align-items:center;justify-content:space-between;font-size:7px;color:#22c55e;font-weight:800;background:rgba(34,197,94,0.08);padding:3px 6px;border-radius:4px;border:1.5px solid #38bdf8;">' +
-                                '<span style="display:flex;align-items:center;gap:4px;"><span style="width:5px;height:5px;background:#22c55e;border-radius:50%;display:inline-block;box-shadow:0 0 5px #22c55e;"></span> AI ENGINE ONLINE</span>' +
+                            '<div style="display:flex;align-items:center;justify-content:space-between;font-size:7px;color:#22c55e;font-weight:800;background:rgba(34,197,94,0.08);padding:3px 6px;border-radius:4px;border:2px solid #38bdf8;animation:buttonBorderShift 4s linear infinite;">' +
+                                '<span style="display:flex;align-items:center;gap:4px;"><span style="width:5px;height:5px;background:#22c55e;border-radius:50%;display:inline-block;box-shadow:0 0 6px #22c55e;"></span> AI ENGINE ONLINE</span>' +
                                 '<span id="detected-asset-label" style="color:#facc15;font-weight:900;">MARKET PAIR: AUTO</span>' +
                             '</div>' +
 
-                            '<div style="background:rgba(0,0,0,0.6);border:2px solid #a855f7;border-radius:7px;padding:6px;text-align:center;">' +
+                            '<div style="background:rgba(0,0,0,0.6);border:3px solid #a855f7;border-radius:7px;padding:6px;text-align:center;animation:communityBorderShift 5s linear infinite;">' +
                                 '<div style="font-size:8px;font-weight:900;color:#38bdf8;margin-bottom:2px;letter-spacing:0.5px;">AI LIVE MARKET SCANNER</div>' +
                                 '<div id="scanner-title-text" style="font-size:10.5px;font-weight:900;color:#22c55e;margin-bottom:4px;letter-spacing:0.5px;">Next Candle??</div>' +
-                                '<div id="sniper-candle-display-box" style="display:flex;align-items:center;justify-content:space-evenly;height:115px;background:rgba(0,0,0,0.85);border-radius:6px;padding:6px;border:1px solid rgba(56,189,248,0.3);overflow:hidden;position:relative;">' +
+                                '<div id="sniper-candle-display-box" style="display:flex;align-items:center;justify-content:space-evenly;height:115px;background:rgba(0,0,0,0.85);border-radius:6px;padding:6px;border:2px solid rgba(56,189,248,0.4);overflow:hidden;position:relative;">' +
                                     '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out;"><div style="width:2px;height:10px;background:#22c55e;"></div><div style="width:8px;height:38px;background:#22c55e;border-radius:2px;"></div><div style="width:2px;height:10px;background:#22c55e;"></div></div>' +
                                     '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.15s;"><div style="width:2px;height:10px;background:#ef4444;"></div><div style="width:8px;height:45px;background:#ef4444;border-radius:2px;"></div><div style="width:2px;height:10px;background:#ef4444;"></div></div>' +
                                     '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.3s;"><div style="width:2px;height:10px;background:#38bdf8;"></div><div style="width:8px;height:35px;background:#38bdf8;border-radius:2px;"></div><div style="width:2px;height:10px;background:#38bdf8;"></div></div>' +
@@ -383,7 +385,7 @@ def bot_script():
                                 '</div>' +
                             '</div>' +
 
-                            '<div style="background:rgba(0,0,0,0.5);border:1.5px solid #06b6d4;border-radius:7px;padding:6px;display:flex;justify-content:space-between;align-items:center;">' +
+                            '<div style="background:rgba(0,0,0,0.5);border:2px solid #06b6d4;border-radius:7px;padding:6px;display:flex;justify-content:space-between;align-items:center;animation:buttonBorderShift 4s linear infinite;">' +
                                 '<div style="min-width:75px;">' +
                                     '<div style="font-size:6.5px;color:#94a3b8;font-weight:bold;margin-bottom:2px;">LATEST SIGNAL</div>' +
                                     '<div id="sniper-signal-row" style="display:flex;align-items:center;gap:5px;">' +
@@ -391,10 +393,10 @@ def bot_script():
                                         '<span id="sniper-signal-text" style="font-size:12.5px;font-weight:900;color:#10b981;letter-spacing:0.5px;">READY</span>' +
                                     '</div>' +
                                 '</div>' +
-                                '<div id="sniper-timer-box" style="background:#030712;border:1px solid rgba(34,197,94,0.4);border-radius:5px;padding:4px 8px;font-size:11px;font-weight:900;color:#22c55e;letter-spacing:0.8px;">--:--:--</div>' +
+                                '<div id="sniper-timer-box" style="background:#030712;border:2px solid rgba(34,197,94,0.6);border-radius:5px;padding:4px 8px;font-size:11px;font-weight:900;color:#22c55e;letter-spacing:0.8px;">--:--:--</div>' +
                             '</div>' +
 
-                            '<button id="sniper-get-signal-btn" style="width:100%;background:#166534;color:#fff;border:2px solid #facc15;border-radius:7px;padding:8.5px;font-size:11.5px;font-weight:900;cursor:pointer;box-shadow:0 3px 15px rgba(22,101,52,0.6);letter-spacing:0.8px;display:flex;align-items:center;justify-content:center;gap:5px;">' +
+                            '<button id="sniper-get-signal-btn" style="width:100%;background:#166534;color:#fff;border:2.5px solid #facc15;border-radius:7px;padding:8.5px;font-size:11.5px;font-weight:900;cursor:pointer;box-shadow:0 3px 15px rgba(22,101,52,0.6);letter-spacing:0.8px;display:flex;align-items:center;justify-content:center;gap:5px;animation:buttonBorderShift 3s linear infinite;">' +
                                 '<span>⚡</span> GET 1-MIN SIGNAL' +
                             '</button>' +
 
@@ -424,10 +426,6 @@ def bot_script():
                             var mins = String(now.getMinutes()).padStart(2, '0');
                             var secs = String(now.getSeconds()).padStart(2, '0');
                             timeEl.innerText = 'TIME: ' + hrs + ':' + mins + ':' + secs;
-                        }
-                        var assetLbl = d.getElementById('detected-asset-label');
-                        if(assetLbl) {
-                            assetLbl.innerText = 'MARKET PAIR: ' + getActiveAssetSymbol();
                         }
                     }, 1000);
 
@@ -465,13 +463,14 @@ def bot_script():
                         var selectors = [
                             '.asset-name', '.current-asset', '.asset-select__current', 
                             '[class*="asset"]', '[class*="symbol"]', '.chart-title',
-                            '.value-asset', '.dropdown-select__current', '.c-dropdown__current'
+                            '.value-asset', '.dropdown-select__current', '.c-dropdown__current',
+                            'div[class*="asset"] span', 'div[class*="title"]'
                         ];
                         for(var i=0; i<selectors.length; i++) {
                             var els = d.querySelectorAll(selectors[i]);
                             for(var j=0; j<els.length; j++) {
                                 var text = (els[j].innerText || els[j].textContent || '').trim();
-                                if(text && text.length < 15 && (text.includes('/') || text.includes('-'))) {
+                                if(text && text.length < 15 && (text.includes('/') || text.includes('-') || text.includes('OTC'))) {
                                     return text;
                                 }
                             }
@@ -486,10 +485,14 @@ def bot_script():
                     var candleBox = panel.querySelector('#sniper-candle-display-box');
                     var timerBox = panel.querySelector('#sniper-timer-box');
                     var titleText = panel.querySelector('#scanner-title-text');
+                    var assetLbl = panel.querySelector('#detected-asset-label');
 
                     if(!signalText) return;
 
                     var activeAsset = getActiveAssetSymbol();
+                    if(assetLbl) {
+                        assetLbl.innerText = 'MARKET PAIR: ' + activeAsset;
+                    }
 
                     titleText.innerText = 'SCANNING ' + activeAsset + '...';
                     signalText.style.color = '#38bdf8';
@@ -502,11 +505,11 @@ def bot_script():
 
                     candleBox.innerHTML = 
                         '<div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:space-evenly;background:#05070d;overflow:hidden;padding:6px;will-change:transform;">' +
-                            '<div style="position:absolute;width:100%;height:4px;background:#ff0000;box-shadow:0 0 20px #ff0000;animation:intensiveRedLaser 0.8s infinite ease-in-out;z-index:5;"></div>' +
-                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.4s infinite ease-in-out alternate;"><div style="width:2px;height:10px;background:#38bdf8;"></div><div style="width:8px;height:38px;background:#38bdf8;border-radius:2px;box-shadow:0 0 10px #38bdf8;"></div><div style="width:2px;height:10px;background:#38bdf8;"></div></div>' +
-                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.35s infinite ease-in-out alternate-reverse;"><div style="width:2px;height:10px;background:#a855f7;"></div><div style="width:8px;height:45px;background:#a855f7;border-radius:2px;box-shadow:0 0 10px #a855f7;"></div><div style="width:2px;height:10px;background:#a855f7;"></div></div>' +
-                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.42s infinite ease-in-out alternate;"><div style="width:2px;height:10px;background:#22c55e;"></div><div style="width:8px;height:40px;background:#22c55e;border-radius:2px;box-shadow:0 0 10px #22c55e;"></div><div style="width:2px;height:10px;background:#22c55e;"></div></div>' +
-                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.38s infinite ease-in-out alternate-reverse;"><div style="width:2px;height:10px;background:#eab308;"></div><div style="width:8px;height:45px;background:#eab308;border-radius:2px;box-shadow:0 0 10px #eab308;"></div><div style="width:2px;height:10px;background:#eab308;"></div></div>' +
+                            '<div style="position:absolute;width:100%;height:4px;background:#ff0000;box-shadow:0 0 25px #ff0000, 0 0 45px #ff3333;animation:intensiveRedLaser 0.8s infinite ease-in-out;z-index:5;"></div>' +
+                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.4s infinite ease-in-out alternate;"><div style="width:2px;height:10px;background:#38bdf8;"></div><div style="width:8px;height:38px;background:#38bdf8;border-radius:2px;box-shadow:0 0 12px #38bdf8;"></div><div style="width:2px;height:10px;background:#38bdf8;"></div></div>' +
+                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.35s infinite ease-in-out alternate-reverse;"><div style="width:2px;height:10px;background:#a855f7;"></div><div style="width:8px;height:45px;background:#a855f7;border-radius:2px;box-shadow:0 0 12px #a855f7;"></div><div style="width:2px;height:10px;background:#a855f7;"></div></div>' +
+                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.42s infinite ease-in-out alternate;"><div style="width:2px;height:10px;background:#22c55e;"></div><div style="width:8px;height:40px;background:#22c55e;border-radius:2px;box-shadow:0 0 12px #22c55e;"></div><div style="width:2px;height:10px;background:#22c55e;"></div></div>' +
+                            '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.38s infinite ease-in-out alternate-reverse;"><div style="width:2px;height:10px;background:#eab308;"></div><div style="width:8px;height:45px;background:#eab308;border-radius:2px;box-shadow:0 0 12px #eab308;"></div><div style="width:2px;height:10px;background:#eab308;"></div></div>' +
                             '<div style="position:absolute;bottom:4px;font-size:8px;font-weight:900;color:#ff3333;z-index:6;letter-spacing:1px;background:rgba(0,0,0,0.85);padding:2px 8px;border-radius:3px;border:1px solid rgba(255,0,0,0.5);">LIVE SCANNING...</div>' +
                         '</div>';
 
@@ -592,7 +595,7 @@ def bot_script():
                         '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.15s;"><div style="width:2px;height:10px;background:#ef4444;"></div><div style="width:8px;height:45px;background:#ef4444;border-radius:2px;"></div><div style="width:2px;height:10px;background:#ef4444;"></div></div>' +
                         '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.3s;"><div style="width:2px;height:10px;background:#38bdf8;"></div><div style="width:8px;height:35px;background:#38bdf8;border-radius:2px;"></div><div style="width:2px;height:10px;background:#38bdf8;"></div></div>' +
                         '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.45s;"><div style="width:2px;height:10px;background:#a855f7;"></div><div style="width:8px;height:48px;background:#a855f7;border-radius:2px;"></div><div style="width:2px;height:10px;background:#a855f7;"></div></div>' +
-                        '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.6s;"><div style="width:2.5px;height:12px;background:#eab308;"></div><div style="width:8px;height:40px;background:#eab308;border-radius:2px;"></div><div style="width:2px;height:10px;background:#eab308;"></div></div>' +
+                        '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.6s;"><div style="width:2px;height:10px;background:#eab308;"></div><div style="width:8px;height:40px;background:#eab308;border-radius:2px;"></div><div style="width:2px;height:10px;background:#eab308;"></div></div>' +
                         '<div style="display:flex;flex-direction:column;align-items:center;animation:instantSmoothCandle 1.5s infinite ease-in-out 0.75s;"><div style="width:2px;height:10px;background:#ec4899;"></div><div style="width:8px;height:38px;background:#ec4899;border-radius:2px;"></div><div style="width:2px;height:10px;background:#ec4899;"></div></div>';
                 }
 
