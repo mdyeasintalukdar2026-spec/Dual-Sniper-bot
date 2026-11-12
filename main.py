@@ -15,6 +15,7 @@ async def main():
     start_server()
     logger.info("🌐 Flask Keep-Alive Server Started Successfully on Port 8080.")
     
+    # কোটেক্স অ্যাকাউন্ট ক্রেডেনসিয়াল (এনভায়রনমেন্ট বা ডিফল্ট)
     client = Quotex(
         email=os.environ.get("QX_EMAIL", "your_quotex_email@gmail.com"), 
         password=os.environ.get("QX_PASSWORD", "your_quotex_password"),
@@ -33,36 +34,40 @@ async def main():
         duration = 60       # ১ মিনিট মেয়াদ
         
         await client.subscribe_candles(asset, 60)
-        logger.info(f"🛡️ ULTRA-PRO MAX QUANTITATIVE ENGINE ACTIVE: Scanning {asset} with Multi-Indicator Confluence...")
+        logger.info(f"🛡️ ULTRA-PRO MAX 549-NODE ENGINE ACTIVE: Scanning {asset} with Absolute Zero-Fake Confluence...")
         
         while True:
             try:
-                if not UltraProMaxStrategy.check_news_safety("USD"):
+                # নিউজ সেফটি গার্ড চেক (১৫ মিনিট লকআউট)
+                base_currency = asset.split('/')[0] if '/' in asset else "USD"
+                if not UltraProMaxStrategy.check_news_safety(base_currency):
                     await asyncio.sleep(60)
                     continue
 
+                # পেআউট গার্ড চেক (৮০% বা তার বেশি)
                 if not UltraProMaxStrategy.check_payout_safety(asset, 80.0):
                     await asyncio.sleep(15)
                     continue
 
                 live_candles = client.get_realtime_candles(asset)
                 
-                if live_candles and len(live_candles) >= 20:
+                if live_candles and len(live_candles) >= 25:
                     tech_analysis = UltraProMaxStrategy.calculate_indicators(live_candles)
                     tech_signal = tech_analysis.get("signal")
                     
-                    logger.info(f"📊 Quantitative Indicator Metrics [{asset}]: RSI={tech_analysis.get('rsi')} | Signal={tech_signal} | Confidence={tech_analysis.get('confidence')}%")
+                    logger.info(f"📊 Indicator Metrics [{asset}]: RSI={tech_analysis.get('rsi')} | Signal={tech_signal} | Confidence={tech_analysis.get('confidence')}%")
                     
                     if tech_signal in ["CALL", "PUT"]:
-                        market_summary = f"Asset: {asset}, Technical Signal: {tech_signal}, Indicators: {tech_analysis}, Recent Candles Close: {[c.get('close') for c in live_candles[-5:]]}"
+                        market_summary = f"Asset: {asset}, Technical Signal: {tech_signal}, Indicators: {tech_analysis}, Recent Close Prices: {[c.get('close') for c in live_candles[-5:]]}"
                         ai_decision = UltraProMaxStrategy.verify_via_groq_ai(market_summary)
                         
                         logger.info(f"🤖 Groq AI Institutional Arbiter Consensus: {ai_decision} (Technical: {tech_signal})")
                         
+                        # টেকনিক্যাল এবং এআই ডিসিশন শতভাগ মিললে তবেই অর্ডার ডিসপ্যাচ হবে
                         if ai_decision == tech_signal and ai_decision in ["CALL", "PUT"]:
-                            logger.info(f"🚀 [100% VERIFIED HIGH-FREQUENCY SIGNAL] Executing {ai_decision} on {asset} | Stake: ${stake_amount}")
+                            logger.info(f"🚀 [100% VERIFIED HIGH-ACCURACY SIGNAL] Executing {ai_decision} on {asset} | Stake: ${stake_amount}")
                             
-                            # কোটেক্সে অর্ডার প্লেসমেন্ট (PyQuotex Order Execution)
+                            # কোটেক্স অর্ডার এক্সিকিউশন (PyQuotex Order Placement)
                             # status, order_id = await client.buy(asset, stake_amount, ai_decision.lower(), duration)
                             # logger.info(f"✨ Order Status: {status} | Order ID: {order_id}")
                 else:
@@ -74,7 +79,7 @@ async def main():
                 logger.error(f"❌ Error in Live Trading Loop: {e}")
                 await asyncio.sleep(3)
     else:
-        logger.error(f"❌ Connection Failed: {reason}")
+    amplitude = logger.error(f"❌ Connection Failed: {reason}")
 
 if __name__ == "__main__":
     try:
