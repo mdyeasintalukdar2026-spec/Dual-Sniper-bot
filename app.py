@@ -219,7 +219,7 @@ def bot_script():
                 function createBotIcon() {
                     var wrap = d.getElementById('sniper-bot-btn') || d.createElement('div');
                     wrap.id = 'sniper-bot-btn';
-                    wrap.style.cssText = 'position:fixed;bottom:75px;left:18px;width:74px;height:74px;border-radius:50%;background:#0d1117;display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;box-sizing:border-box;overflow:visible;animation:intensedWhiteGlow 1.5s infinite ease-in-out;';
+                    wrap.style.cssText = 'position:fixed;bottom:75px;left:18px;width:74px;height:74px;border-radius:50%;background:#0d1117;display:flex;align-items:center;justify-content:center;z-index:2147483647;cursor:pointer;box-sizing:border-box;overflow:visible;animation:intensedWhiteGlow 1.5s infinite ease-in-out;will-change:transform;';
                     
                     wrap.innerHTML = '<div style="position:absolute;top:-4px;left:-4px;right:-4px;bottom:-4px;border-radius:50%;border:2px dashed transparent;animation:fastRotateBorder 5s linear infinite, dynamicPanelGlow 3s linear infinite;pointer-events:none;"></div>' +
                                      '<div style="width:100%;height:100%;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000;position:relative;z-index:2;box-shadow:0 4px 25px rgba(255,255,255,0.6);">' +
@@ -258,7 +258,7 @@ def bot_script():
 
                     var modal = d.createElement('div');
                     modal.id = 'sniper-auth-modal';
-                    modal.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:265px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:4px solid #22c55e;border-radius:14px;animation:dynamicPanelGlow 3s linear infinite, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(10px);box-shadow:0 20px 45px rgba(0,0,0,0.9);';
+                    modal.style.cssText = 'position:fixed;top:45%;left:50%;transform:translate(-50%, -50%);width:265px;background:linear-gradient(180deg, rgba(10, 15, 26, 0.98), rgba(4, 7, 14, 0.99));border:4px solid #22c55e;border-radius:14px;animation:dynamicPanelGlow 3s linear infinite, panelFadeIn 0.2s ease-out;z-index:2147483647;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;color:#fff;overflow:hidden;box-sizing:border-box;backdrop-filter:blur(10px);box-shadow:0 20px 45px rgba(0,0,0,0.9);will-change:transform;';
 
                     modal.innerHTML = 
                         '<div style="padding:14px;box-sizing:border-box;display:flex;flex-direction:column;gap:10px;">' +
