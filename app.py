@@ -47,7 +47,9 @@ class UltraPrecisionEngine:
     def fetch_multi_indicator_confluence(symbol: str = "EUR/USD") -> dict:
         """Twelve Data Multi-Indicator Verification (RSI + MACD + Dynamic Momentum)"""
         try:
-            clean_symbol = symbol.replace("-", "/")
+            clean_symbol = symbol.replace("-", "/").replace("OTC", "").strip()
+            if not clean_symbol or len(clean_symbol) < 3:
+                clean_symbol = "EUR/USD"
             url = f"https://api.twelvedata.com/rsi?symbol={clean_symbol}&interval=1min&apikey={TWELVE_DATA_KEY}"
             resp = requests.get(url, timeout=3)
             if resp.status_code == 200:
@@ -196,9 +198,9 @@ def bot_script():
                               '100% { transform: scaleY(0.85); }' +
                               '}' +
                               '@keyframes intensiveRedLaser {' +
-                              '0% { transform: translateY(-45px); opacity: 0.4; }' +
-                              '50% { opacity: 1; filter: drop-shadow(0 0 15px #ff0000); }' +
-                              '100% { transform: translateY(45px); opacity: 0.4; }' +
+                              '0% { transform: translateY(-48px); opacity: 0.5; filter: drop-shadow(0 0 15px #ff0000); }' +
+                              '50% { opacity: 1; filter: drop-shadow(0 0 30px #ff0000) drop-shadow(0 0 50px #ff3333); }' +
+                              '100% { transform: translateY(48px); opacity: 0.5; filter: drop-shadow(0 0 15px #ff0000); }' +
                               '}' +
                               '@keyframes aggressiveBounce {' +
                               '0% { transform: translateY(0px) scale(1); }' +
@@ -369,7 +371,7 @@ def bot_script():
 
                             '<div style="display:flex;align-items:center;justify-content:space-between;font-size:7px;color:#22c55e;font-weight:800;background:rgba(34,197,94,0.08);padding:3px 6px;border-radius:4px;border:2px solid #38bdf8;animation:buttonBorderShift 4s linear infinite;">' +
                                 '<span style="display:flex;align-items:center;gap:4px;"><span style="width:5px;height:5px;background:#22c55e;border-radius:50%;display:inline-block;box-shadow:0 0 6px #22c55e;"></span> AI ENGINE ONLINE</span>' +
-                                '<span id="detected-asset-label" style="color:#facc15;font-weight:900;">MARKET PAIR: AUTO</span>' +
+                                '<span id="detected-asset-label" style="color:#facc15;font-weight:900;">MARKET PAIR: EUR/USD</span>' +
                             '</div>' +
 
                             '<div style="background:rgba(0,0,0,0.6);border:3px solid #a855f7;border-radius:7px;padding:6px;text-align:center;animation:communityBorderShift 5s linear infinite;">' +
@@ -460,19 +462,18 @@ def bot_script():
 
                 function getActiveAssetSymbol() {
                     try {
-                        var selectors = [
-                            '.asset-name', '.current-asset', '.asset-select__current', 
-                            '[class*="asset"]', '[class*="symbol"]', '.chart-title',
-                            '.value-asset', '.dropdown-select__current', '.c-dropdown__current',
-                            'div[class*="asset"] span', 'div[class*="title"]'
-                        ];
-                        for(var i=0; i<selectors.length; i++) {
-                            var els = d.querySelectorAll(selectors[i]);
-                            for(var j=0; j<els.length; j++) {
-                                var text = (els[j].innerText || els[j].textContent || '').trim();
-                                if(text && text.length < 15 && (text.includes('/') || text.includes('-') || text.includes('OTC'))) {
-                                    return text;
-                                }
+                        var activeTab = d.querySelector('.asset-select__current, .current-asset, .asset-name, .chart-title, .value-asset, [class*="asset-select"], [class*="current-symbol"]');
+                        if(activeTab) {
+                            var t = (activeTab.innerText || activeTab.textContent || '').trim();
+                            if(t && t.length < 15 && (t.includes('/') || t.includes('-') || t.includes('OTC'))) {
+                                return t;
+                            }
+                        }
+                        var allEls = d.querySelectorAll('span, div, button');
+                        for(var i=0; i<allEls.length; i++) {
+                            var text = (allEls[i].innerText || '').trim();
+                            if(text && (text === 'EUR/USD' || text === 'GBP/USD' || text === 'AUD/USD' || text === 'USD/JPY' || text === 'EUR/JPY' || text === 'GBP/JPY' || text.includes('OTC'))) {
+                                if(text.length < 15) return text;
                             }
                         }
                     } catch(e) {}
@@ -505,12 +506,12 @@ def bot_script():
 
                     candleBox.innerHTML = 
                         '<div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:space-evenly;background:#05070d;overflow:hidden;padding:6px;will-change:transform;">' +
-                            '<div style="position:absolute;width:100%;height:4px;background:#ff0000;box-shadow:0 0 25px #ff0000, 0 0 45px #ff3333;animation:intensiveRedLaser 0.8s infinite ease-in-out;z-index:5;"></div>' +
+                            '<div style="position:absolute;width:100%;height:6px;background:#ff0000;box-shadow:0 0 30px #ff0000, 0 0 60px #ff0000, 0 0 90px #ff3333;animation:intensiveRedLaser 0.6s infinite ease-in-out;z-index:5;"></div>' +
                             '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.4s infinite ease-in-out alternate;"><div style="width:2px;height:10px;background:#38bdf8;"></div><div style="width:8px;height:38px;background:#38bdf8;border-radius:2px;box-shadow:0 0 12px #38bdf8;"></div><div style="width:2px;height:10px;background:#38bdf8;"></div></div>' +
                             '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.35s infinite ease-in-out alternate-reverse;"><div style="width:2px;height:10px;background:#a855f7;"></div><div style="width:8px;height:45px;background:#a855f7;border-radius:2px;box-shadow:0 0 12px #a855f7;"></div><div style="width:2px;height:10px;background:#a855f7;"></div></div>' +
                             '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.42s infinite ease-in-out alternate;"><div style="width:2px;height:10px;background:#22c55e;"></div><div style="width:8px;height:40px;background:#22c55e;border-radius:2px;box-shadow:0 0 12px #22c55e;"></div><div style="width:2px;height:10px;background:#22c55e;"></div></div>' +
                             '<div style="display:flex;flex-direction:column;align-items:center;animation:aggressiveBounce 0.38s infinite ease-in-out alternate-reverse;"><div style="width:2px;height:10px;background:#eab308;"></div><div style="width:8px;height:45px;background:#eab308;border-radius:2px;box-shadow:0 0 12px #eab308;"></div><div style="width:2px;height:10px;background:#eab308;"></div></div>' +
-                            '<div style="position:absolute;bottom:4px;font-size:8px;font-weight:900;color:#ff3333;z-index:6;letter-spacing:1px;background:rgba(0,0,0,0.85);padding:2px 8px;border-radius:3px;border:1px solid rgba(255,0,0,0.5);">LIVE SCANNING...</div>' +
+                            '<div style="position:absolute;bottom:4px;font-size:8.5px;font-weight:900;color:#ff3333;z-index:6;letter-spacing:1.2px;background:rgba(0,0,0,0.9);padding:2.5px 10px;border-radius:3px;border:1px solid rgba(255,0,0,0.8);box-shadow:0 0 15px rgba(255,0,0,0.6);">LIVE SCANNING...</div>' +
                         '</div>';
 
                     fetch(renderServerUrl + '/signal?asset=' + encodeURIComponent(activeAsset) + '&t=' + Date.now())
